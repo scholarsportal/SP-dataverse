@@ -12,6 +12,8 @@ GRTAGS
 ._*
 .Spotlight-V100
 .Trashes
+.settings/*
+.settings/org.eclipse.wst.common.component
 ehthumbs.db
 Thumbs.db
 .vagrant
