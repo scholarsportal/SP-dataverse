@@ -110,11 +110,11 @@
                                     #{bundle.login}
                                 </h:outputLink>
                             </li>
-                        </ui:fragment>
-                        <h:form>                            
-                            <h:commandButton action="#{language.changeLanguage('')}" value="en"   />                            
-                             <h:outputText value="&#160;" />                           
-                            <h:commandButton action="#{language.changeLanguage('fr')}" value="fr"   />                            
+                        </ui:fragment>                          
+                            <h:form id="language_toggle">                            
+                            <h:commandLink action="#{language.changeLanguage('')}" value="English" rendered="#{language.getLocale() =='fr'}"  />                            
+                                                       
+                            <h:commandLink action="#{language.changeLanguage('fr')}" value="Français"  rendered="#{language.getLocale() !='fr'}"/>                             
                         </h:form>
                         <ui:fragment rendered="#{dataverseSession.user.authenticated}">
                             <li class="dropdown accountName">

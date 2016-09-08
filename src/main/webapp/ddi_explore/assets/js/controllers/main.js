@@ -4,17 +4,14 @@ angular.module('odesiApp').controller('mainCtrl', function($scope, $http, $route
 		//determine language based on session cookie
 	
 		
-		/*$http({
-			url: '/checkLang',
-			method: 'GET'
-		}).success(function(data){
-			var lang = data.substring(0,2);
-			if(lang == 'fr' && !$cookies.language) {
-				$cookies.language = 'fr';
-				location.reload();
+		
+		var lang = getParameterByName("locale")
+		if(lang == 'fr' && !$cookies.language) {
+			$cookies.language = 'fr';
+			location.reload();
 
 		}
-		})*/
+		
 		
 		
 		$scope.lang = (!$cookies.language || $cookies.language === 'en') ? en : fr;
@@ -41,3 +38,12 @@ angular.module('odesiApp').controller('mainCtrl', function($scope, $http, $route
 		
 		
 });
+function getParameterByName(name, url) {
+    if (!url) url = window.location.href;
+    name = name.replace(/[\[\]]/g, "\\$&");
+    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
+        results = regex.exec(url);
+    if (!results) return null;
+    if (!results[2]) return '';
+    return decodeURIComponent(results[2].replace(/\+/g, " "));
+}

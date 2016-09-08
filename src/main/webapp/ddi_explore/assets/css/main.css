@@ -6440,9 +6440,7 @@ html {
 }
 #header{
 	margin-right:5px;
+	margin-top:-20px;
 	font-weight: bold;
 	z-index:    12;
-	top:        0; 
-	right:       0; 
-	position:   fixed; 
 }
