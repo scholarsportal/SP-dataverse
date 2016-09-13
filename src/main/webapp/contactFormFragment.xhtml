@@ -56,24 +56,84 @@
                 <!-- validation -->
                 <div class="form-group">
                     <div class="col-sm-offset-3 col-sm-9">
-                        <p>
-                            <h:outputText styleClass="highlightBold" value="#{bundle['contact.question']}"/> <span class="glyphicon glyphicon-asterisk text-danger" title="#{bundle.requiredField}"/>
-                        </p>
-                        <h:outputFormat value="#{sendFeedbackDialog.op1} + #{sendFeedbackDialog.op2} = "/>
-                        <p:inputText id="messageSum" label="Sum" size="4" value="#{sendFeedbackDialog.userSum}" converterMessage="#{bundle['contact.sum.converterMessage']}"
-                                     required="#{param['DO_VALIDATION']}" requiredMessage="#{bundle['contact.sum.required']}"
-                                     validatorMessage="#{bundle['contact.sum.invalid']}" validator="#{sendFeedbackDialog.validateUserSum}">
-                            <f:convertNumber integerOnly="true" type="number"/>
-                        </p:inputText>
-                        <h:message for="messageSum" styleClass="bg-danger text-danger"/>
+                    	<script>
+                    	//create an object to keep track of the captcha controls
+                    	 var CaptchaManager = function (){
+                    		 this.captcha_array=[];
+                    		 var locale='#{language.getLocale()}'
+ 								//adjust locale to suite google
+ 								if(locale=="fr"){
+ 									locale="fr-CA"	
+ 								}else{
+ 									locale="en"
+ 								}
+                           	  	this.locale=locale;
+                    		 
+                    	 }
+                    	 CaptchaManager.prototype.addCaptcha = function(_obj) {
+                    		 this.captcha_array.push(_obj)
+                    	 }
+                    	 //only load the script once
+                    	 CaptchaManager.prototype.loadExternalScript = function() {
+                           	 $.ajax({
+						 	 	url: "https://www.google.com/recaptcha/api.js?onload=onloadCallback&amp;render=explicit&amp;hl="+captchaManager.locale,
+						 	 	dataType: "script"
+							});
+                          };      
+                          var Captcha = function (_submit_but,_captcha_placeholder) {
+                             	this.submit_but=_submit_but;
+                             	this.captcha_placeholder=_captcha_placeholder;
+                          	  	//start by disabling the button
+                          	  	this.captchaExpCallback()
+                          };
+
+                        Captcha.prototype.captchaExpCallback = function(){
+							$(this.submit_but).prop('disabled', true);
+						}
+                        //instantiate captcha manager
+                        var captchaManager=new CaptchaManager();
+						 $(function() {
+							//once the jquery is loaded - load the captcha
+							 var  contact_captcha=new Captcha('#emailForm\\:snd_msg','my-contact-recaptcha-placeholder');
+							 captchaManager.addCaptcha(contact_captcha);
+							 if($('#dataverseUserForm\\:accountInfoView\\:save').length){
+								var user_captcha=new Captcha('#dataverseUserForm\\:accountInfoView\\:save','my-recaptcha-placeholder')
+								captchaManager.addCaptcha(user_captcha);
+							 }
+							 captchaManager.loadExternalScript();
+							
+						});
+						 function onloadCallback(){
+							 //create all captcha controls
+							 $.each( captchaManager["captcha_array"], function( index, value ){
+							 					 
+								var obj=value
+								grecaptcha.render(
+								   document.getElementById(obj.captcha_placeholder), 
+								   {
+									 callback: function(val){
+			                             if(val){
+											$(obj.submit_but).prop("disabled", false);
+			                             }}, 
+									 'expired-callback': function(){
+											$(obj.submit_but).prop('disabled', true);
+										},
+									 sitekey: "6Le1QiQTAAAAAA-3y61xzXcfjpPd0LhLqQhExh6X"
+								   });
+							 });
+								   
+							}
+                         </script>
+                        <div id="my-contact-recaptcha-placeholder" ></div>
                     </div>
                 </div>
                 <!-- send | cancel buttons -->
                 <div class="button-block">
-                    <p:commandLink styleClass="btn btn-default" value="#{bundle['contact.send']}"
+                    <p:commandButton id="snd_msg" styleClass="btn btn-default" value="#{bundle['contact.send']}"
                                     update="@form" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('contactForm').hide();" actionListener="#{sendFeedbackDialog.sendMessage}">
                         <f:param name="DO_VALIDATION" value="true"/>
-                    </p:commandLink>
+                        
+                    </p:commandButton>
                     <button type="button" onclick="PF('contactForm').hide()" class="btn btn-default" value="#{bundle.cancel}">
                         #{bundle.cancel}
                     </button>

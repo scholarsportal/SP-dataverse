@@ -562,12 +562,10 @@
                                     <label class="col-sm-3 control-label">    
                                     </label>
                                     <div class="col-sm-9">
-                                        <script src='https://www.google.com/recaptcha/api.js'></script>
-                               			<div class="g-recaptcha" data-sitekey="6Le1QiQTAAAAAA-3y61xzXcfjpPd0LhLqQhExh6X"></div>
+										<div id="my-recaptcha-placeholder" ></div>
                                     </div>
                                 </div>
                                 <div class="form-group">
-                                	
                                     <div class="col-sm-12 button-block">
                                         <p:commandButton id="save" styleClass="btn btn-default" tabindex="9" value="#{DataverseUserPage.editMode == 'CREATE' ? bundle['user.createBtn']:bundle.saveChanges}" action="#{DataverseUserPage.save}" update="@form,:messagePanel,:userDisplayInfoTitle" />
                                         <p:commandButton id="cancel" styleClass="btn btn-default" tabindex="10" value="#{bundle.cancel}" action="#{DataverseUserPage.cancel}" process="@this" update="@form">

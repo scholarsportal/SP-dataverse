@@ -1,19 +1,15 @@
-@media (max-width: 991px){
-	.navbar-nav {
-	    float: none!important;; 
-	}
-	.navbar-right {
-	     float: none!important;
-	}
-}
 
 #language_toggle{
 	float:right;
+	margin-left: 10px;
+	margin-right: 10px;
+    font-weight: bold;
 	
 }
 .header_image{
 	width:225px;
 	margin-top:7px;
+	margin-left: auto;
 }
 #navbarFixed {
     padding-top: 20px;
@@ -23,6 +19,7 @@
 	#navbarFixed {
 	     margin-bottom: 0px;
 	}
+	
 }
 #bannerPanel{
 	 display:none;
@@ -35,6 +32,18 @@
   	background-image: url('/resources/images/logo_large.png');
     background-repeat: no-repeat;
   	background-size: auto 100%;
+}
+@media (max-width: 991px){
+	.navbar-nav {
+	    float: none!important;; 
+	}
+	.navbar-right {
+	     float: none!important;
+	}
+	.header_image{
+	 width:175px;
+	 margin-left: 10px;
+	}
 }
 
 @media screen and (min-width: 768px)
