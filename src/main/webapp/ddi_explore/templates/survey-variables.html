@@ -22,17 +22,17 @@
 				<tr>
 					<th class='narrow_column'>{{lang.detailsPage.compare}}<br/><a href='javascript:void(0)' ng-click="selectAll()" ng-controller="CheckboxCtrl">{{lang.detailsPage.select_all}}</a>&nbsp;&nbsp;<a href='javascript:void(0)' ng-click="deselectAll()" ng-controller="CheckboxCtrl"> {{lang.detailsPage.deselect_all}}</a></th>
 					<th class='narrower_column'>
-					<a href="" ng-click="sortCol = 'id'; sortReverse = !sortReverse">{{lang.detailsPage.varID}}
+					{{lang.detailsPage.varID}}
 					<span ng-show="sortCol == 'id' && sortReverse" class="glyphicon glyphicon-arrow-up"></span>
 					<span ng-show="sortCol == 'id'&& !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
-					</a>
+					
 					</th>
 					<th class='narrow_column'>
-					<a href="" ng-click="sortCol = 'name'; sortReverse = !sortReverse">{{lang.detailsPage.name}}
+					{{lang.detailsPage.name}}
 					<span ng-show="sortCol == 'name' && sortReverse" class="glyphicon glyphicon-arrow-up"></span>
-					<span ng-show="sortCol == 'name'&& !sortReverse" class="glyphicon glyphicon-arrow-down"></span></a>
+					<span ng-show="sortCol == 'name'&& !sortReverse" class="glyphicon glyphicon-arrow-down"></span>
 					</th>
-					<th><a href="" ng-click="sortCol = 'label'; sortReverse = !sortReverse">{{lang.detailsPage.label}}<span ng-show="sortCol == 'label' && sortReverse" class="glyphicon glyphicon-arrow-up"></span><span ng-show="sortCol == 'label' && !sortReverse" class="glyphicon glyphicon-arrow-down"></span></a></th>
+					<th>{{lang.detailsPage.label}}<span ng-show="sortCol == 'label' && sortReverse" class="glyphicon glyphicon-arrow-up"></span><span ng-show="sortCol == 'label' && !sortReverse" class="glyphicon glyphicon-arrow-down"></span></th>
 					
 					<th>{{lang.detailsPage.cats}}</th>
 				
@@ -41,7 +41,7 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="vl in filtered = (_variables | filter:filterResults)|orderBy:sortCol:sortReverse | startFrom:currentTablePage[_file_num]*tablePageSize | limitTo:tablePageSize " ng-controller="CheckboxCtrl">
+				<tr ng-repeat="vl in filtered = (_variables | filter:filterResults) | startFrom:currentTablePage[_file_num]*tablePageSize | limitTo:tablePageSize " ng-controller="CheckboxCtrl">
 				<td align="center"><span >
 							<input type="checkbox" class="checkbox" id="{{vl.vid}}_checkbox" ng-checked="isChecked(vl.vid)" value="" ng-click="updateCompareList(vl.vid)">
 					</span></td>

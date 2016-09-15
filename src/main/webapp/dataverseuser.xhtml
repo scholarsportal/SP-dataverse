@@ -507,11 +507,26 @@
 					                    });
                    						function setUserAffiliation(){
                    							var selectize=setUpAffiliateDropDown();
-                							if($(input_elm).val()!=""){
+                   							if(affiliation=="ADMIN"){
+                   	         					affiliation="RYERSON";
+                   	         				}
+                   							//get the title
+                   							var title;
+					             			$.each(institution_mapping.affiliates, function (i, item) {
+					             				if(institution_mapping.affiliates[i].name==affiliation){
+					             					title=institution_mapping.affiliates[i].title
+					             				}
+									    	});
+					             			
+					             			
+					             			if($(input_elm).val()!=""){
+					             				//set it to the already set value
                 								selectize.setValue($(input_elm).val());
-                					    	}else if(affiliation && $(select_elm+" option[value='"+affiliation+"']").length > 0){
-                					    		selectize.setValue(affiliation);
+                					    	}else if(affiliation ){
+                					    		//find the value set by the ip group
+                					    		selectize.setValue(title);
                 					    	}else{
+                					    		//not set or found
                 					    		selectize.setValue("OTHER");
                 					    	}
                 							selectize.trigger( "change" );
@@ -520,8 +535,8 @@
                    					    function setUpAffiliateDropDown(){
                    					    	$.each(institution_mapping.affiliates, function (i, item) {
                    					    	    $(select_elm).append($('<option>', { 
-                   					    	        value: institution_mapping.affiliates[i].name,
-                   					    	        text : institution_mapping.affiliates[i].name 
+                   					    	        value: institution_mapping.affiliates[i].title,
+                   					    	        text : institution_mapping.affiliates[i].title 
                    					    	    }));
                    					    	});
                    					    	 $(select_elm).append($('<option>', { 

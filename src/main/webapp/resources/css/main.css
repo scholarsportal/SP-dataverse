@@ -4,7 +4,7 @@
 	margin-left: 10px;
 	margin-right: 10px;
     font-weight: bold;
-	
+
 }
 .header_image{
 	width:225px;
@@ -168,7 +168,7 @@ div.overlay {
   margin-top: 14px;
   z-index: 2;
 }
-#statement{
+.home_container{
 	display:none;
 	
 }
@@ -207,7 +207,7 @@ div.overlay {
 #statement ul li i:before, ul li i:after {
   content: "";
   position: absolute;
-  background-color: #B82126;
+  /*background-color: #B82126;*/
   width: 3px;
   height: 9px;
 }
@@ -297,4 +297,53 @@ blockquote:after {
 }
 blockquote p {
   display: inline;
+}
+#homepage_fr{
+	display:none;
+	
+}
+#homepage{
+	display:none;
+	
+}
+.home_container .big-txt {
+  font-size: 22px;
+  font-weight: 200;
+  line-height: 110%;
+  padding-top: 80px;
+  padding-bottom: 80px;
+}
+.home_container .bttm {
+  border-top: 1px solid #ddd;
+}
+.home_container h3 {
+  font-size: 34px;
+  font-weight: 100;
+  margin-bottom: 25px;
+}
+.home_container h4 {
+  font-size: 22px;
+  color:#767676;
+  margin-bottom:20px;
+}
+.home_container .expectation {
+  border-top: 1px solid #ddd;
+  padding: 30px;
+  font-weight: 200;
+  font-size: 16px;
+}
+.home_container blockquote {
+  font-size: 100%;
+  font-weight: bold;
+  padding: 0px 20px 0px 20px;
+}
+.home_container .auth {
+  font-weight: normal;
+  font-style: italic;
+  margin-top: 20px;
+  font-size: 80%;
+}
+
+.ui-datatable-scrollable-body {
+     overflow: visible; 
 }

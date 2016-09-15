@@ -18,7 +18,7 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 	$scope._filtered_num=0;
 	$scope.sortReverse=true; 
 	$scope.has_no_selection=true;
-	$scope.sortReverse=true; 
+	$scope.sortReverse=false; 
 	//
 	$scope.citation="";
 	//

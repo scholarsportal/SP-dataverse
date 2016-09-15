@@ -48,7 +48,7 @@
                             </div>
  
                             <a  id="navbarsearchbut" class="but_link but_link_small" href="#" onclick="window.location = '/?q=' + document.getElementById('navbarsearch').value; return false;" role="button">
-                                <span class="glyphicon glyphicon-search"/> Search
+                                <span class="glyphicon glyphicon-search"/> #{bundle.main_search}
                             </a>
                         </form>
 
@@ -275,7 +275,7 @@
 	                        <div class="float_left" id="institutional_dataverse">
 	                        </div>
 	                        <div class="float_right"><img src="/resources/images/slogan_1#{language.getLocale()}.png" class="slogan1"/>
-	                            <p id="cta-area"><a class="but_link but_link_lg" id="create-my-space" href="dataverse.xhtml?ownerId=1" role="button">#{bundle.dataverse_create}</a><span class="or-text">#{bundle._or}</span><a class="or-link" href="dataverse.xhtml"><span style="margin-right: 5px;" class="glyphicon glyphicon-list" aria-hidden="true"></span>#{bundle.explore}</a></p>
+	                            <p id="cta-area"><a class="but_link but_link_lg" id="create-my-space" href="dataverse.xhtml?ownerId=1" role="button">#{bundle.main_dataverse_create}</a><span class="or-text">#{bundle.main_or}</span><a class="or-link" href="dataverse.xhtml"><span style="margin-right: 5px;" class="glyphicon glyphicon-list" aria-hidden="true"></span>#{bundle.main_explore}</a></p>
 	                        </div>
 	                    </div>
 	                </div>
@@ -308,26 +308,20 @@
                  			$("#footer").hide();
                  			$("#actionButtonBlock").hide();
                  			$(".panelSearchForm").hide();
-                 			$("#statement").show();
+                 			
+                 			var locale='#{language.getLocale()}';
+                 			if(locale=="fr"){
+                 				$("#homepage_fr").show();
+                 			}else{
+                 				$("#homepage").show();
+                 			}
                  			//if we are at the home page consider redirecting to a more suitable one based on the ip
                      		ip_range_checker=new IPRangeChecker(updateFeaturedSites)
                  		}else{
                  			showContent();
                  		}
                  	}
-                    function showStatement(){
-                    	var elm= $("#more_link")
-                    	if(elm.data("showing")!=true){
-                    		elm.data("showing",true)
-                    		$("#statement").slideDown();
-                    		elm.html("less...")
-                    		scrollToID('#dataverseForm\\:statement_wrapper');
-                    	}else{
-                    		elm.data("showing",false)
-                    		$("#statement").slideUp();
-                    		elm.html("more...")
-                    	}
-                    }
+                    
                     function scrollToID(id){
                         var aTag = $(id);
                         $('html,body').animate({scrollTop: aTag.offset().top-($("#navbarFixed").height()+10)});
