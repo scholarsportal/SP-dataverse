@@ -451,7 +451,7 @@ public class SolrSearchResult {
              * @todo show more information for a file's parent, such as the
              * title of the dataset it belongs to.
              */
-            datasetCitation = parent.get("citation")
+            datasetCitation = parent.get("citation");
         }
 
         //displayName = null; // testing NullSafeJsonBuilder
