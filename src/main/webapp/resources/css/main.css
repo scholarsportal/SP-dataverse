@@ -1,10 +1,11 @@
 
 #language_toggle{
-	float:right;
-	margin-left: 10px;
-	margin-right: 10px;
+	
     font-weight: bold;
-
+    position:relative;
+    top:-50px;
+    right:-25px;
+	float: right;
 }
 .header_image{
 	width:225px;
@@ -33,6 +34,12 @@
     background-repeat: no-repeat;
   	background-size: auto 100%;
 }
+@media (max-width: 1224px){
+	#language_toggle{
+    top:-65px;
+    right:0px;
+    }
+}
 @media (max-width: 991px){
 	.navbar-nav {
 	    float: none!important;; 
@@ -44,6 +51,7 @@
 	 width:175px;
 	 margin-left: 10px;
 	}
+	
 }
 
 @media screen and (min-width: 768px)

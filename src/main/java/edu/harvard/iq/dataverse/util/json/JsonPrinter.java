@@ -237,9 +237,9 @@ public class JsonPrinter {
             return "";
         }
     }
-    public String getParentDataverseNameforCitation(){
+    private static String getParentDataverseNameforCitation(Dataset dataset){
         //Get parent dataverse name for Citation
-		Dataverse parent = this.getDataset().getOwner();
+		Dataverse parent = dataset.getOwner();
 		String parentDataverseName = parent.getName();
 		if (!StringUtil.isEmpty(parentDataverseName)) {
 		return parentDataverseName + " Dataverse";
