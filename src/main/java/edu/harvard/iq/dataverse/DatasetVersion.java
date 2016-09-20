@@ -806,16 +806,7 @@ public class DatasetVersion implements Serializable {
             return "";
         }
     }
-    public String getParentDataverseNameforCitation(){
-        //Get parent dataverse name for Citation
-		Dataverse parent = this.getDataset().getOwner();
-		String parentDataverseName = parent.getName();
-		if (!StringUtil.isEmpty(parentDataverseName)) {
-		return parentDataverseName + " Dataverse";
-		} else {
-		return "";
-		}
-	}
+   
     public List<DatasetDistributor> getDatasetDistributors() {
         //todo get distributors from DatasetfieldValues
         return new ArrayList();

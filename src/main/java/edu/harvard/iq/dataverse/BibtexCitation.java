@@ -43,7 +43,7 @@ public class BibtexCitation {
         persistentId = new GlobalId(dsv.getDataset());
 
         // publisher
-        publisher = dsv.getParentDataverseNameforCitation();
+        publisher = dsv.getRootDataverseNameforCitation();
     }
 
     public List<String> getAuthors() {

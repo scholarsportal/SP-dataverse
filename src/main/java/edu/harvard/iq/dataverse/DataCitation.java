@@ -84,15 +84,13 @@ public class DataCitation {
         }
 
         // distributors
-      //Sept 15th,2016 modified to show parent dataverse - id'd as publisher in EndNote XML
-        distributors = dsv.getParentDataverseNameforCitation();
         if (!dsv.getDataset().isHarvested()) {
-           // distributors = dsv.getRootDataverseNameforCitation();
+            distributors = dsv.getRootDataverseNameforCitation();
         } else {
-            //distributors = dsv.getDistributorName();
+            distributors = dsv.getDistributorName();
             //remove += [distributor] SEK 8-18-2016
         }
-
+ 
         // version
         if (!dsv.getDataset().isHarvested()) {
             if (dsv.isDraft()) {
