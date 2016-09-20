@@ -255,7 +255,7 @@ public class DatasetServiceBean implements java.io.Serializable {
     } 
     
     public String createCitationRIS(DatasetVersion version, FileMetadata fileMetadata) {
-        String publisher = version.getRootDataverseNameforCitation();
+        String publisher = version.getParentDataverseNameforCitation();
         List<DatasetAuthor> authorList = version.getDatasetAuthors();
         String retString = "Provider: " + publisher + "\r\n";
         retString += "Content: text/plain; charset=\"us-ascii\"" + "\r\n";
@@ -325,7 +325,7 @@ public class DatasetServiceBean implements java.io.Serializable {
 
         String title = version.getTitle();
         String versionYear = version.getVersionYear();
-        String publisher = version.getRootDataverseNameforCitation();
+        String publisher = version.getParentDataverseNameforCitation();
 
         List<DatasetAuthor> authorList = version.getDatasetAuthors();
 

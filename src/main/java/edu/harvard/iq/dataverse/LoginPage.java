@@ -168,10 +168,11 @@ public class LoginPage implements java.io.Serializable {
     		JSONObject json_obj;
     		try {
     			json_obj = new JSONObject(readUrl(json_url));
+    			//note the saved affiliation is the "title" of the affiliates.json file
     			JSONArray json_array = json_obj.getJSONArray("affiliates");
     			for(int i = 0; i < json_array.length(); i++){
-    				String name = json_array.getJSONObject(i).getString("name");
-    				if(name.equals(affiliation)){
+    				String title = json_array.getJSONObject(i).getString("title");
+    				if(title.equals(affiliation)){
     					alias=json_array.getJSONObject(i).getString("home");
     				}
     			}

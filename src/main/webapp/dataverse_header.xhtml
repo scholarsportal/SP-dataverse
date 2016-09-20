@@ -23,6 +23,7 @@
                    <a href="/">
                         <img class="header_image" src="/resources/images/logo.png"/>
                     </a>
+                    
                     <h:outputLink value="#" onclick="PF('statusInfo').show()" rendered="#{!empty settingsWrapper.get(':StatusMessageText')}">
                         <span class="label label-default status">#{!empty settingsWrapper.get(':StatusMessageHeader') ? settingsWrapper.get(':StatusMessageHeader') : bundle['header.status.header']}</span>
                     </h:outputLink>
@@ -44,7 +45,7 @@
                             </div>
  
                             <a  id="navbarsearchbut" class="but_link but_link_small" href="#" onclick="window.location = '/?q=' + document.getElementById('navbarsearch').value; return false;" role="button">
-                                <span class="glyphicon glyphicon-search"/> Search
+                                <span class="glyphicon glyphicon-search"/> #{bundle.main_search}
                             </a>
                         </form>
 
@@ -63,7 +64,7 @@
                                         #{bundle['header.guides.user']}
                                     </h:outputLink>
                                 </li>
-                                <li>
+                                <!--<li>
                                     <h:outputLink value="#{settingsWrapper.guidesBaseUrl}/latest/developers" target="_blank">
                                         <h:outputText value="#{bundle['header.guides.developer']}" />
                                     </h:outputLink>
@@ -72,7 +73,7 @@
                                     <h:outputLink value="#{settingsWrapper.guidesBaseUrl}/latest/installation" target="_blank">
                                         <h:outputText value="#{bundle['header.guides.installation']}" />
                                     </h:outputLink>
-                                </li>
+                                </li>-->
                                 <li>
                                     <h:outputLink value="#{settingsWrapper.guidesBaseUrl}/#{systemConfig.version}/api" target="_blank">
                                         <h:outputText value="#{bundle['header.guides.api']}" />
@@ -83,8 +84,10 @@
                                         <h:outputText value="#{bundle['header.guides.admin']}" />
                                     </h:outputLink>
                                 </li>
+                                
                             </ul>
                         </li>
+                         
                         <o:form useRequestURI="true" class="navbar-form navbar-left navbar-form-link">
                             <p:commandLink value="#{bundle['header.support']}" oncomplete="PF('contactForm').show()" update=":contactDialog" actionListener="#{sendFeedbackDialog.initUserInput}">
                                 <f:setPropertyActionListener target="#{sendFeedbackDialog.messageSubject}" value=""/>
@@ -110,12 +113,8 @@
                                     #{bundle.login}
                                 </h:outputLink>
                             </li>
-                        </ui:fragment>
-                        <h:form>                            
-                            <h:commandButton action="#{language.changeLanguage('')}" value="en"   />                            
-                             <h:outputText value="&#160;" />                           
-                            <h:commandButton action="#{language.changeLanguage('fr')}" value="fr"   />                            
-                        </h:form>
+                        </ui:fragment>                          
+                       
                         <ui:fragment rendered="#{dataverseSession.user.authenticated}">
                             <li class="dropdown accountName">
                                 <span id="lnk_header_account_dropdown" class="dropdown-toggle" data-toggle="dropdown">
@@ -174,10 +173,14 @@
                         </ui:fragment>
                     </ul>
                 </div>
-            </div>
-        </nav>
-        <ui:param name="dataversePage" value="#{dataverseLinksStayOnPage == true ? '' : '/dataverse.xhtml' }"/>
-
+                <h:form id="language_toggle">                            
+                    <h:commandLink action="#{language.changeLanguage('')}" value="En" rendered="#{language.getLocale() =='fr'}"  />                                                   
+                    <h:commandLink action="#{language.changeLanguage('fr')}" value="Fr"  rendered="#{language.getLocale() !='fr'}"/>                             
+                </h:form>  
+            </div>  
+            
+        </nav>       
+        <ui:param name="dataversePage" value="#{dataverseLinksStayOnPage == true ? '' : '/dataverse.xhtml' }"/>		
         <!-- Header Panel -->
         <div id="dataverseHeader" class="container bg-muted"
                 style="background:##{!empty dataverse.dataverseTheme.backgroundColor ? dataverse.dataverseTheme.backgroundColor : 'F5F5F5'};"
@@ -274,8 +277,8 @@
 	                    <div class="row">
 	                        <div class="float_left" id="institutional_dataverse">
 	                        </div>
-	                        <div class="float_right"><img src="/resources/images/slogan_1.png" class="slogan1"/>
-	                            <p id="cta-area"><a class="but_link but_link_lg" id="create-my-space" href="dataverse.xhtml?ownerId=1" role="button">Create My Dataverse</a><span class="or-text">or</span><a class="or-link" href="dataverse.xhtml"><span style="margin-right: 5px;" class="glyphicon glyphicon-list" aria-hidden="true"></span>Explore</a></p>
+	                        <div class="float_right"><img src="/resources/images/slogan_1#{language.getLocale()}.png" class="slogan1"/>
+	                            <p id="cta-area"><a class="but_link but_link_lg" id="create-my-space" href="dataverse.xhtml?ownerId=1" role="button">#{bundle.main_dataverse_create}</a><span class="or-text">#{bundle.main_or}</span><a class="or-link" href="dataverse.xhtml"><span style="margin-right: 5px;" class="glyphicon glyphicon-list" aria-hidden="true"></span>#{bundle.main_explore}</a></p>
 	                        </div>
 	                    </div>
 	                </div>
@@ -308,26 +311,20 @@
                  			$("#footer").hide();
                  			$("#actionButtonBlock").hide();
                  			$(".panelSearchForm").hide();
-                 			$("#statement").hide();
+                 			
+                 			var locale='#{language.getLocale()}';
+                 			if(locale=="fr"){
+                 				$("#homepage_fr").show();
+                 			}else{
+                 				$("#homepage").show();
+                 			}
                  			//if we are at the home page consider redirecting to a more suitable one based on the ip
                      		ip_range_checker=new IPRangeChecker(updateFeaturedSites)
                  		}else{
                  			showContent();
                  		}
                  	}
-                    function showStatement(){
-                    	var elm= $("#more_link")
-                    	if(elm.data("showing")!=true){
-                    		elm.data("showing",true)
-                    		$("#statement").slideDown();
-                    		elm.html("less...")
-                    		scrollToID('#dataverseForm\\:statement_wrapper');
-                    	}else{
-                    		elm.data("showing",false)
-                    		$("#statement").slideUp();
-                    		elm.html("more...")
-                    	}
-                    }
+                    
                     function scrollToID(id){
                         var aTag = $(id);
                         $('html,body').animate({scrollTop: aTag.offset().top-($("#navbarFixed").height()+10)});
@@ -381,8 +378,8 @@
                    					ip_range_checker.findIP();
                     			  },
                     			  error: function (e) {
-                    				  institution_mapping=$.parseJSON(e.responseText)
-                      			 	console.log(institution_mapping)
+                    				institution_mapping=$.parseJSON(e.responseText)
+
                       			 	ip_range_checker.findIP();
                       			  }
                     		});
@@ -423,10 +420,10 @@
                     }
                     }
                     IPRangeChecker.prototype.setIP = function(_ip){
-                    	console.log(_ip)
+                    	
                     	var reg_pat="|\\*|\\-)\\.("
                     	var ip_reg_ex="("+_ip.split(".").join(reg_pat)+reg_pat.slice(0, -3);
-                    	console.log(ip_reg_ex)
+                    	this.ip=_ip
                     	this.patt=new RegExp(ip_reg_ex)
                     }
                     IPRangeChecker.prototype.loadXMLFile = function(file,func){
@@ -453,7 +450,32 @@
                     	}
                     	//loop through each of the items and compare it to the ip
                     	for (var i = 0; i <pattern_array.length; i++) {
-                    		if(ip_range_checker.patt.test(pattern_array[i]["range"])){
+                    		var range = pattern_array[i]["range"]
+                    		if(range.indexOf("-")>-1){
+                    			//need to recheck to see if the ip falls within the two numbers
+                    			//step 1. Get location of range
+                    			var range_array=range.split(".");
+                    			var range_slot;
+                    			for (var j=0; j<range_array.length;j++){
+                    				if(range_array[j].indexOf("-")>-1){
+                    					rangeslot=j
+                    				}
+                    			}
+                    			//step 2. Get the equilvant slot from the ip
+                    			var ip_slot_val=ip_range_checker.ip.split(".")[rangeslot];
+                    			var range_slot_val=range_array[rangeslot]
+                    			
+                    			//step 3. check in the ip slot val is between numbers
+                    			var range_array_slot=range_slot_val.split("-")
+                    			var range_slot_start=range_array_slot[0]
+                    			var range_slot_end=range_array_slot[1]
+                    			if(ip_slot_val>=range_slot_start && ip_slot_val<=range_slot_end){
+                    				//we are within range - prequalify this slot by replacing with a star
+                    				range_array[rangeslot]="*";
+                    				range=range_array.join(".");	
+                    			}
+                    		}
+                    		if(ip_range_checker.patt.test(range)){
                     			match_array.push(pattern_array[i])
                     		}
                     		

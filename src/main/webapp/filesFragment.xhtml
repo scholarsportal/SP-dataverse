@@ -343,7 +343,7 @@
 
                 <!-- TwoRavens Explore button ONLY ... not WorldMap -->
                 <ui:fragment rendered="#{ DatasetPage.canSeeTwoRavensExploreButton(fileMetadata) and !DatasetPage.canUserSeeExploreWorldMapButton(fileMetadata)}">
-                    <h:commandLink rendered="#{!DatasetPage.downloadPopupRequired}" onclick="showData(#{fileMetadata.getDataFile().getId()}, '#{DatasetPage.getApiTokenKey()}')"
+                    <h:commandLink rendered="#{!DatasetPage.downloadPopupRequired}" onclick="showData(#{fileMetadata.getDataFile().getId()}, '#{DatasetPage.getApiTokenKey()}','#{language.getLocale()}')"
                                    type="button" styleClass="btn btn-default #{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}"
                                    disabled="#{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}">
                         <span class="glyphicon glyphicon-equalizer"/> <span class="ladda-label">#{bundle.explore}</span>

@@ -221,7 +221,7 @@ public class JsonPrinter {
                 .add("persistentUrl", ds.getPersistentURL())
                 .add("protocol", ds.getProtocol())
                 .add("authority", ds.getAuthority())
-                .add("publisher", getRootDataverseNameforCitation(ds))
+                .add("publisher", getParentDataverseNameforCitation(ds))
                 .add("publicationDate", ds.getPublicationDateFormattedYYYYMMDD());
     }
 
@@ -237,7 +237,16 @@ public class JsonPrinter {
             return "";
         }
     }
-
+    private static String getParentDataverseNameforCitation(Dataset dataset){
+        //Get parent dataverse name for Citation
+		Dataverse parent = dataset.getOwner();
+		String parentDataverseName = parent.getName();
+		if (!StringUtil.isEmpty(parentDataverseName)) {
+		return parentDataverseName + " Dataverse";
+		} else {
+		return "";
+		}
+	}
     public static JsonObjectBuilder json(DatasetVersion dsv) {
         JsonObjectBuilder bld = jsonObjectBuilder()
                 .add("id", dsv.getId())

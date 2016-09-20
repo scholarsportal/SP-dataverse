@@ -21,16 +21,19 @@ public class LanguageBean implements Serializable{
     static FacesContext context = FacesContext.getCurrentInstance();
     static private Locale locale;
     static {
-        if (context== null)
-          locale= new Locale ("en_US");
-        else
-          locale= context.getViewRoot().getLocale();
+        if (context== null){
+          locale= new Locale ("");
+        } else if(context.getViewRoot().getLocale().getLanguage()== "en_US" || context.getViewRoot().getLocale().getLanguage()== "en"){
+        	 locale= new Locale ("");
+        }else{
+         	locale= context.getViewRoot().getLocale();
+        }
     }
 	
     public Locale getLocale() {
         return locale;
     }
-
+    
     public String getLanguage() {
         return locale.getLanguage();
     }

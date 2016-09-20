@@ -18,7 +18,7 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 	$scope._filtered_num=0;
 	$scope.sortReverse=true; 
 	$scope.has_no_selection=true;
-	$scope.sortReverse=true; 
+	$scope.sortReverse=false; 
 	//
 	$scope.citation="";
 	//
@@ -314,6 +314,7 @@ var traverse = function(o,func) {
 	
 	  detailsURL.uri=getParameterByName("uri")
 	detailsURL.key=getParameterByName("key")
+	
 	$http({
 		url: detailsURL.uri, 
 		method: "GET",
@@ -396,15 +397,7 @@ $scope.updateCompareList = function(id){
 	$scope.showPaging =true;
 })
 
-function getParameterByName(name, url) {
-    if (!url) url = window.location.href;
-    name = name.replace(/[\[\]]/g, "\\$&");
-    var regex = new RegExp("[?&]" + name + "(=([^&#]*)|&|#|$)"),
-        results = regex.exec(url);
-    if (!results) return null;
-    if (!results[2]) return '';
-    return decodeURIComponent(results[2].replace(/\+/g, " "));
-}
+
 				
 // Changes XML to JSON		
 function xmlToJson(xml) {
