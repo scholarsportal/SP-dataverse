@@ -16,6 +16,10 @@
     padding-top: 20px;
     magin-bottom: 10px;
 }
+.navbar-right {
+    margin-right: 60px;
+}
+
 @media (min-width: 768px){
 	#navbarFixed {
 	     margin-bottom: 0px;

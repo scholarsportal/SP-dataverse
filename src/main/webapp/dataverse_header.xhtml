@@ -175,13 +175,16 @@
                 </div>
                 <h:form id="language_toggle">                            
                     <h:commandLink action="#{language.changeLanguage('')}" value="En" rendered="#{language.getLocale() =='fr'}"  />                                                   
-                    <h:commandLink action="#{language.changeLanguage('fr')}" value="Fr"  rendered="#{language.getLocale() !='fr'}"/>                             
+                    <h:commandLink action="#{language.changeLanguage('fr')}" value="Fr (Beta)"  rendered="#{language.getLocale() !='fr'}"/>                             
                 </h:form>  
             </div>  
             
         </nav>       
         <ui:param name="dataversePage" value="#{dataverseLinksStayOnPage == true ? '' : '/dataverse.xhtml' }"/>		
         <!-- Header Panel -->
+        <div id="spacer" ></div>
+        <div class="alert alert-dismissable alert-info" jsf:rendered="#{language.getLocale() =='fr'}">Interface française en développement.  Merci de votre compréhension pendant que nous implantons.</div>
+   
         <div id="dataverseHeader" class="container bg-muted"
                 style="background:##{!empty dataverse.dataverseTheme.backgroundColor ? dataverse.dataverseTheme.backgroundColor : 'F5F5F5'};"
                 jsf:rendered="#{showDataverseHeader and !widgetWrapper.widgetView}">
@@ -212,8 +215,7 @@
                 </div>
             </div>
         </div>
-
-        <div id="breadcrumbNavBlock" class="container" jsf:rendered="#{dataverseHeaderFragment.breadcrumbs.size() > 1}">
+		     <div id="breadcrumbNavBlock" class="container" jsf:rendered="#{dataverseHeaderFragment.breadcrumbs.size() > 1}">
             <ui:repeat value="#{dataverseHeaderFragment.breadcrumbs}" var="breadcrumb" varStatus="status">
                 <h:outputText value=" > " styleClass="breadcrumbCarrot" rendered="#{!status.first}"/>
                 <div class="breadcrumbBlock">
@@ -293,12 +295,23 @@
     </div>
       <script type="text/javascript">
                     //<![CDATA[
-                     var ip_range_checker;
-                     var affiliation;
-                     var showing_content=false;
+                               
+                      
+                   function windowResize(){
+                	   //prevent overlapping breadcrumbs
+                	   $("#spacer").css( "marginTop",($("#navbarFixed").height()-65)+"px")
+                   }         
+                    var ip_range_checker;
+                    var affiliation;
+                    var showing_content=false;
                     $(document).ready(function () {
                         displayBannerCheck();
                     	$("#navbarsearch").focus();
+                    	//
+                    	$( window ).resize(function() {
+                    		windowResize()
+                    	});
+                    	windowResize()
                     });
                     function displayBannerCheck(){
                      	var locate = window.location;
@@ -324,7 +337,7 @@
                  			showContent();
                  		}
                  	}
-                    
+                   
                     function scrollToID(id){
                         var aTag = $(id);
                         $('html,body').animate({scrollTop: aTag.offset().top-($("#navbarFixed").height()+10)});
