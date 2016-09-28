@@ -250,29 +250,6 @@ div.overlay {
   transform: translate(-2px, 0) rotate(-45deg);
 }
 
-@keyframes flipdown {
-  0% {
-    opacity: 0;
-    transform-origin: top center;
-    transform: rotateX(-90deg);
-  }
-  5% {
-    opacity: 1;
-  }
-  80% {
-    transform: rotateX(8deg);
-  }
-  83% {
-    transform: rotateX(6deg);
-  }
-  92% {
-    transform: rotateX(-3deg);
-  }
-  100% {
-    transform-origin: top center;
-    transform: rotateX(0deg);
-  }
-}
 .full-table{
 	width:100%;
 }
