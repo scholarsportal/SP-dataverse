@@ -183,7 +183,7 @@
         <ui:param name="dataversePage" value="#{dataverseLinksStayOnPage == true ? '' : '/dataverse.xhtml' }"/>		
         <!-- Header Panel -->
         <div id="spacer" ></div>
-        <div class="alert alert-dismissable container alert-info" jsf:rendered="#{language.getLocale() =='fr'}">Interface française en développement.  Merci de votre compréhension pendant que nous implantons.</div>
+        <div class="alert alert-dismissable container alert-info" id="frenchalert" jsf:rendered="#{language.getLocale() =='fr'}">Interface française en développement.  Merci de votre compréhension pendant que nous implantons.</div>
    
         <div id="dataverseHeader" class="container bg-muted"
                 style="background:##{!empty dataverse.dataverseTheme.backgroundColor ? dataverse.dataverseTheme.backgroundColor : 'F5F5F5'};"
@@ -324,6 +324,8 @@
                  			$("#footer").hide();
                  			$("#actionButtonBlock").hide();
                  			$(".panelSearchForm").hide();
+                 			$("#frenchalert").hide();
+                 			$("#dataverseDesc").hide();
                  			
                  			var locale='#{language.getLocale()}';
                  			if(locale=="fr"){
