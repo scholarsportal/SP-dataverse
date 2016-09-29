@@ -161,21 +161,31 @@ public class LoginPage implements java.io.Serializable {
             logger.log(Level.FINE, "User authenticated: {0}", r.getEmail());
             session.setUser(r);
             //allow the logged-in user to redirect to their institution
+            
             String affiliation= r.getAffiliation();
+            logger.log(Level.FINE, "affiliation: {0}", affiliation);
             String alias="";
             //
+             
             String json_url= systemConfig.getDataverseSiteUrl()+"/resources/js/affiliates.json";
+            logger.log(Level.FINE, "calling readUrl: {0}", json_url);
+            
     		JSONObject json_obj;
     		try {
+    			
+    			
     			json_obj = new JSONObject(readUrl(json_url));
     			//note the saved affiliation is the "title" of the affiliates.json file
     			JSONArray json_array = json_obj.getJSONArray("affiliates");
     			for(int i = 0; i < json_array.length(); i++){
     				String title = json_array.getJSONObject(i).getString("title");
+    				logger.log(Level.FINE, "title: {0}", title);
     				if(title.equals(affiliation)){
     					alias=json_array.getJSONObject(i).getString("home");
+    					logger.log(Level.FINE, "alias: {0}", alias);
     				}
     			}
+    			
     		} catch (JSONException e) {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
@@ -227,6 +237,7 @@ public class LoginPage implements java.io.Serializable {
     private static String readUrl(String urlString) throws Exception {
         BufferedReader reader = null;
         try {
+        	logger.log(Level.FINE, "inside readUrl: {0}", urlString);
             URL url = new URL(urlString);
             reader = new BufferedReader(new InputStreamReader(url.openStream()));
             StringBuffer buffer = new StringBuffer();
