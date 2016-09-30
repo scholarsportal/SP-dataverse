@@ -18,7 +18,7 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 	$scope._filtered_num=0;
 	$scope.sortReverse=true; 
 	$scope.has_no_selection=true;
-	$scope.sortReverse=false; 
+	$scope.sortReverse=true; 
 	//
 	$scope.citation="";
 	//
@@ -39,11 +39,16 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 				counter++
 				//join the variable data
 				$scope.details.datadscr['var'][i].variable_data=$scope._variableData[$scope.details.datadscr['var'][i].name]
-				
+				//
+				if(!$scope.details.datadscr['var'][i].variable_data && typeof($scope._variableData.variables)!="undefined"){
+					//it might be nested in "variables" 
+					$scope.details.datadscr['var'][i].variable_data=$scope._variableData.variables[$scope.details.datadscr['var'][i].name]
+
+				}
 				var chartable=false;
-				if(typeof($scope.details.datadscr['var'][i].variable_data.plotvalues)!="undefined" && typeof($scope.details.datadscr['var'][i].catgry)!="undefined"){
+				if(typeof($scope.details.datadscr['var'][i].variable_data)!="undefined" && typeof($scope.details.datadscr['var'][i].variable_data.plotvalues)!="undefined" && typeof($scope.details.datadscr['var'][i].catgry)!="undefined"){
 						chartable=true
-					}
+				}
 				
 				//if ($scope.details.datadscr['var'][i].labl){
 					

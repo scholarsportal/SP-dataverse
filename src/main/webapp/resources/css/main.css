@@ -334,5 +334,8 @@ blockquote p {
 }
 
 .ui-datatable-scrollable-body {
-     overflow: visible; 
+    /* overflow: visible; */
+}
+#metrics-block {
+    width: 260px;
 }

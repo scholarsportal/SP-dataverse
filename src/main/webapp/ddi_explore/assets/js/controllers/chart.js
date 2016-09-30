@@ -75,9 +75,12 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 					//
 					var non_sequential=false;
 					//need to blend the descriptions with the freqency data (stored in the _variableData)
-					var total=parseFloat(_variableData.valid);
+					var total=0;
+					if(_variableData){
+						parseFloat(_variableData.valid);
+					}
 					if(typeof(data)=="undefined" ){//there is no 'catgry' values
-						if(typeof(_variableData.plotvalues)=="undefined"){
+						if(typeof(_variableData)=="undefined" || typeof(_variableData.plotvalues)=="undefined"){
 							return	
 						}else{
 							//artificially create data obj - we likely have value and freq
@@ -135,7 +138,7 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 							}
 							table[table_num].c.push({v:labl});
 							//make sure there are frequency values
-							if( _variableData.plotvalues && typeof(_variableData.plotvalues[data[i].catvalu["#text"]])!="undefined"){
+							if( _variableData && _variableData.plotvalues && typeof(_variableData.plotvalues[data[i].catvalu["#text"]])!="undefined"){
 								if(!isNaN(_variableData.plotvalues[data[i].catvalu["#text"]])){
 									table[table_num].c.push({v: parseFloat(_variableData.plotvalues[data[i].catvalu["#text"]])});
 								}else{
