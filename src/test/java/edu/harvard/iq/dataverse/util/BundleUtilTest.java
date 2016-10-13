@@ -65,7 +65,9 @@ public class BundleUtilTest {
                         Arrays.asList(BundleUtil.getStringFromBundle("shib.welcomeExistingUserMessageDefaultInstitution"))));
         assertEquals("Welcome to Root Dataverse! Get started by adding or finding data. "
                 + "Have questions? Check out the <a href=\"http://guides.dataverse.org/en/4.3/user/index.html\">User Guide</a>."
-                + " Want to test out Dataverse features? Use our <a href=\"https://demodv.scholarsportal.info\">Demo Site</a>.",
+                + " Want to test out Dataverse features? Use our <a href=\"https://demodv.scholarsportal.info\">Demo Site</a>."
+                + " Also, check for your welcome email to verify your address.",
+
                 BundleUtil.getStringFromBundle("notification.welcome",
                         Arrays.asList("Root", "<a href=\"http://guides.dataverse.org/en/4.3/user/index.html\">User Guide</a>", "<a href=\"https://demodv.scholarsportal.info\">Demo Site</a>")));
     }
