@@ -26,11 +26,11 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
+
 import java.util.ResourceBundle;
-=======
+
 import java.util.TreeMap;
->>>>>>> v4.5.1
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
