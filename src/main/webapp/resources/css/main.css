@@ -7,6 +7,16 @@
     right:-25px;
 	float: right;
 }
+
+#language_toggle1{
+	
+    font-weight: bold;
+    position:relative;
+    top:-50px;
+    right:-25px;
+	float: right;
+}
+
 .header_image{
 	width:225px;
 	margin-top:7px;
@@ -40,6 +50,10 @@
 }
 @media (max-width: 1224px){
 	#language_toggle{
+    top:-65px;
+    right:0px;
+    }
+    #language_toggle1{
     top:-65px;
     right:0px;
     }

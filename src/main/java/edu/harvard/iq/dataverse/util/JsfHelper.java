@@ -4,9 +4,10 @@ import java.util.Locale;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.faces.application.FacesMessage;
 import javax.faces.context.FacesContext;
-import edu.harvard.iq.dataverse.LanguageBean;
+import edu.harvard.iq.dataverse.DataverseLocale; 
 
 /**
  * Utility class for common JSF tasks.
@@ -16,7 +17,7 @@ public class JsfHelper {
 	private static final Logger logger = Logger.getLogger(JsfHelper.class.getName());
 
 
-	LanguageBean languageBean;
+	//DataverseLocale languageBean;
 	public static final JsfHelper JH = new JsfHelper();
 
 	public static void addSuccessMessage(String message) {
@@ -63,8 +64,8 @@ public class JsfHelper {
 	public String localize( String messageKey ) {
 		FacesContext facesContext = FacesContext.getCurrentInstance();
 		String messageBundleName = facesContext.getApplication().getMessageBundle(); 
-		languageBean = new LanguageBean();
-		Locale locale = languageBean.getLocale();//facesContext.getViewRoot().getLocale(); //new Locale("zh","CN") ; 
+		//languageBean = new DataverseLocale();  
+		Locale locale = facesContext.getViewRoot().getLocale(); //new Locale("zh","CN") ; //languageBean.getLocale(); //
 		ResourceBundle bundle = ResourceBundle.getBundle("Bundle", locale);
 		return bundle.getString(messageKey);
 	}
