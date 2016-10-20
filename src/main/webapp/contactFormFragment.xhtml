@@ -60,7 +60,7 @@
                     	//create an object to keep track of the captcha controls
                     	 var CaptchaManager = function (){
                     		 this.captcha_array=[];
-                    		 var locale='#{language.getLocale()}'
+                    		 var locale='#{dataverseLocale.locale.language}'
  								//adjust locale to suite google
  								if(locale=="fr"){
  									locale="fr-CA"	

@@ -1187,7 +1187,7 @@
                             <p:commandLink type="button" styleClass="btn btn-default" value="#{bundle.acceptTerms}"
                                            rendered="#{DatasetPage.downloadType=='explore'}"
                                             actionListener="#{DatasetPage.saveGuestbookResponse('explore')}"
-                                           onclick="showData(#{DatasetPage.selectedDownloadFile.getId()}, '#{DatasetPage.getApiTokenKey()}', '#{language.getLocale()}')"
+                                           onclick="showData(#{DatasetPage.selectedDownloadFile.getId()}, '#{DatasetPage.getApiTokenKey()}', '#{dataverseLocale.locale.language}')"
                                            update="@([id$=Messages])" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('downloadPopup').hide();">
                                 <f:param name="DO_GB_VALIDATION" value="true"/>
                             </p:commandLink>

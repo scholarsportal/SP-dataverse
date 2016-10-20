@@ -1,23 +1,21 @@
 package edu.harvard.iq.dataverse.util;
 
 import java.util.Locale;
-import edu.harvard.iq.dataverse.LanguageBean;
+import edu.harvard.iq.dataverse.DataverseLocale;
 
 public class LanguageUtil {
     
-    LanguageBean language;
-    Locale locale;
-    
+	DataverseLocale language;
+    Locale locale;	
+	         
     public LanguageUtil()
-    {
-    	language = new LanguageBean();
-		locale = language.getLocale();	
-    }
-    
-    
+    {    	
+    	language = new DataverseLocale();      	
+		locale = language.getLocale();
+	}
+     
     public String  getLanguage() {			
 		return locale.getLanguage() ;
 	}
- 
  
 }

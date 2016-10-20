@@ -173,17 +173,19 @@
                         </ui:fragment>
                     </ul>
                 </div>
-                <h:form id="language_toggle">                            
-                    <h:commandLink action="#{language.changeLanguage('')}" value="En" rendered="#{language.getLocale() =='fr'}"  />                                                   
-                    <h:commandLink action="#{language.changeLanguage('fr')}" value="Fr (Beta)"  rendered="#{language.getLocale() !='fr'}"/>                             
-                </h:form>  
+				<h:form id="language_toggle"    rendered="#{dataverseLocale.localeFr}">                            
+				    <p:commandLink  actionListener="#{dataverseLocale.changePageToEn()}" value="En"   ></p:commandLink>
+				</h:form>
+				<h:form id="language_toggle1"    rendered="#{!dataverseLocale.localeFr}">    
+				    <p:commandLink  actionListener="#{dataverseLocale.changePageToFr()}" value="Fr (Beta)"   ></p:commandLink>                             
+				</h:form>
             </div>  
             
         </nav>       
         <ui:param name="dataversePage" value="#{dataverseLinksStayOnPage == true ? '' : '/dataverse.xhtml' }"/>		
         <!-- Header Panel -->
         <div id="spacer" ></div>
-        <div class="alert alert-dismissable container alert-info" id="frenchalert" jsf:rendered="#{language.getLocale() =='fr'}">Interface française en développement.  Merci de votre compréhension pendant que nous implantons.</div>
+        <div class="alert alert-dismissable container alert-info" id="frenchalert" jsf:rendered="#{dataverseLocale.locale.language =='fr'}">Interface française en développement.  Merci de votre compréhension pendant que nous implantons.</div>
    
         <div id="dataverseHeader" class="container bg-muted"
                 style="background:##{!empty dataverse.dataverseTheme.backgroundColor ? dataverse.dataverseTheme.backgroundColor : 'F5F5F5'};"
@@ -279,7 +281,7 @@
 	                    <div class="row">
 	                        <div class="float_left" id="institutional_dataverse">
 	                        </div>
-	                        <div class="float_right"><img src="/resources/images/slogan_1#{language.getLocale()}.png" class="slogan1"/>
+	                        <div class="float_right"><img src="/resources/images/slogan_1#{dataverseLocale.locale.language}.png" class="slogan1"/>
 	                            <p id="cta-area"><a class="but_link but_link_lg" id="create-my-space" href="dataverse.xhtml?ownerId=1" role="button">#{bundle.main_dataverse_create}</a><span class="or-text">#{bundle.main_or}</span><a class="or-link" href="dataverse.xhtml"><span style="margin-right: 5px;" class="glyphicon glyphicon-list" aria-hidden="true"></span>#{bundle.main_explore}</a></p>
 	                        </div>
 	                    </div>
@@ -327,7 +329,7 @@
                  			$("#frenchalert").hide();
                  			$("#dataverseDesc").hide();
                  			
-                 			var locale='#{language.getLocale()}';
+                 			var locale='#{dataverseLocale.locale.language}';
                  			if(locale=="fr"){
                  				$("#homepage_fr").show();
                  			}else{

@@ -17,7 +17,7 @@
             <ui:param name="showDataverseHeader" value="false"/>
             <ui:param name="loginRedirectPage" value="dataverseuser.xhtml"/>
             <ui:define name="body">
-               
+               <f:view locale="#{dataverseLocale.locale.language}">
                 <f:metadata>
                     <f:viewParam name="editMode" value="#{DataverseUserPage.editMode}"/>
                     <f:viewParam name="redirectPage" value="#{DataverseUserPage.redirectPage}"/>
@@ -25,6 +25,7 @@
                     <f:viewAction action="#{DataverseUserPage.init}" />
                     <f:viewAction action="#{dataverseHeaderFragment.initBreadcrumbs(dataverseServiceBean.findRootDataverse(), (DataverseUserPage.editMode == 'CREATE' ? bundle['user.createBtn'] : bundle.account))}"/>
                 </f:metadata>
+                </f:view>
                 <h:form id="dataverseUserForm">                
                     <p:focus context="dataverseUserForm"/>
                     <div class="clearfix" jsf:rendered="#{empty DataverseUserPage.editMode}">

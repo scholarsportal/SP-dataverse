@@ -44,8 +44,8 @@ public class BuiltinAuthenticationProvider implements CredentialsAuthenticationP
 
     public BuiltinAuthenticationProvider( BuiltinUserServiceBean aBean ) {
         bean = aBean;
-        KEY_USERNAME_OR_EMAIL = BundleUtil.getStringFromBundle("login.builtin.credential.usernameOrEmail");
-        KEY_PASSWORD = BundleUtil.getStringFromBundle("login.builtin.credential.password");
+        KEY_USERNAME_OR_EMAIL = "login.builtin.credential.usernameOrEmail"; //BundleUtil.getStringFromBundle("login.builtin.credential.usernameOrEmail");
+        KEY_PASSWORD = "login.builtin.credential.password"; //BundleUtil.getStringFromBundle("login.builtin.credential.password");
         CREDENTIALS_LIST = Arrays.asList(new Credential(KEY_USERNAME_OR_EMAIL), new Credential(KEY_PASSWORD, true));
     }
 
