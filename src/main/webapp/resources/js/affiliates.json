@@ -1,6 +1,7 @@
 {"affiliates":[
        {"home":"algoma", "name":"ALGOMA", "title":"Algoma University"},
        {"home":"brock", "name":"BROCK", "title":"Brock University"},
+       {"home":"calgary", "name":"CALGARY", "title":"University of Calgary"},
        {"home":"carleton", "name":"CARLETON", "title":"Carleton University"},
        {"home":"guelph", "name":"GUELPH", "title":"University of Guelph"},
        {"home":"lakehead", "name":"LAKEHEAD",  "title":"Lakehead University"},
