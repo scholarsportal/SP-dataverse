@@ -71,7 +71,7 @@ public class DataverseLocale implements Serializable {
     
     public void changePageToEn(){
     	logger.warning("================== change page to en ====================== "   );
-        locale = Locale.ENGLISH;
+        locale = new Locale ("");
         FacesContext.getCurrentInstance().getViewRoot().setLocale(locale);
         try{
         	
