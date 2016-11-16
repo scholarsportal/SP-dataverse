@@ -358,7 +358,8 @@ public class BuiltinUserPage implements java.io.Serializable {
         }
         if (!userNameFound) {
             ((UIInput) toValidate).setValid(false);
-            FacesMessage message = new FacesMessage(bundle.getString("userPage.usernameIncorrect"));
+            //FacesMessage message = new FacesMessage(bundle.getString("userPage.usernameIncorrect"));            
+            FacesMessage message = new FacesMessage(BundleUtil.getStringFromBundle("userPage.usernameIncorrect"));
             context.addMessage(toValidate.getClientId(context), message);
         }
     }
@@ -494,9 +495,11 @@ public class BuiltinUserPage implements java.io.Serializable {
                 emailChanged = true;
             }
             editMode = null;
-            String msg = bundle.getString("userPage.informationUpdated");
+            //String msg = bundle.getString("userPage.informationUpdated");
+            String msg = BundleUtil.getStringFromBundle("userPage.informationUpdated");
             if (passwordChanged) {
-                msg = bundle.getString("userPage.passwordChanged");
+                //msg = bundle.getString("userPage.passwordChanged");
+                msg = BundleUtil.getStringFromBundle("userPage.passwordChanged");
             }
             if (emailChanged) {
                 ConfirmEmailUtil confirmEmailUtil = new ConfirmEmailUtil();

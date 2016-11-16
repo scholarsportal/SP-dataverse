@@ -12,7 +12,8 @@ import java.util.Set;
 import java.util.TreeMap;
 import javax.faces.model.SelectItem;
 import javax.persistence.*;
-
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  * Defines the meaning and constraints of a metadata field and its values.
@@ -30,6 +31,8 @@ import javax.persistence.*;
 @Table(indexes = {@Index(columnList="metadatablock_id"),@Index(columnList="parentdatasetfieldtype_id")})
 public class DatasetFieldType implements Serializable, Comparable<DatasetFieldType> {
 
+	private static final Logger logger = Logger.getLogger(DatasetFieldType.class.getCanonicalName());
+	
     /**
      * The set of possible metatypes of the field. Used for validation and layout.
      */
@@ -529,17 +532,23 @@ public class DatasetFieldType implements Serializable, Comparable<DatasetFieldTy
     	LanguageUtil lUtil = new LanguageUtil();
     	String language = lUtil.getLanguage();
     	String output = "";
+    	
+    	//logger.info("Language here   " + language);
     	if (isHasParent() && !parentDatasetFieldType.getTitle().equals(title)) {
+    		//logger.info("Language here   1");
     		if(language.equals("fr"))
     		{
+    			//logger.info("Language here   1.1");
     			output = parentDatasetFieldType.getFrenchTitle()     +"-" +frenchtitle;
     		}
     		else
     		{
+    			//logger.info("Language here   1.2");
     			output =  parentDatasetFieldType.getTitle()     +"-" +title;
     		}
     		return output ;
     	} else {
+    		//logger.info("Language here   2");
     		if(language.equals("fr"))
     		{
     			output =    frenchtitle;

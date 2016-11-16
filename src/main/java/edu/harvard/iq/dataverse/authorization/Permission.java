@@ -7,6 +7,7 @@ import edu.harvard.iq.dataverse.DvObject;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
+import edu.harvard.iq.dataverse.util.BundleUtil;
 
 /**
  * All the permissions in the system are implemented as enum values in this
@@ -34,22 +35,22 @@ import java.util.Set;
 public enum Permission implements java.io.Serializable {
     
     // Create
-    AddDataverse(java.util.ResourceBundle.getBundle("Bundle").getString("permission.addDataverseDataverse"), true, Dataverse.class),
-    AddDataset(java.util.ResourceBundle.getBundle("Bundle").getString("permission.addDatasetDataverse"), true, Dataverse.class),     
+    AddDataverse(BundleUtil.getStringFromBundle("permission.addDataverseDataverse"), true, Dataverse.class),
+    AddDataset(BundleUtil.getStringFromBundle("permission.addDatasetDataverse"), true, Dataverse.class),     
     // Read
-    ViewUnpublishedDataverse(java.util.ResourceBundle.getBundle("Bundle").getString("permission.viewUnpublishedDataverse"), false, Dataverse.class),
-    ViewUnpublishedDataset(java.util.ResourceBundle.getBundle("Bundle").getString("permission.viewUnpublishedDataset"), false, Dataset.class),    
-    DownloadFile(java.util.ResourceBundle.getBundle("Bundle").getString("permission.downloadFile"), false, DataFile.class),
+    ViewUnpublishedDataverse(BundleUtil.getStringFromBundle("permission.viewUnpublishedDataverse"), false, Dataverse.class),
+    ViewUnpublishedDataset(BundleUtil.getStringFromBundle("permission.viewUnpublishedDataset"), false, Dataset.class),    
+    DownloadFile(BundleUtil.getStringFromBundle("permission.downloadFile"), false, DataFile.class),
     // Update
-    EditDataverse(java.util.ResourceBundle.getBundle("Bundle").getString("permission.editDataverse"), true, Dataverse.class),
-    EditDataset(java.util.ResourceBundle.getBundle("Bundle").getString("permission.editDataset"), true, Dataset.class),
-    ManageDataversePermissions(java.util.ResourceBundle.getBundle("Bundle").getString("permission.managePermissionsDataverse"), true, Dataverse.class),
-    ManageDatasetPermissions(java.util.ResourceBundle.getBundle("Bundle").getString("permission.managePermissionsDataset"), true, Dataset.class), 
-    PublishDataverse(java.util.ResourceBundle.getBundle("Bundle").getString("permission.publishDataverse"), true, Dataverse.class),
-    PublishDataset(java.util.ResourceBundle.getBundle("Bundle").getString("permission.publishDataset"), true, Dataset.class),     
+    EditDataverse(BundleUtil.getStringFromBundle("permission.editDataverse"), true, Dataverse.class),
+    EditDataset(BundleUtil.getStringFromBundle("permission.editDataset"), true, Dataset.class),
+    ManageDataversePermissions(BundleUtil.getStringFromBundle("permission.managePermissionsDataverse"), true, Dataverse.class),
+    ManageDatasetPermissions(BundleUtil.getStringFromBundle("permission.managePermissionsDataset"), true, Dataset.class), 
+    PublishDataverse(BundleUtil.getStringFromBundle("permission.publishDataverse"), true, Dataverse.class),
+    PublishDataset(BundleUtil.getStringFromBundle("permission.publishDataset"), true, Dataset.class),     
     // Delete
-    DeleteDataverse(java.util.ResourceBundle.getBundle("Bundle").getString("permission.deleteDataverse"), true, Dataverse.class),    
-    DeleteDatasetDraft(java.util.ResourceBundle.getBundle("Bundle").getString("permission.deleteDataset"), true, Dataset.class);
+    DeleteDataverse(BundleUtil.getStringFromBundle("permission.deleteDataverse"), true, Dataverse.class),    
+    DeleteDatasetDraft(BundleUtil.getStringFromBundle("permission.deleteDataset"), true, Dataset.class);
 
     // FUTURE:
     //RestrictMetadata("Mark metadata as restricted", DvObject.class),
