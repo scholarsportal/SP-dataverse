@@ -796,7 +796,7 @@ public class DatasetVersion implements Serializable {
     }
     
     public String getRootDataverseNameforCitation(){
-                    //Get root dataverse name for Citation
+       //Get root dataverse name for Citation
         Dataverse root = this.getDataset().getOwner();
         while (root.getOwner() != null) {
             root = root.getOwner();
@@ -808,7 +808,7 @@ public class DatasetVersion implements Serializable {
             return "";
         }
     }
-
+   
     public List<DatasetDistributor> getDatasetDistributors() {
         //todo get distributors from DatasetfieldValues
         return new ArrayList();

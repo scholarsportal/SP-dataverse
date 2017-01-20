@@ -174,7 +174,10 @@
             <!--NON-TYPE FACETS-->
             <h:form id="facetCategoryForm" rendered="#{SearchIncludeFragment.searchResultsCount > 0}">
                 <p:dataList id="facetCategoryList" value="#{SearchIncludeFragment.facetCategoryList}" var="facetCategory">
-                    <h:outputText value="#{facetCategory.friendlyName}" styleClass="facetCategoryName"/>
+                    
+                     <h:outputText value='#{(bundle[facetCategory.friendlyName].startsWith("???")) ? facetCategory.friendlyName : bundle[facetCategory.friendlyName]}'
+                      styleClass="facetCategoryName"/>  <!-- Hack to translate values from the database -->
+                       
                     <p:dataList value="#{facetCategory.facetLabel}" var="facetLabel" rows="#{SearchIncludeFragment.getNumberOfFacets(facetCategory.name,5)}">
                         <h:outputLink value="#{widgetWrapper.wrapURL(page)}" rendered="#{!SearchIncludeFragment.filterQueries.contains(facetLabel.filterQuery)}" styleClass="facetLink">
                             <h:outputFormat value="#{facetLabel.name} &#40;{0}&#41;">
@@ -444,8 +447,9 @@
                         </div>
                         <div class="card-preview-icon-block text-center">
                             <h:outputLink value="#{!SearchIncludeFragment.rootDv and !result.isInTree ? dvUrl : widgetWrapper.wrapURL(dvUrl)}" target="#{!SearchIncludeFragment.rootDv and !result.isInTree and widgetWrapper.widgetView ? '_blank' : ''}">
-                                <h:graphicImage value="#{result.imageUrl}" rendered="#{result.displayImage}"/>
-                                <span class="icon-dataverse text-brand" jsf:rendered="#{!result.displayImage}"/>
+                               <!--  <h:graphicImage value="#{result.imageUrl}" rendered="#{result.displayImage}"/>
+                                <span class="icon-dataverse text-brand" jsf:rendered="#{!result.displayImage}"/> -->
+                                <span class="icon-dataverse text-brand"/> 
                             </h:outputLink>
                         </div>
 
