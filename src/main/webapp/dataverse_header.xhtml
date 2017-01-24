@@ -237,7 +237,7 @@
                             </a>
                         </ui:fragment>
                         <ui:fragment rendered="#{breadcrumb.dvObject.instanceofDataset}">
-                            <c:set var="dsUrl" value="/dataset.xhtml?persistentId=#{breadcrumb.dvObject.globalId}"/>
+                            <c:set var="dsUrl" value="/dataset.xhtml?persistentId=#{breadcrumb.dvObject.globalId}#{breadcrumb.optionalUrlExtension }"/>
                             <a id="breadcrumbLnk#{status.index}" href="#{widgetWrapper.isWidgetTarget(breadcrumb.dvObject) ? widgetWrapper.wrapURL(dsUrl) : dsUrl}" target="#{!widgetWrapper.widgetView or widgetWrapper.isWidgetTarget(breadcrumb.dvObject) ? '' : '_blank'}">
                                 <h:outputText value="#{breadcrumb.breadcrumbText}"/>
                             </a>
@@ -506,5 +506,15 @@
                     }
                     //]]>
                 </script>
-               
+               <script type="text/javascript">
+                    //<![CDATA[
+                         function showData(id,key,locale){
+	                    	var pathArray = location.href.split( '/' );
+							var protocol = pathArray[0];
+							var host = pathArray[2];
+							var url = protocol + '//' + host;
+							window.open("/ddi_explore/index.html?uri="+url+"/api/access/datafile/"+id+"/metadata/ddi&"+key+"&locale="+locale, '_new');	
+							}       
+                     //]]>
+                	</script>
 </ui:composition>

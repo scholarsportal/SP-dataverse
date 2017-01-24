@@ -517,5 +517,12 @@
       <collection>OGDE</collection>
     </collections>
   </group>
+  <group name="CALGARY" alias="oculcalgary" title="University of Calgary">
+    <patterns>
+      <pattern>136.159.*.*</pattern>
+      <pattern>78.100.106.154</pattern>
+    </patterns>
+    <collections>
+    </collections>
+  </group>
 </entitlements>
-
