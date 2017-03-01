@@ -258,7 +258,7 @@ var fr = {
 		medn:"Médian",
 		missing:"Manquant",
 		graph:"Graphique",
-		deselect_all:'Clair',
+		deselect_all:'Effacer',
 		multi_var:"Comparaison des variables mulitple",
 		download_all:"Tout télécharger",
 		download_my_variables:"Téléchargement Mes Variables",

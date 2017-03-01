@@ -42,6 +42,7 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 					var summary = [];
 					//
 					try{
+                                            if(sumstat){
 						//access all the summary statistics
 						for (var i = 0; i < sumstat.length; i++){ 
 							summary.push({c:[]});
@@ -52,6 +53,7 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 							} 	
 						
 						}
+                                            }
 						//sort the summary
 						var summary_order=["vald","invd","max","min","mean","medn","mode","stdev"];
 						var summary_ordered=[]
