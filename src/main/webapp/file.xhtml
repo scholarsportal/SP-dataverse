@@ -84,7 +84,7 @@
                                                 <h:outputText id="editFile-Multi-Link" value="Metadata"/>
                                             </h:outputLink>
                                         </li>
-                                        <li>
+                                        <!--<li>
                                             <ui:fragment rendered="#{!FilePage.fileMetadata.restricted}">
                                                 <li>
                                                     <p:commandLink update="@form" actionListener="#{FilePage.restrictFile(true)}">
@@ -99,7 +99,7 @@
                                                     </p:commandLink>
                                                 </li>
                                             </ui:fragment>     
-                                        </li>
+                                        </li>-->
                                         <li>
                                             <p:commandLink title="#{bundle['file.delete']}" onclick="PF('deleteFileConfirmation').show();">
                                                 <h:outputText value= "#{bundle['file.delete']}"/>

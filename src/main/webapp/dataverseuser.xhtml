@@ -504,13 +504,14 @@
                                        
                                     </label>
                                     <div class="col-sm-9">
-                                        <p:panelGrid columns="2" styleClass="noBorders">
-                                            <h:inputHidden id="affiliation" styleClass="form-control" value="#{DataverseUserPage.builtinUser.affiliation}" />
+                                        
+                                            
+                                             <p:panelGrid columns="2" styleClass="noBorders">
+                                                 <select id="select_affiliation" class="demo-default" placeholder="Select Affiliation..." tabindex="7">
+                                            </select>
+                                            <p:inputText id="affiliation" styleClass="form-control" value="#{DataverseUserPage.builtinUser.affiliation}" />
                                             <p:message for="affiliation" display="text" />
                                         </p:panelGrid>
-										<select id="select_affiliation" class="demo-default" placeholder="Select Affiliation..." tabindex="7">
-										</select>
-										 <p:message for="affiliation" display="text" />
                                     </div>
                                 </div>
                                  <script type="text/javascript" defer="defer" src="/resources/js/selectize.js"></script>
@@ -519,38 +520,60 @@
                    					    //auto populate the affiliation textfield (now hidden) by using a dynamically populated dropdown
                    					    var select_elm="#select_affiliation";
                    					    var input_elm="#dataverseUserForm\\:accountInfoView\\:affiliation";
+                                                            
                    					    $(document).ready(function () {
+                                                                 $(input_elm).hide();
                    					   	//Get the users affiliation from their ip - if the value is blank 
                        					ip_range_checker= new IPRangeChecker(setUserAffiliation)  
 					                    });
                    						function setUserAffiliation(){
-                   							var selectize=setUpAffiliateDropDown();
-                   							if(affiliation=="ADMIN"){
-                   	         					affiliation="RYERSON";
-                   	         				}
-                   							//get the title
-                   							var title;
-					             			$.each(institution_mapping.affiliates, function (i, item) {
-					             				if(institution_mapping.affiliates[i].name==affiliation){
-					             					title=institution_mapping.affiliates[i].title
-					             				}
-									    	});
-					             			
-					             			
-					             			if($(input_elm).val()!=""){
-					             				//set it to the already set value
-                								selectize.setValue($(input_elm).val());
-                					    	}else if(affiliation ){
+                                                                    var selectize=setUpAffiliateDropDown();
+                                                                    if(affiliation=="ADMIN"){
+                                                                        affiliation="RYERSON";
+                                                                    }
+                   						//get the title
+                                                                var title;
+                                                                $.each(institution_mapping.affiliates, function (i, item) {
+                                                                    if(institution_mapping.affiliates[i].name==affiliation){
+                                                                            title=institution_mapping.affiliates[i].title
+                                                                    }
+                                                                });
+
+                                                                var val = $(input_elm).val();
+                                                                var value_in_list= valueInList(val)
+                                                                if(val!="" && value_in_list){
+                                                                        //set it to the already set value
+                                                                        selectize.setValue(val);
+                                                                        selectize.trigger( "change" );
+                					    	}else if(affiliation && val==""){
                 					    		//find the value set by the ip group
                 					    		selectize.setValue(title);
+                                                                        selectize.trigger( "change" );
+                					    	}else if(val!="" && !value_in_list){
+                					    		//find the value set by the ip group
+                					    		selectize.setValue("OTHER");
+                                                                        $(input_elm).show();
+                                                                        //dont trigger change event which would clear value
+                                                                        $(input_elm).val(val);
                 					    	}else{
                 					    		//not set or found
                 					    		selectize.setValue("OTHER");
+                                                                        selectize.trigger( "change" );
                 					    	}
-                							selectize.trigger( "change" );
+                						  
                 					      }    
+                                                            function valueInList(_val){
+                                                                var value_in_list=false;
+                                                                $.each(institution_mapping.affiliates, function (i, item) {
+                   					    	    if(institution_mapping.affiliates[i].title===_val){
+                                                                        value_in_list=true;
+                                                                    }
+                   					    	});
+                                                                return value_in_list;
+                                                            }
                    					    
                    					    function setUpAffiliateDropDown(){
+                                                               
                    					    	$.each(institution_mapping.affiliates, function (i, item) {
                    					    	    $(select_elm).append($('<option>', { 
                    					    	        value: institution_mapping.affiliates[i].title,
@@ -565,8 +588,15 @@
                    					    	    create: true,
                    					    	    sortField: 'text',
 	                   					    	onChange: function (value) {
+                                                                              //show the input if the value doesn't exist
 	                   					    		var val = $select[0].selectize.getValue();
 	                   					    		$(input_elm).val(val)
+                                                                                if(val=="OTHER"){
+                                                                                    $(input_elm).show();
+                                                                                    $(input_elm).val("");
+                                                                                }else{
+                                                                                     $(input_elm).hide();
+                                                                                }
 	                   					    	}
                    					    	});
                    					    	return $select[0].selectize;

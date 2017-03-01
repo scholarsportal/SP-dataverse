@@ -58,9 +58,11 @@ public class BuiltinUser implements Serializable {
     @NotBlank(message = "{user.lastName}")
     private String lastName;
     
+    @NotBlank(message = "{user.affiliation}")
+    private String affiliation;
+    
     private int passwordEncryptionVersion; 
     private String encryptedPassword;
-    private String affiliation;
     private String position;
     
     public void updateEncryptedPassword( String encryptedPassword, int algorithmVersion ) {

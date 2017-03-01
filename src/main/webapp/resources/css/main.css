@@ -21,6 +21,7 @@
 	width:225px;
 	margin-top:7px;
 	margin-left: auto;
+        display: none;
 }
 #navbarFixed {
     padding-top: 20px;

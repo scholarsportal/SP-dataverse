@@ -46,7 +46,7 @@ public class DOIDataCiteRegisterService {
         metadataTemplate.setIdentifier(identifier.substring(identifier.indexOf(':') + 1));
         metadataTemplate.setCreators(Util.getListFromStr(metadata.get("datacite.creator")));
         metadataTemplate.setAuthors(dataset.getLatestVersion().getDatasetAuthors());
-        metadataTemplate.setDescription(dataset.getLatestVersion().getDescription());
+        metadataTemplate.setDescription(dataset.getLatestVersion().getDescription().replaceAll("<[^>]*>", ""));
         metadataTemplate.setContacts(dataset.getLatestVersion().getDatasetContacts());
         metadataTemplate.setProducers(dataset.getLatestVersion().getDatasetProducers());
         metadataTemplate.setTitle(dataset.getLatestVersion().getTitle());
