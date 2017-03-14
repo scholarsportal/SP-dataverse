@@ -22,7 +22,7 @@ public class ReadFile  extends HttpServlet{
     
    	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 	Map<String, String> map =handleRequest(request, response);
-        
+           response.addHeader("Access-Control-Allow-Origin", "*");
            StringBuilder sb = new StringBuilder();
                 String myURL = map.get("url")+"?key="+map.get("key")+"&variables="+map.get("variables");
 		URLConnection urlConn = null;

@@ -341,7 +341,10 @@ var traverse = function(o,func) {
 	}).success(function(data, status, headers, config){	
 		$scope._variableData=data;
 		connectVariablesAndData();
-	});
+	}).error(function(){
+            $scope._variableData={};
+	    connectVariablesAndData();
+        });
 	
 	var loadcount=0
 		function connectVariablesAndData(){
