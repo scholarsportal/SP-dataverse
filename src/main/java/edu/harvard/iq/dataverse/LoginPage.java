@@ -8,18 +8,19 @@ import edu.harvard.iq.dataverse.authorization.AuthenticationServiceBean;
 import edu.harvard.iq.dataverse.authorization.CredentialsAuthenticationProvider;
 import edu.harvard.iq.dataverse.authorization.exceptions.AuthenticationFailedException;
 import edu.harvard.iq.dataverse.authorization.providers.builtin.BuiltinUserServiceBean;
+import edu.harvard.iq.dataverse.authorization.providers.shib.ShibAuthenticationProvider;
 import edu.harvard.iq.dataverse.authorization.users.AuthenticatedUser;
 import edu.harvard.iq.dataverse.settings.SettingsServiceBean;
 import edu.harvard.iq.dataverse.util.BundleUtil;
 import edu.harvard.iq.dataverse.util.JsfHelper;
 import static edu.harvard.iq.dataverse.util.JsfHelper.JH;
 import edu.harvard.iq.dataverse.util.SystemConfig;
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
 import java.net.URL;
 import java.net.URLDecoder;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
+import javax.faces.context.FacesContext;
 import javax.faces.event.AjaxBehaviorEvent;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
@@ -90,9 +92,10 @@ public class LoginPage implements java.io.Serializable {
 
     @EJB
     SettingsServiceBean settingsService;
-    
+
     @EJB
     SystemConfig systemConfig;
+    
     
     @Inject
     DataverseRequestServiceBean dvRequestService;
@@ -102,19 +105,17 @@ public class LoginPage implements java.io.Serializable {
     private List<FilledCredential> filledCredentials;
     
     private String redirectPage = "dataverse.xhtml";
-    
+    private AuthenticationProvider authProvider;
+
     public void init() {
         Iterator<String> credentialsIterator = authSvc.getAuthenticationProviderIdsOfType( CredentialsAuthenticationProvider.class ).iterator();
         if ( credentialsIterator.hasNext() ) {
             setCredentialsAuthProviderId(credentialsIterator.next());
         }
         resetFilledCredentials(null);
+        authProvider = authSvc.getAuthenticationProvider(systemConfig.getDefaultAuthProvider());
     }
-    
-    public boolean isAuthenticationProvidersAvailable() {
-        return ! authSvc.getAuthenticationProviderIds().isEmpty();
-    }
-    
+
     public List<AuthenticationProviderDisplayInfo> listCredentialsAuthenticationProviders() {
         List<AuthenticationProviderDisplayInfo> infos = new LinkedList<>();
         for ( String id : authSvc.getAuthenticationProviderIdsOfType( CredentialsAuthenticationProvider.class ) ) {
@@ -126,9 +127,15 @@ public class LoginPage implements java.io.Serializable {
     
     public List<AuthenticationProviderDisplayInfo> listAuthenticationProviders() {
         List<AuthenticationProviderDisplayInfo> infos = new LinkedList<>();
-        for ( String id : authSvc.getAuthenticationProviderIds() ) {
+        for (String id : authSvc.getAuthenticationProviderIdsSorted()) {
             AuthenticationProvider authenticationProvider = authSvc.getAuthenticationProvider(id);
-            infos.add( authenticationProvider.getInfo());
+            if (authenticationProvider != null) {
+                if (ShibAuthenticationProvider.PROVIDER_ID.equals(authenticationProvider.getId())) {
+                    infos.add(authenticationProvider.getInfo());
+                } else {
+                    infos.add(authenticationProvider.getInfo());
+                }
+            }
         }
         return infos;
     }
@@ -202,7 +209,6 @@ public class LoginPage implements java.io.Serializable {
             }
 
             logger.log(Level.FINE, "Sending user to = {0}", redirectPage);
-
             return redirectPage + (!redirectPage.contains("?") ? "?" : "&") + "faces-redirect=true";
 
             
@@ -283,5 +289,21 @@ public class LoginPage implements java.io.Serializable {
     public void setRedirectPage(String redirectPage) {
         this.redirectPage = redirectPage;
     }
-    
+
+    public AuthenticationProvider getAuthProvider() {
+        return authProvider;
+    }
+
+    public void setAuthProviderById(String authProviderId) {
+        logger.fine("Setting auth provider to " + authProviderId);
+        this.authProvider = authSvc.getAuthenticationProvider(authProviderId);
+    }
+
+    public String getLoginButtonText() {
+        if (authProvider != null) {
+            return BundleUtil.getStringFromBundle("login.button", Arrays.asList(authProvider.getInfo().getTitle()));
+        } else {
+            return BundleUtil.getStringFromBundle("login.button", Arrays.asList("???"));
+        }
+    }
 }

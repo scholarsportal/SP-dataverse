@@ -2369,6 +2369,7 @@ public class DatasetPage implements java.io.Serializable {
         if (this.getVersionTabList().isEmpty() && workingVersion.isDeaccessioned()){
             setVersionTabList(resetVersionTabList());
         }
+        
         this.setVersionTabListForPostLoad(this.getVersionTabList());
         
 
@@ -2496,14 +2497,14 @@ public class DatasetPage implements java.io.Serializable {
 
         if (permissionService.on(dataset).has(Permission.ViewUnpublishedDataset)) {
             for (DatasetVersion version : dataset.getVersions()) {
-                version.setContributorNames(getContributorsNames(version));
+                version.setContributorNames(datasetVersionService.getContributorsNames(version));
                 retList.add(version);
             }
 
         } else {
             for (DatasetVersion version : dataset.getVersions()) {
                 if (version.isReleased() || version.isDeaccessioned()) {
-                    version.setContributorNames(getContributorsNames(version));
+                    version.setContributorNames(datasetVersionService.getContributorsNames(version));
                     retList.add(version);
                 }
             }
@@ -2511,21 +2512,7 @@ public class DatasetPage implements java.io.Serializable {
         return retList;
     }
 
-    private String getContributorsNames(DatasetVersion version) {
-        String contNames = "";
-        for (String id : version.getVersionContributorIdentifiers()) {
-            id = id.startsWith("@") ? id.substring(1) : id;
-            AuthenticatedUser au = authService.getAuthenticatedUser(id);
-            if (au != null) {
-                if (contNames.isEmpty()) {
-                    contNames = au.getName();
-                } else {
-                    contNames = contNames + ", " + au.getName();
-                }
-            }
-        }
-        return contNames;
-    }
+
     
     private boolean existReleasedVersion;
 
@@ -3309,7 +3296,7 @@ public class DatasetPage implements java.io.Serializable {
     }
 
     public boolean isDownloadPopupRequired() {
-        return fileDownloadService.isDownloadPopupRequired(workingVersion);
+        return FileUtil.isDownloadPopupRequired(workingVersion);
     }
     
        public String requestAccessMultipleFiles(String fileIdString) {
