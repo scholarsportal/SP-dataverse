@@ -79,8 +79,6 @@
                                             </ui:fragment>     
 
                                         </li>-->
-
-                                        </li>
                                         <ui:fragment rendered="#{FilePage.fileMetadata.dataFile.released and FilePage.draftReplacementFile == false}">                                        
                                         <li><!-- start: replace file link -->
                                             <h:outputLink value="/editdatafiles.xhtml?mode=SINGLE_REPLACE&#38;datasetId=#{FilePage.fileMetadata.datasetVersion.dataset.id}&#38;fid=#{FilePage.fileMetadata.dataFile.id}&#38;version=#{FilePage.version}">
