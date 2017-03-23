@@ -513,4 +513,15 @@
                     }
                     //]]>
                 </script>
+        <script type="text/javascript">
+                    //<![CDATA[
+                         function showData(id,key,locale){
+	                    	var pathArray = location.href.split( '/' );
+							var protocol = pathArray[0];
+							var host = pathArray[2];
+							var url = protocol + '//' + host;
+							window.open("/ddi_explore/index.html?uri="+url+"/api/access/datafile/"+id+"/metadata/ddi&"+key+"&locale="+locale, '_new');	
+							}       
+                     //]]>
+                	</script>
 </ui:composition>

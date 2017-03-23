@@ -139,7 +139,6 @@
                            actionListener="#{fileDownloadService.writeGuestbookAndStartDownload(guestbookResponse)}"
                            update="@([id$=Messages])" oncomplete="if (args &amp;&amp; !args.validationFailed) PF('downloadPopup').hide();">
                 <f:param name="DO_GB_VALIDATION" value="true"/>
-                 <f:ajax execute="@form" render="@form"  onevent="showData(#{guestbookResponse.getDataFile().getId()},'','#{dataverseLocale.locale.language}')"/>
             </p:commandLink>
             <p:commandLink type="button" styleClass="btn btn-default" value="#{bundle.acceptTerms}" rendered="#{guestbookResponse.fileFormat == 'subset'}"
                            actionListener="#{fileDownloadService.writeGuestbookResponseRecord(guestbookResponse)}"
