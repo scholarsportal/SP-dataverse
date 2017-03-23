@@ -75,7 +75,7 @@
                            update="@widgetVar(downloadPopup)"
                            oncomplete="PF('downloadPopup').show();handleResizeDialog('downloadPopup');">
                 <span class="glyphicon glyphicon-equalizer"/> #{bundle.explore}
-                <f:ajax execute="@form" render="@form"  onevent="showData(#{guestbookResponse.getDataFile().getId()},'','#{dataverseLocale.locale.language}')"/>
+                   <f:ajax execute="@form" render="@form" onevent="showData(#{fileMetadata.dataFile.getId()},'#{twoRavensHelper.getApiTokenKey()}', '#{dataverseLocale.locale.language}')"/>
             </p:commandLink>
         </ui:fragment>
 
