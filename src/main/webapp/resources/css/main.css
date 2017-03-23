@@ -355,6 +355,7 @@ blockquote p {
     width: 260px;
 }
 #ocul_image{
+    padding-top: 5px;
     width:250px;
 }
 .bottom_logo {
