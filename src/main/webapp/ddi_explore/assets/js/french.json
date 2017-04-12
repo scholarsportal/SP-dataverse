@@ -259,7 +259,7 @@ var fr = {
 		missing:"Manquant",
 		graph:"Graphique",
 		deselect_all:'Effacer',
-		multi_var:"Comparaison des variables mulitple",
+		multi_var:"Comparaison des variables multiples",
 		download_all:"Tout télécharger",
 		download_my_variables:"Téléchargement Mes Variables",
 		chart_my_variables:"Graphique Mes Variables",
