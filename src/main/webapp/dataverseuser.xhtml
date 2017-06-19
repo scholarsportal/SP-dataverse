@@ -368,10 +368,10 @@
                                         <div class="col-sm-2 form-col-container">
                                             <p class="form-control-static #{DataverseUserPage.emailIsVerified ? 'text-success' : 'text-danger'}">
                                                 <ui:fragment rendered="#{DataverseUserPage.emailNotVerified}">
-                                                    <span class="glyphicon glyphicon-ban-circle"/> Not Verified
+                                                    <span class="glyphicon glyphicon-ban-circle"/> #{bundle['confirmEmail.notVerified']}
                                                 </ui:fragment>
                                                 <ui:fragment rendered="#{!DataverseUserPage.emailNotVerified}">
-                                                    <span class="glyphicon glyphicon-ok"/> Verified
+                                                    <span class="glyphicon glyphicon-ok"/> #{bundle['confirmEmail.verified']}
                                                 </ui:fragment>
                                             </p>
                                         </div>
