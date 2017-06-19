@@ -85,12 +85,12 @@
 	subject	Astronomy and Astrophysics	D1	2													Astronomie et astrophysique
 	subject	Business and Management	D2	3													Affaires et gestion
 	subject	Chemistry	D3	4													Chimie
-	subject	Computer and Information Science	D7	5													Sciences de la terre et de l'environnement
-	subject	Earth and Environmental Sciences	D4	6													Génie
-	subject	Engineering	D5	7													Médecine, santé et sciences de la vie
-	subject	Law	D8	8													Informatique et science de l'information
-	subject	Mathematical Sciences	D9	9													Droit
-	subject	Medicine, Health and Life Sciences	D6	10													Sciences mathématiques
+	subject	Computer and Information Science	D7	5													Informatique et science de l'information
+	subject	Earth and Environmental Sciences	D4	6													Sciences de la terre et de l'environnement
+	subject	Engineering	D5	7													Génie
+	subject	Law	D8	8													Droit
+	subject	Mathematical Sciences	D9	9													Sciences mathématiques
+	subject	Medicine, Health and Life Sciences	D6	10													Médecine, santé et sciences de la vie
 	subject	Physics	D10	11													Physique
 	subject	Social Sciences	D11	12													Sciences sociales
 	subject	Other	D12	13													Autre
