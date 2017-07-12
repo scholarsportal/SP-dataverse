@@ -70,6 +70,8 @@ import javax.faces.event.FacesEvent;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 
+import edu.harvard.iq.dataverse.util.BundleUtil;
+
 /**
  *
  * @author Leonid Andreev
@@ -822,7 +824,8 @@ public class EditDatafilesPage implements java.io.Serializable {
      */
     private String getBundleString(String msgName){
         
-       return ResourceBundle.getBundle("Bundle").getString(msgName);
+       //return ResourceBundle.getBundle("Bundle").getString(msgName);
+       return BundleUtil.getStringFromBundle(msgName);
     }
     
     
