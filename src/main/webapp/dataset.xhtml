@@ -1087,7 +1087,6 @@
 
                     <p:dialog id="downloadPopup" styleClass="largePopUp" header="#{bundle['file.downloadDialog.header']}" widgetVar="downloadPopup" modal="true">
                         <o:importFunctions type="edu.harvard.iq.dataverse.util.MarkupChecker" />
-
                         <ui:include src="file-download-popup-fragment.xhtml">
                             <ui:param name="workingVersion" value="#{DatasetPage.workingVersion}"/>
                             <ui:param name="downloadPopupRequired" value="#{DatasetPage.downloadPopupRequired}"/>
@@ -1168,8 +1167,9 @@
                         </div>
                     </p:dialog>
 
-                    <p:dialog id="accessPopup" header="File Restrictions" widgetVar="accessPopup" modal="true">
-                        <ui:fragment rendered="#{DatasetPage.editMode == 'CREATE' or empty DatasetPage.editMode }">
+
+                   <p:dialog id="accessPopup" header="#{bundle['file.dataFilesTab.fileRestrictions']}" widgetVar="accessPopup" modal="true">
+                       <ui:fragment rendered="#{DatasetPage.editMode == 'CREATE' or empty DatasetPage.editMode }">
                             <div class="form-horizontal">
                                 <div class="form-group">
                                     <label for="metadata_TermsAccess" class="col-sm-3 control-label">

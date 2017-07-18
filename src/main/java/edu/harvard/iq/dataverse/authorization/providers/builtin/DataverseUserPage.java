@@ -45,6 +45,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.ResourceBundle;
 import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
@@ -74,6 +75,7 @@ public class DataverseUserPage implements java.io.Serializable {
     public enum EditMode {
         CREATE, EDIT, CHANGE_PASSWORD, FORGOT
     };
+    private static final ResourceBundle bundle = ResourceBundle.getBundle("Bundle");
 
     @Inject
     DataverseSession session;
@@ -116,10 +118,10 @@ public class DataverseUserPage implements java.io.Serializable {
     private EditMode editMode;
     private String redirectPage = "dataverse.xhtml";
 
-    @NotBlank(message = "Please enter a password for your account.")
+    @NotBlank(message = "{dataverseUserPage.enterPassword}")
     private String inputPassword;
 
-    @NotBlank(message = "Please enter a password for your account.")
+    @NotBlank(message = "{dataverseUserPage.enterPassword}")    
     private String currentPassword;
     private Long dataverseId;
     private List<UserNotification> notificationsList;
@@ -251,8 +253,9 @@ public class DataverseUserPage implements java.io.Serializable {
 
             ((UIInput) toValidate).setValid(false);
 
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR,
-                    "Password Error", "The new password is blank: re-type it again");
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
+                JH.localize("userPage.passwordError"), JH.localize("userPage.newPasswordBlankRetype"));
+
             context.addMessage(toValidate.getClientId(context), message);
             return;
 
@@ -268,8 +271,8 @@ public class DataverseUserPage implements java.io.Serializable {
         boolean passwordIsComplexEnough = password!= null && validator.validatePassword(password);
         if (!passwordIsComplexEnough) {
             ((UIInput) toValidate).setValid(false);
-            String messageDetail = "Password is not complex enough. The password must have at least one letter, one number and be at least " + minPasswordLength + " characters in length.";
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, "Password Error", messageDetail);
+            String messageDetail = java.text.MessageFormat.format(JH.localize("userPage.passwordNotComplex"), new Object[] {minPasswordLength});
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, JH.localize("userPage.passwordError"), messageDetail);
             context.addMessage(toValidate.getClientId(context), message);
         }
     }
@@ -348,6 +351,7 @@ public class DataverseUserPage implements java.io.Serializable {
             AuthenticatedUser savedUser = authenticationService.updateAuthenticatedUser(currentUser, userDisplayInfo);
             String emailAfterUpdate = savedUser.getEmail();
             editMode = null;
+
             StringBuilder msg = new StringBuilder( passwordChanged ? "Your account password has been successfully changed." 
                                                                    : "Your account information has been successfully updated.");
             if (!emailBeforeUpdate.equals(emailAfterUpdate)) {

@@ -20,16 +20,25 @@ import edu.harvard.iq.dataverse.util.BundleUtil;
 public class BuiltinAuthenticationProvider implements CredentialsAuthenticationProvider {
     
     public static final String PROVIDER_ID = "builtin";
+    
+    /*
+    private static final String KEY_USERNAME = "Username"; //BundleUtil.getStringFromBundle("user.username"); 
+    private static final String KEY_PASSWORD = "Password"; //BundleUtil.getStringFromBundle("passwd");
+    private static final List<Credential> CREDENTIALS_LIST = Arrays.asList( new Credential(KEY_USERNAME), new Credential(KEY_PASSWORD, true) );
+    */
+      
+      
     private static String KEY_USERNAME_OR_EMAIL;
     private static String KEY_PASSWORD;
-    private static List<Credential> CREDENTIALS_LIST;
+    private static List<Credential> CREDENTIALS_LIST;        
+      
       
     final BuiltinUserServiceBean bean;
 
     public BuiltinAuthenticationProvider( BuiltinUserServiceBean aBean ) {
         bean = aBean;
-        KEY_USERNAME_OR_EMAIL = BundleUtil.getStringFromBundle("login.builtin.credential.usernameOrEmail");
-        KEY_PASSWORD = BundleUtil.getStringFromBundle("login.builtin.credential.password");
+        KEY_USERNAME_OR_EMAIL = "login.builtin.credential.usernameOrEmail"; //BundleUtil.getStringFromBundle("login.builtin.credential.usernameOrEmail");
+        KEY_PASSWORD = "login.builtin.credential.password"; //BundleUtil.getStringFromBundle("login.builtin.credential.password");
         CREDENTIALS_LIST = Arrays.asList(new Credential(KEY_USERNAME_OR_EMAIL), new Credential(KEY_PASSWORD, true));
     }
 

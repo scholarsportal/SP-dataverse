@@ -1,5 +1,38 @@
-Dataverse&#174;
-===============
+
+Dataverse SP_4,7 has been forked from dataverse 4.7 and enhanced with the following:
+
+1.	Custom splash page
+a.	Updated top ribbon and added French toggle link
+b.	Added Banner
+c.	Dynamically adjusted first institutional dataverse based on user’s IP
+d.	Descriptive text for Tri-Agency Statements
+e.	Updated footer
+f.	Accounted for mobile experience with fluid design
+
+2.	Sign-up
+a.	Added Affiliate dropdown
+i.	Auto selects the institution affiliated with user’s IP
+ii.	Allows, ‘Other’ option triggering display of editable field, which is mandatory
+b.	Incorporated Captcha widget bound to submit button
+
+3.	Log-In redirect when a user logs in they are redirected to their institutional Dataverse
+
+4.	Contact form - Incorporated Captcha widget bound to submit button
+
+5.	Data Exploration
+a.	Updated the “Explore” button associated with tab files to link to an application allowing:
+i.	Variable searching
+ii.	Charting
+iii.	Comparing
+iv.	Paging
+v.	Sub setting
+vi.	French support – connected to dataverse
+
+6.	Datacite HTML submit bug fix
+
+7.	Internationalization
+
+
 
 Dataverse is an [open source][] web application for sharing, citing, analyzing, and preserving research data (developed by the [Data Science and Products team](http://www.iq.harvard.edu/people/people/data-science-products) at the [Institute for Quantitative Social Science](http://iq.harvard.edu/) and the [Dataverse community][]).
 

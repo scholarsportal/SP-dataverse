@@ -1337,7 +1337,6 @@ public class DatasetPage implements java.io.Serializable {
     public boolean isReadOnly() {
         return readOnly; 
     }
-
     private void resetVersionUI() {
         
         datasetVersionUI = datasetVersionUI.initDatasetVersionUI(workingVersion, true);

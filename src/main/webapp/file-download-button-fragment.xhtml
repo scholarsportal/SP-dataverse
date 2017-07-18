@@ -79,17 +79,63 @@
                 </p:commandLink>
             </li>                       
         </ul>
-    </div>
+        </div>
 
-    <ui:fragment rendered="#{ twoRavensHelper.canSeeTwoRavensExploreButtonFromPage(fileMetadata) and !worldMapPermissionHelper.canUserSeeExploreWorldMapButtonFromPage(fileMetadata)}">
-        <!-- TwoRavens Explore button ONLY ... not WorldMap -->
-        <h:commandLink rendered="#{!downloadPopupRequired}"
-                       type="button" styleClass="btn btn-default #{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}"
-                       disabled="#{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}"
-                       action="#{fileDownloadService.startExploreDownloadLink( guestbookResponse, fileMetadata )}" target="_blank">
-            <span class="glyphicon glyphicon-equalizer"/> <span class="ladda-label">#{bundle.explore}</span>
-        </h:commandLink>
-        <p:commandLink rendered="#{downloadPopupRequired}"
+        <ui:fragment rendered="#{ twoRavensHelper.canSeeTwoRavensExploreButtonFromPage(fileMetadata) and !worldMapPermissionHelper.canUserSeeExploreWorldMapButtonFromPage(fileMetadata)}">
+            <!-- TwoRavens Explore button ONLY ... not WorldMap -->
+            <h:commandLink rendered="#{!downloadPopupRequired}"
+                           type="button" styleClass="btn btn-default #{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}"
+                           disabled="#{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}"
+                         >
+                <span class="glyphicon glyphicon-equalizer"/> <span class="ladda-label">#{bundle.explore}</span>
+                 <f:ajax execute="@form" render="@form" onevent="showData(#{fileMetadata.dataFile.getId()},'#{twoRavensHelper.getApiTokenKey()}', '#{dataverseLocale.locale.language}')"/>
+            </h:commandLink>
+            <p:commandLink rendered="#{downloadPopupRequired}"
+                           type="button" styleClass="btn btn-default"
+                           action="#{guestbookResponseService.modifyDatafileAndFormat(guestbookResponse, fileMetadata, 'explore' )}"
+                           update="@widgetVar(downloadPopup)"
+                           oncomplete="PF('downloadPopup').show();handleResizeDialog('downloadPopup');">
+                <span class="glyphicon glyphicon-equalizer"/> #{bundle.explore}
+                   <f:ajax execute="@form" render="@form" onevent="showData(#{fileMetadata.dataFile.getId()},'#{twoRavensHelper.getApiTokenKey()}', '#{dataverseLocale.locale.language}')"/>
+            </p:commandLink>
+        </ui:fragment>
+
+
+        <ui:fragment rendered="#{worldMapPermissionHelper.canUserSeeExploreWorldMapButtonFromPage(fileMetadata) and !(twoRavensHelper.canSeeTwoRavensExploreButtonFromPage(fileMetadata))}">
+            <!-- WorldMap Explore button ONLY ... not TwoRavens -->
+            <h:commandLink pt:role="button" rendered="#{!downloadPopupRequired}"
+                          type="button" styleClass="btn btn-default #{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}" disabled="#{fileMetadata.dataFile.ingestInProgress ? 'disabled' : ''}" 
+                          title="Explore" action="#{fileDownloadService.startWorldMapDownloadLink(guestbookResponse, fileMetadata )}" target="_blank">
+                <span class="glyphicon glyphicon-equalizer"/> #{bundle.explore}
+            </h:commandLink>
+            <p:commandLink rendered="#{downloadPopupRequired}"
+                           type="button" styleClass="btn btn-default"
+                           action="#{guestbookResponseService.modifyDatafileAndFormat(guestbookResponse, fileMetadata, 'worldMap' )}"
+                           update="@widgetVar(downloadPopup)"
+                           oncomplete="PF('downloadPopup').show();handleResizeDialog('downloadPopup');">
+                <span class="glyphicon glyphicon-equalizer"/> #{bundle.explore}
+            </p:commandLink>
+        </ui:fragment>
+
+        
+        <div class="btn-group" role="group" jsf:rendered="#{worldMapPermissionHelper.canUserSeeMapDataButtonFromPage(fileMetadata) or worldMapPermissionHelper.canSeeMapButtonReminderToPublishFromPage(fileMetadata)}">
+            <!-- WorldMap Map Data button group -->
+            <!-- 4.2.1: VERIFIED: none of these checks add any queries, if there are no map layers. -->
+            <!-- WorldMap Map Data -->
+            <h:outputLink pt:role="button" rendered="#{worldMapPermissionHelper.canUserSeeMapDataButtonFromPage(fileMetadata)}"
+                          type="button" styleClass="btn btn-default" value="#{fileMetadata.dataFile.getMapItURL(dataverseSession.user.id)}" role="button">
+                <span class="glyphicon glyphicon-map-marker"/> #{bundle['file.mapData']}
+            </h:outputLink>
+            <!-- Unpublished Map Data -->
+            <ui:fragment rendered="#{worldMapPermissionHelper.canSeeMapButtonReminderToPublishFromPage(fileMetadata)}">
+                <button type="button" class="btn btn-default" onclick="PF('mapData_popup').show()">
+                    <span class="glyphicon glyphicon-map-marker"/> #{bundle['file.mapData']}
+                </button>
+            </ui:fragment>
+        </div>
+
+    <ui:fragment>
+        <p:commandLink rendered="#{ fileDownloadHelper.canDownloadFile(fileMetadata) and !(fileMetadata.dataFile.tabularData) and !(downloadPopupRequired) }"
                        type="button" styleClass="btn btn-default"
                        action="#{guestbookResponseService.modifyDatafileAndFormat(guestbookResponse, fileMetadata, 'explore' )}"
                        update="@widgetVar(downloadPopup)"

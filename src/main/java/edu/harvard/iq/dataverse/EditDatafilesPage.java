@@ -555,7 +555,9 @@ public class EditDatafilesPage implements java.io.Serializable {
         saveEnabled = true; 
 
         if (mode == FileEditMode.UPLOAD) {
-            JH.addMessage(FacesMessage.SEVERITY_INFO, getBundleString("dataset.message.uploadFiles"));
+            JH.addMessage(FacesMessage.SEVERITY_INFO, JH.localize("dataset.message.uploadFiles"));
+            //JH.addMessage(FacesMessage.SEVERITY_INFO, BundleUtil.getStringFromBundle("dataset.message.uploadFiles"));
+
         }
         return null;
     }

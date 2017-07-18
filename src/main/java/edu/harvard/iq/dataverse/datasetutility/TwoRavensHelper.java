@@ -257,7 +257,7 @@ public class TwoRavensHelper implements java.io.Serializable {
         return TwoRavensDefaultLocal + fileid + "&" + getApiTokenKey();
     }
     
-    private String getApiTokenKey() {
+    public String getApiTokenKey() {
         ApiToken apiToken;
         if (session.getUser() == null) {
             return null;
