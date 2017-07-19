@@ -61,13 +61,19 @@ app.config(['$routeProvider', '$locationProvider',
 	}).service('sharedVariableStore', function () {
 		//store all the variables in a global object for reuse
 		 var variableStore={};
+		 var variableStoreURL="";
 		 return {
 	            getVariableStore: function () {
 	                return variableStore;
 	            },
 	            setVariableStore: function(value) {
-	            	variableStore = value;
-					
+	            	variableStore = value;	
+	            },
+	            getVariableStoreURL: function () {
+	                return variableStoreURL;
+	            },
+	            setVariableStoreURL: function(value) {
+	            	variableStoreURL = value;
 	            }
 	        };
     }).service('filterService', function() {

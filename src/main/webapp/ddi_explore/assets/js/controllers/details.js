@@ -2,7 +2,7 @@
 angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $http, $modal, $location, searchParams,filterService, variableQuery,variableClick,sharedVariableStore){	
 	$scope.showPaging =true;
 	$scope.chartTemplatePath = 'templates/chart.html';
-	var detailsURL = $location.search();
+	var detailsURL = $location.search();//get the url params
 	$scope.detailsURL = detailsURL;
 	$scope.currentTablePage = [];//stored with each survey file
 	$scope.tablePageSize = 10;
@@ -20,6 +20,8 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 	$scope.has_no_selection=true;
 	$scope.sortReverse=true; 
 	//
+	$scope.sectionModel = {}
+	//
 	$scope.citation="";
 	//
 	if($scope.variableClick.params == true) {
@@ -28,7 +30,7 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 		$scope.active = {abstract: true};
 	};
 	var populateVariables = function() {
-		//get a piece of the citatin for display
+		//get a piece of the citation for display
 		var citation_pieces=$scope.details.stdydscr.citation.biblcit["#text"].split(",")
 		$scope.citation=citation_pieces[0]+", "+citation_pieces[1]+", "+citation_pieces[2]
 		//create a reference to a specific link for dataverse
@@ -46,9 +48,19 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 
 				}
 				var chartable=false;
-				if(typeof($scope.details.datadscr['var'][i].variable_data)!="undefined" && typeof($scope.details.datadscr['var'][i].variable_data.plotvalues)!="undefined" && typeof($scope.details.datadscr['var'][i].catgry)!="undefined"){
-						chartable=true
+
+				if(typeof($scope.details.datadscr['var'][i].variable_data)!="undefined" && typeof($scope.details.datadscr['var'][i].variable_data.plotvalues)!="undefined" && typeof($scope.details.datadscr['var'][i].catgry)=="undefined"){
+					chartable=true
+					//artificially create data obj - we likely have value and freq
+					var temp_data=[]
+					for (var j in $scope.details.datadscr['var'][i].variable_data.plotvalues){
+						temp_data.push({labl:{"#text":j}, catvalu:{"#text":j},freq:$scope.details.datadscr['var'][i].variable_data.plotvalues[j]})
+					}
+					//update the catgry for reuse
+					$scope.details.datadscr['var'][i].catgry=temp_data;
 				}
+
+						
 				
 				//if ($scope.details.datadscr['var'][i].labl){
 					
@@ -145,8 +157,18 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 					//}
 					//
 					var index = $scope.surveyVariables.length - 1;
+					//exception for joining prep with details
+
+					if(typeof($scope.surveyVariables[index].sumstat) =="undefined"){
+						//expose the variables to the top level
+						for(j in $scope.surveyVariables[index].fullData.variable_data){
+							$scope.surveyVariables[index][j]=$scope.surveyVariables[index].fullData.variable_data[j]
+						}
+					 	
+					}
 					//since DLIMF does not have a sumstat - check if it exists first before looping
 					if(typeof($scope.details.datadscr['var'][i].sumstat) !="undefined"){
+
 						for (var j = 0; j < $scope.details.datadscr['var'][i].sumstat.length; j++){
 							if (!$scope.details.datadscr['var'][i].sumstat[j].wgtd){
 								if ($scope.details.datadscr['var'][i].sumstat[j].type == 'vald'){
@@ -214,49 +236,81 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 			$scope.currentTablePage[i]=0;
 		}
 	}
-$scope.viewVariable = function (vl) {
-	if(vl){
-		$scope.selectedVariable = vl.fullData;
-	}else{
-		$scope.selectedVariable=null	
+$scope.viewVariable = function (vl,dir) {
+	//assign default display catagories
+	var id=vl.vid;
+	//---
+	var temp_array=$cookies.variableCompare.split(",");
+	
+	if($cookies.variableCompare==""){
+		//prevent blanks
+		temp_array=[] 
 	}
-	var modalInstance = $modal.open({
-		templateUrl: $scope.chartTemplatePath,
-		controller: ModalInstanceCtrl,
-		size: 'lg',
-		resolve: {
-			items: function () {
-			  return $scope.selectedVariable;
-			}
+	//make sure to keep selected if only the type has changed
+	if(dir && vl.type && vl.type!=dir){
+		//keep it selected - just update the chart
+		vl.type=dir;
+		angular.element($('#combineModal')).scope().updateDataType(vl);
+		return
+	}else{
+		if(temp_array.indexOf(id)>-1){
+			//remove the item from the array
+			temp_array.splice( temp_array.indexOf(id),1)
+		}else{
+			temp_array.unshift(id);
+			
 		}
-	});
+		//toggle the selection	
+		vl.selected=!vl.selected;
+	}
+	if(!dir){
+	    dir="row";
+	}else{
+		//show tabular view
+		setTimeout(function(){  $('.nav-tabs a:eq(1)').trigger("click") }, 5);
+	}
+
+	if(vl.selected){
+		vl.type=dir;//store the type for Table View (either row or column)
+	}else{
+		delete vl.type;
+	}
+	//reset cookie to a string
+	$cookies.variableCompare = temp_array.join(",")
+	$scope.selectedVariable=temp_array;//update the chart watching variable
+	$scope.toggleButtons();
 };
 $scope.my_option = 0;
 $scope.downloadData = function (my_option) {
 	var url=base_url+file_id//api/access/datafile/$id
-	switch(Number(my_option)) {
-    case 1:
-        url+="?format=original"
-        break;
-    case 2:
-       //add nothing to download the tab file
-	    url+="?"
-        break;
+	switch(Number(my_option)){
+	case 5:
+		var temp_array=$cookies.variableCompare.split(",");
+		url=base_url+file_id+"?key="+detailsURL.key+"&variables="+temp_array.join(",");
+		break;	
+	case 1:
+		url+="?format=original"
+		break;
+	case 2:
+	       //add nothing to download the tab file
+		    url+="?"
+		break;
 	case 3:
-		 url+="?format=RData"
+		url+="?format=RData"
 		break;
 	case 4:
-	
 		//need to prep the url a bit - should look like //https://sand9.scholarsportal.info/api/meta/datafile/15
 		var base_url_api=base_url.substring(0,base_url.indexOf("/api/"));
 		url=base_url_api+"/api/meta/datafile/"+file_id+"?"
-		break;
-    default:
+		break;	
+	default:
 		return
 	}
 	//add the key
 	url+="&key="+detailsURL.key
 	window.location.assign(url);
+	$('#download').val(-1);
+	console.log($('#download'))
 };
 $scope.goToTwoRavens =function (){
 	var base_url_api=base_url.substring(0,base_url.indexOf("/api/"));
@@ -274,18 +328,13 @@ $scope.clearField=function(){
 	$(".search_field").val("")
 	$(".search_field").trigger( "change" );
 }
-$scope.downloadMyVariables = function (vl) {
-	var temp_array=$cookies.variableCompare.split(",")
-	window.location.assign(base_url+file_id+"?key="+detailsURL.key+"&variables="+temp_array.join(","));
-};
-$scope.chartMyVariables = function (vl) {
-	$scope.viewVariable()
-};
+
+
 $scope.isChecked=function(vid){
 		var temp_array=$cookies.variableCompare.split(",")
 		return temp_array.indexOf(vid) !== -1
 }
-$scope.toggleButtons=function(vid){
+$scope.toggleButtons=function(){
 	var temp_array=$cookies.variableCompare.split(",");
 	if(temp_array.length>0 && temp_array[0]!=""){
 		$scope.has_no_selection=false
@@ -295,6 +344,8 @@ $scope.toggleButtons=function(vid){
 }
 	
  var ModalInstanceCtrl = function ($scope, $modalInstance, items) {
+console.log($modalInstance)
+
   $scope.selectedVariable = items
 
   $scope.ok = function () {
@@ -305,7 +356,6 @@ $scope.toggleButtons=function(vid){
 	$modalInstance.dismiss('cancel');
   };
 };  
-
 // this traverses $scope.details object. 
 var traverse = function(o,func) {
 	for (var i in o) {
@@ -316,8 +366,12 @@ var traverse = function(o,func) {
 		}
 	}
 }     
-	
-	  detailsURL.uri=getParameterByName("uri")
+	///////////////////////
+	/*
+	Entry point of application
+	*/
+	//////////////////////
+	detailsURL.uri=getParameterByName("uri")
 	detailsURL.key=getParameterByName("key")
 	
 	$http({
@@ -333,6 +387,9 @@ var traverse = function(o,func) {
 
 	var file_id=detailsURL.uri.match("datafile\/(.*)\/metadata")[1];
 	var base_url=detailsURL.uri.substr(0,detailsURL.uri.indexOf("datafile/")+9);
+	//create a url for loading the data
+	var tab_data_url=base_url.substring(0,base_url.indexOf("/api/"))+"/ReadFile?url="+base_url+file_id+"&key="+detailsURL.key+"&variables=";
+	sharedVariableStore.setVariableStoreURL(tab_data_url);
 	//
 	$http({
 		url: base_url+file_id+"?format=prep&key="+detailsURL.key, 
@@ -342,10 +399,9 @@ var traverse = function(o,func) {
 		$scope._variableData=data;
 		connectVariablesAndData();
 	}).error(function(){
-            $scope._variableData={};
-	    connectVariablesAndData();
-        });
-	
+		$scope._variableData={};
+		connectVariablesAndData();
+	});
 	var loadcount=0
 		function connectVariablesAndData(){
 			//wait till both variables and data are loaded
@@ -362,48 +418,57 @@ $scope.show = {};
 	$scope.toggle = function(index) {
 		$scope.show[index] = !$scope.show[index];
 	};
-}).controller('CheckboxCtrl', function ($scope, $cookies) {
-	 $scope.deselectAll = function(){
-		//loop through page unchecking boxes
-		 var temp_array=$cookies.variableCompare.split(",");
-		 for(var i = 0; i< temp_array.length; i++){
-			 $("#"+temp_array[i]+"_checkbox").checked = false;
-		 }
-		 
-		 $cookies.variableCompare=""; 			 
-	 }
-	 $scope.selectAll = function(){	
-		$('.checkbox').each(function(){ //iterate all listed checkbox items
-			if(!$(this).is(":checked")){
-				$(this).prop('checked', true);
-				$scope.updateCompareList($(this).attr("id").substring(0,$(this).attr("id").indexOf("_checkbox")))
-			}
-		});		
-	 }
-	//keep track of the variables the user has selected
-	//remember that cookies can not be arrays so we'll need to split them
-$scope.updateCompareList = function(id){
-	var temp_array=$cookies.variableCompare.split(",");
-	
-	if($cookies.variableCompare==""){
-		//prevent blanks
-		temp_array=[] 
-	}
-	if( temp_array.indexOf(id)>-1){
-		//remove the item from the array
-		temp_array.splice( temp_array.indexOf(id),1)
-	}else{
-		temp_array.push(id);
-	}
-	//reset cookie to a string
-	$cookies.variableCompare = temp_array.join(",")
-	
-	$scope.toggleButtons();
-	}
 })
 .controller('PagerCtrl', function($scope){
 	$scope.showPaging =true;
-})
+}).directive('tabs', function() {
+    return {
+      restrict: 'E',
+      transclude: true,
+      scope: {},
+      controller: [ "$scope", function($scope) {
+        var panes = $scope.panes = [];
+ 		
+        $scope.select = function(pane) {
+          angular.forEach(panes, function(pane) {
+            pane.selected = false;
+          });
+          pane.selected = true;
+        }
+ 
+        this.addPane = function(pane) {
+          if (panes.length == 0) $scope.select(pane);
+          panes.push(pane);
+        }
+      }],
+      template:
+        '<div class="tabbable">' +
+          '<ul class="nav nav-tabs">' +
+            '<li ng-repeat="pane in panes" ng-class="{active:pane.selected}">'+
+              '<a href="" ng-click="select(pane)">{{pane.title}}</a>' +
+            '</li>' +
+          '</ul>' +
+          '<div class="tab-content" ng-transclude></div>' +
+        '</div>',
+      replace: true
+    };
+  }).
+  directive('pane', function() {
+    return {
+      require: '^tabs',
+      restrict: 'E',
+      transclude: true,
+      scope: { title: '@' },
+      link: function(scope, element, attrs, tabsCtrl) {
+        tabsCtrl.addPane(scope);
+      },
+      template:
+        '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
+        '</div>',
+      replace: true
+    };
+  })
+/////////////////////
 
 
 				
@@ -441,3 +506,35 @@ function xmlToJson(xml) {
 	}
 	return obj;
 };
+//adjust the interface size
+$(function() {
+	 $( window ).resize(function() {
+	 	var details_height=$( window ).height()-$("#details-content").position().top-170
+		$('.tab_views').css({height:details_height});
+		$('#variables_table_container').css({height:details_height});
+		$('#right-half').css({top:$("#details-content").offset().top+1, width:$("#details-content").width()/2-10})
+		if($('#right-half').is(":visible")){
+			splitInterface();
+		}else{
+			unsplitInterface()
+		}
+	});
+
+});
+function splitInterface(){
+	var content_width=$("#details-content").width()
+	$('#right-half').stop( true, true ).animate({left: content_width/2+30}, 700);
+	$('#variables_table').css({width: content_width});
+	$('#left-half').stop( true, true ).animate({width: (content_width/2+15)}, 700);
+}
+function unsplitInterface(){
+	var content_width=$("#details-content").width()
+	$('#variables_table').css({width: content_width});
+			$('#left-half').stop( true, true ).animate({width: content_width});
+			$('#right-half').stop( true, true ).animate({left: content_width}, 700,function(){
+				$('#right-half').hide();
+				angular.element($('#combineModal')).scope().combineHTML="";
+				angular.element($('#combineModal')).scope().showing=false;
+			});
+}
+

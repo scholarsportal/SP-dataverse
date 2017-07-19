@@ -1,17 +1,7 @@
-<div id="chartModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true"  ng-controller="chartCtrl">
-	<div >
-		<div class="modal-header">
-			<button type="button" class="close" ng-click="cancel()" data-dismiss="modal" aria-hidden="true">&times;</button>
-			<h4 ng-if="variableCompare.length==1" class="modal-title" id="myModalLabel">{{lang.detailsPage.variable}} {{selectedVariable.name}}: {{selectedVariable.labl}}</h4>
-			
-			<h4 ng-if="variableCompare.length>1" class="modal-title" id="myModalLabel">{{lang.detailsPage.multi_var}}</h4>
-		</div>
-	</div>
+<div id="chartModal" ng-controller="chartCtrl">
 	<div class="modal-body">	
 		<div  ng-repeat="selectedVariable in variableCompare">
-				<div ng-if="variableCompare.length>1">
-				   <h4 class="modal-title" id="myModalLabel">{{lang.detailsPage.variable}} {{selectedVariable.name}}:  {{selectedVariable.label}}</h4>	
-				</div>
+				<h4 class="modal-title" id="myModalLabel">{{lang.detailsPage.variable}} {{selectedVariable.name}}:  {{selectedVariable.label}}</h4>	
 				<div id="chart" google-chart chart="selectedVariable.chart" style="{{selectedVariable.chart.cssStyle}}"></div>
 				<div id="{{selectedVariable.vid}}_chart_text" style="{{selectedVariable.chart_text.cssStyle}}">{{lang.error.no_data}}</div>
 				<div ng-show="selectedVariable.qstn[0].preqtxt[0].length > 0">
@@ -24,7 +14,7 @@
 				</div>
 				<div class="variable-data-table">
 				
-					<table class="table table-bordered table-hover table-condensed">
+					<table class="table table-bordered table-condensed">
 						<tr>
 							<th>
 								{{lang.detailsPage.values}}
@@ -67,7 +57,7 @@
 		            </div>
 		            <div class="accordion-body" class="collapse" id="collapse_{{selectedVariable.id}}">
 		                <div class="accordion-inner" ng-show="show.a">
-		                	<table class="table table-bordered table-hover table-condensed">
+		                	<table class="table table-bordered table-condensed">
 								<tr>
 									<th>{{lang.detailsPage.cases}}</th>
 									<th>{{lang.detailsPage.n}}</th>
@@ -105,10 +95,7 @@
 					<h5>{{lang.detailsPage.notes}}</h5>
 					{{selectedVariable.notes[0]}}
 				</div>
-			</div>
-		 <div class="modal-footer">
-            <button class="btn btn-default" ng-click="cancel()">{{lang.detailsPage.close}}</button>
-		</div>	
+			</div>	
     </div>    
 </div><!-- /.modal -->
 
