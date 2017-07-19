@@ -85,6 +85,7 @@ public class AuthenticatedUser implements User, Serializable {
     @NotNull
     @Column(nullable = false, unique=true)
     private String email;
+    @NotBlank(message = "Please enter your affiliation.")
     private String affiliation;
     private String position;
     
