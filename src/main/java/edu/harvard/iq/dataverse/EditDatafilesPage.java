@@ -64,6 +64,8 @@ import javax.faces.event.FacesEvent;
 import org.apache.commons.lang.StringUtils;
 import org.primefaces.context.RequestContext;
 
+import edu.harvard.iq.dataverse.util.BundleUtil;
+
 /**
  *
  * @author Leonid Andreev
@@ -816,7 +818,8 @@ public class EditDatafilesPage implements java.io.Serializable {
      */
     private String getBundleString(String msgName){
         
-       return ResourceBundle.getBundle("Bundle").getString(msgName);
+       //return ResourceBundle.getBundle("Bundle").getString(msgName);
+       return BundleUtil.getStringFromBundle(msgName);
     }
     
     
@@ -1940,9 +1943,9 @@ public class EditDatafilesPage implements java.io.Serializable {
         if (dupeFileNamesExisting != null) {
             String duplicateFilesErrorMessage = null;
             if (multipleDupesExisting) {
-                duplicateFilesErrorMessage = "The following files already exist in the dataset: " + dupeFileNamesExisting + " (skipping)";
+                duplicateFilesErrorMessage =  getBundleString("file.edit.exist.message") + dupeFileNamesExisting + " " + getBundleString("file.edit.skip.message");
             } else {
-                duplicateFilesErrorMessage = "The following file already exists in the dataset: " + dupeFileNamesExisting;
+                duplicateFilesErrorMessage =  getBundleString("file.edit.exist.message") + dupeFileNamesExisting;
             }
             if (warningMessage == null) {
                 warningMessage = duplicateFilesErrorMessage;
@@ -1954,9 +1957,9 @@ public class EditDatafilesPage implements java.io.Serializable {
         if (dupeFileNamesNew != null) {
             String duplicateFilesErrorMessage = null;
             if (multipleDupesNew) {
-                duplicateFilesErrorMessage = "The following files are duplicates of (an) already uploaded file(s): " + dupeFileNamesNew + " (skipping)";
+                duplicateFilesErrorMessage = getBundleString("file.edit.duplicates.message") + dupeFileNamesNew + " " + getBundleString("file.edit.skip.message");
             } else {
-                duplicateFilesErrorMessage = "The following file is a duplicate of an already uploaded file: " + dupeFileNamesNew + " (skipping)";
+                duplicateFilesErrorMessage = getBundleString("file.edit.duplicate.message") + dupeFileNamesNew  + " " + getBundleString("file.edit.skip.message");
             }
 
             if (warningMessage == null) {
