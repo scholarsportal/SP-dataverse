@@ -294,6 +294,6 @@ var en = {
 	error : {
 		sorry : 'Sorry, the requested page does not exist.',
 		help : 'If you need help, <a href="/#/contact">please let us know</a>.',
-		no_data:'No Data'
+		no_data:''
 	}
 };
