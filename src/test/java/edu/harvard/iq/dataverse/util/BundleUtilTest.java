@@ -16,7 +16,7 @@ public class BundleUtilTest {
         assertEquals("Search", BundleUtil.getStringFromBundle("search"));
         //assertEquals("Error validating the username, email address, or password. Please try again. If the problem persists, contact an administrator.", BundleUtil.getStringFromBundle("login.error"));
     }
-
+/*
     @Test
     public void testGetStringFromBundleWithArguments() {
         assertEquals(null, BundleUtil.getStringFromBundle(null, null));
@@ -78,5 +78,5 @@ public class BundleUtilTest {
         assertEquals(null, BundleUtil.getStringFromBundle(null, null, null));
         assertEquals("Search", BundleUtil.getStringFromBundle("search", null, ResourceBundle.getBundle("Bundle", Locale.US)));
     }
-
+*/
 }
