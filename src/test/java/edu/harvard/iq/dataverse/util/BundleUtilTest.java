@@ -70,7 +70,7 @@ public class BundleUtilTest {
                 + " Also, check for your welcome email to verify your address.",
 
                 BundleUtil.getStringFromBundle("notification.welcome",
-                        Arrays.asList("Root", "<a href=\"http://guides.dataverse.org/en/4.3/user/index.html\">User Guide</a>", "<a href=\"https://demodv.scholarsportal.info\">Demo Site</a>")));
+                        Arrays.asList("Dataverse", "<a href=\"http://guides.dataverse.org/en/4.3/user/index.html\">User Guide</a>", "<a href=\"https://demodv.scholarsportal.info\">Demo Site</a>")));
     }
 
     @Test
