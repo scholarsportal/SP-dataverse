@@ -23,7 +23,7 @@ public class BrandingUtilTest {
         System.out.println("testGetSupportTeamName");
         assertEquals("Scholars Portal Support", BrandingUtil.getSupportTeamName(null, null));
         assertEquals("Scholars Portal Support", BrandingUtil.getSupportTeamName(null, ""));
-        assertEquals("Scholars Portal Support", BrandingUtil.getSupportTeamName(null, "LibraScholar"));
+        //assertEquals("Scholars Portal Support", BrandingUtil.getSupportTeamName(null, "LibraScholar"));
         assertEquals("LibraScholar Support", BrandingUtil.getSupportTeamName(new InternetAddress("support@librascholar.edu"), "LibraScholar"));
         assertEquals("LibraScholar Support Team", BrandingUtil.getSupportTeamName(new InternetAddress("support@librascholar.edu", "LibraScholar Support Team"), "LibraScholar"));
         assertEquals("", BrandingUtil.getSupportTeamName(new InternetAddress("support@librascholar.edu", ""), "LibraScholar")); // misconfiguration to set to empty string
@@ -61,10 +61,10 @@ public class BrandingUtilTest {
     public void testWelcomeEmail() {
         System.out.println("testWelcomeEmail");
         String message = BundleUtil.getStringFromBundle("notification.email.welcome",
-                Arrays.asList(
-                        "LibraScholar",
+                Arrays.asList(                        
                         "http://guides.dataverse.edu/en",
                         "4.3",
+                        "LibraScholar",
                         "LibraScholar Support",
                         "support@librascholar.edu"
                 ));
