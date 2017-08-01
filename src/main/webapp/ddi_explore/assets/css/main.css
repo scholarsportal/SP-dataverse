@@ -6386,7 +6386,7 @@ html {
     padding: 5px;
   }
   #details-page .variables-table {
-    overflow-x: scroll;
+    overflow-x: hidden;
   }
   #details-page .variables-table .row {
     margin-left: 0px;
@@ -6456,27 +6456,29 @@ html {
 	text-align:right;
 }
 #details-content{
-	position:absolute;
-	height:100%;
 	margin:0;
 	padding:0;
-	width:100%;
-	overflow-y:visible;
+	width:100%;  
 }
 #left-half {
-	position:relative;
-	float:left;
-	height:100%;
-	width:50%;
-	overflow-y:auto;
-	overflow-x:hidden;
+overflow:hidden;
+}
+#variables_table_container{
+
+   overflow-x:hidden;
+   overflow-y: scroll;
 }
 #right-half {
-	position:relative;
-	float:left;
-	height:100%;
-	width:50%;
-	overflow-y:auto;
+  position: absolute;
+  left: 120%;
+  background-color: #ffffff;
+  height:100%;
+  display:none;
+}
+.tab_views{
+  overflow-x:auto;
+  overflow-y: auto;
+
 }
 .tabs md-content {
 	background-color: transparent !important; }
@@ -6505,6 +6507,9 @@ html {
 .tr_last > td{
 	border-top-width: 2px !important;
 }
+.td_last {
+  border-left-width: 2px !important;
+}
 .ui-state-hover{
 	background-color: rgba(49, 122, 185, 0.48);
 }
@@ -6531,4 +6536,9 @@ html {
 }
 select > .placeholder {
   display: none;
+}
+#deselect_x{
+  margin-top:15px;
+  margin-right:10px;
+  float:right;
 }

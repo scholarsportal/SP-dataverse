@@ -23,25 +23,36 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 	$scope.sectionModel = {}
 	//
 	$scope.citation="";
-
-	$("#details-content").height($(document).height()-$("#header").height()-$("#title").height()-30)
-	$("#left-half").resizable({handles: 'w,e'});
-	$('#left-half').resize(function(){
-	   $('#right-half').width($("#details-content").width()-$("#left-half").width()); 
-	});
-	$(window).resize(function(){
-	   $('#right-half').width($("#details-content").width()-$("#left-half").width()); 
-	   $('#left-half').height($("#details-content").height()); 
-	});
-	//$(window).trigger('resize');
 	//
 	if($scope.variableClick.params == true) {
 		$scope.active = {matches: true};
 	} else {
 		$scope.active = {abstract: true};
 	};
+	//
+	$(".nav-tabs").append("<span id='deselect_x' class='sortHandle glyphicon glyphicon-remove' style='cursor:pointer;'></span>");
+
+	$( "#deselect_x" ).click(function() {
+	
+	  var temp_array=$cookies.variableCompare.split(",");
+	
+	
+	 	 for (var i = 0; i < temp_array.length; i++){
+ 			for(var j=0;j<sharedVariableStore.getVariableStore().length;j++){
+ 				if(sharedVariableStore.getVariableStore()[j].vid==temp_array[i]){
+					//store the metadata with the object
+					sharedVariableStore.getVariableStore()[j].selected=false
+					break;
+				}
+			}		
+		}
+
+	  $scope.selectedVariable=""
+	  $cookies.variableCompare=""
+	});
+	//
 	var populateVariables = function() {
-		//get a piece of the citatin for display
+		//get a piece of the citation for display
 		var citation_pieces=$scope.details.stdydscr.citation.biblcit["#text"].split(",")
 		$scope.citation=citation_pieces[0]+", "+citation_pieces[1]+", "+citation_pieces[2]
 		//create a reference to a specific link for dataverse
@@ -59,9 +70,19 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 
 				}
 				var chartable=false;
-				if(typeof($scope.details.datadscr['var'][i].variable_data)!="undefined" && typeof($scope.details.datadscr['var'][i].variable_data.plotvalues)!="undefined" && typeof($scope.details.datadscr['var'][i].catgry)!="undefined"){
-						chartable=true
+
+				if(typeof($scope.details.datadscr['var'][i].variable_data)!="undefined" && typeof($scope.details.datadscr['var'][i].variable_data.plotvalues)!="undefined" && typeof($scope.details.datadscr['var'][i].catgry)=="undefined"){
+					chartable=true
+					//artificially create data obj - we likely have value and freq
+					var temp_data=[]
+					for (var j in $scope.details.datadscr['var'][i].variable_data.plotvalues){
+						temp_data.push({labl:{"#text":j}, catvalu:{"#text":j},freq:$scope.details.datadscr['var'][i].variable_data.plotvalues[j]})
+					}
+					//update the catgry for reuse
+					$scope.details.datadscr['var'][i].catgry=temp_data;
 				}
+
+						
 				
 				//if ($scope.details.datadscr['var'][i].labl){
 					
@@ -158,8 +179,18 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 					//}
 					//
 					var index = $scope.surveyVariables.length - 1;
+					//exception for joining prep with details
+
+					if(typeof($scope.surveyVariables[index].sumstat) =="undefined"){
+						//expose the variables to the top level
+						for(j in $scope.surveyVariables[index].fullData.variable_data){
+							$scope.surveyVariables[index][j]=$scope.surveyVariables[index].fullData.variable_data[j]
+						}
+					 	
+					}
 					//since DLIMF does not have a sumstat - check if it exists first before looping
 					if(typeof($scope.details.datadscr['var'][i].sumstat) !="undefined"){
+
 						for (var j = 0; j < $scope.details.datadscr['var'][i].sumstat.length; j++){
 							if (!$scope.details.datadscr['var'][i].sumstat[j].wgtd){
 								if ($scope.details.datadscr['var'][i].sumstat[j].type == 'vald'){
@@ -241,13 +272,12 @@ $scope.viewVariable = function (vl,dir) {
 	if(dir && vl.type && vl.type!=dir){
 		//keep it selected - just update the chart
 		vl.type=dir;
-		angular.element($('#combineModal')).scope().updateDataType();
+		angular.element($('#combineModal')).scope().updateDataType(vl);
 		return
 	}else{
-		if( temp_array.indexOf(id)>-1){
+		if(temp_array.indexOf(id)>-1){
 			//remove the item from the array
 			temp_array.splice( temp_array.indexOf(id),1)
-			delete vl.type;
 		}else{
 			temp_array.unshift(id);
 			
@@ -256,9 +286,17 @@ $scope.viewVariable = function (vl,dir) {
 		vl.selected=!vl.selected;
 	}
 	if(!dir){
-	   dir="row";
+	    dir="row";
+	}else{
+		//show tabular view
+		setTimeout(function(){  $('.nav-tabs a:eq(1)').trigger("click") }, 5);
 	}
-	vl.type=dir;//store the type for Table View (either row or column)
+
+	if(vl.selected){
+		vl.type=dir;//store the type for Table View (either row or column)
+	}else{
+		delete vl.type;
+	}
 	//reset cookie to a string
 	$cookies.variableCompare = temp_array.join(",")
 	$scope.selectedVariable=temp_array;//update the chart watching variable
@@ -412,7 +450,7 @@ $scope.show = {};
       scope: {},
       controller: [ "$scope", function($scope) {
         var panes = $scope.panes = [];
- 
+ 		
         $scope.select = function(pane) {
           angular.forEach(panes, function(pane) {
             pane.selected = false;
@@ -490,3 +528,35 @@ function xmlToJson(xml) {
 	}
 	return obj;
 };
+//adjust the interface size
+$(function() {
+	 $( window ).resize(function() {
+	 	var details_height=$( window ).height()-$("#details-content").position().top-170
+		$('.tab_views').css({height:details_height});
+		$('#variables_table_container').css({height:details_height});
+		$('#right-half').css({top:$("#details-content").offset().top+1, width:$("#details-content").width()/2-10})
+		if($('#right-half').is(":visible")){
+			splitInterface();
+		}else{
+			unsplitInterface()
+		}
+	});
+
+});
+function splitInterface(){
+	var content_width=$("#details-content").width()
+	$('#right-half').stop( true, true ).animate({left: content_width/2+30}, 700);
+	$('#variables_table').css({width: content_width});
+	$('#left-half').stop( true, true ).animate({width: (content_width/2+15)}, 700);
+}
+function unsplitInterface(){
+	var content_width=$("#details-content").width()
+	$('#variables_table').css({width: content_width});
+			$('#left-half').stop( true, true ).animate({width: content_width});
+			$('#right-half').stop( true, true ).animate({left: content_width}, 700,function(){
+				$('#right-half').hide();
+				angular.element($('#combineModal')).scope().combineHTML="";
+				angular.element($('#combineModal')).scope().showing=false;
+			});
+}
+

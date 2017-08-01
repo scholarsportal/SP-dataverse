@@ -273,7 +273,9 @@ var en = {
 		tab_delimited:'Tab-Delimited',
 		rdata_format:'RData Format',
 		variable_metadata:'Variable Metadata',
-		advanced_analysis:'Advanced Analysis'
+		advanced_analysis:'Advanced Analysis',
+		chart_view:'Chart View',
+		table_view:'Table View'
 	},
     contact : {
         head : 'Contact',
@@ -292,6 +294,6 @@ var en = {
 	error : {
 		sorry : 'Sorry, the requested page does not exist.',
 		help : 'If you need help, <a href="/#/contact">please let us know</a>.',
-		no_data:'No Data'
+		no_data:''
 	}
 };
