@@ -19,11 +19,12 @@
 				</div>
 				<div id="right-half">
 					<tabs>
-					    <pane title="{{lang.detailsPage.chart_view}}">
-					      <div class="tab_views" id="chart_view" ng-include="'templates/chart.html'"></div>
+					    
+					    <pane title="Table View" style="padding: 0px;">
+					      <div ng-include="'templates/combine.html'"></div>
 					    </pane>
-					    <pane title="{{lang.detailsPage.table_view}}" style="padding: 0px;">
-					      <div class="tab_views" id="table_view" ng-include="'templates/combine.html'"></div>
+					    <pane title="Chart View">
+					      <div ng-include="'templates/chart.html'"></div>
 					    </pane>
 					</tabs>
 				</div>

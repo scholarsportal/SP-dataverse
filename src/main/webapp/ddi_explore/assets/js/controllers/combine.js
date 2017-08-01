@@ -4,19 +4,11 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 	$scope.loadingTabDetails=false;
 	$scope.bucket_order;
 	$scope.data;//
-	$scope.sharedVariableStore=sharedVariableStore
 	$scope.buckets;//
-	$scope.showing=false;//
 	$scope.pending_requests=0;
 	$scope.box_bg_colors = [
     { pct: 0.0, color: { r: 0xff, g: 0xff, b: 0xff } },
     { pct: 1.0, color: { r: 49, g: 122, b: 185 } } ];
-    //store the mouse position for use in testing drpping of variables
-	$(window).mousemove(function(e){
-      window.mouse_x = e.pageX;
-      window.mouse_y = e.pageY;
-   	}); 
-		$(window).trigger('resize');
 	$scope.$watch ('selectedVariable', function(){
 		
 		$scope.variableCompare=[];//all the selected variables
@@ -24,26 +16,18 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		if($cookies.variableCompare){
 			var temp_array=$cookies.variableCompare.split(",");//because they are stored in an serialized array	
 		}
-		//
-		var content_width=$("#details-content").width()
 		if(temp_array.length==0){
-			unsplitInterface();
+			$scope.combineHTML="";
 			return;
 		}
-		if(!$scope.showing){
-			$('#right-half').show();
-			$(window).trigger('resize');
-			$scope.showing=true;
-		}
-		
 		$scope.loadingTabDetails=true;
 		//----------------------
 		//var url="temp_tab/tab.tab";//temp loading of tab file
 		var url=sharedVariableStore.getVariableStoreURL()+$cookies.variableCompare.split(",").reverse();
 		$scope.pending_requests++;
-		//url should look like this "https://dataverse.harvard.edu/api/access/datafile/2326305?variables=v13184189,v13183932,v13184076",
+		//url should look like this
 		$http({
-		
+			//url:"https://dataverse.harvard.edu/api/access/datafile/2326305?variables=v13184189,v13183932,v13184076",
 			url:url,
 			method: "GET",
 			//params: {requestURL: detailsURL.uri}
@@ -160,10 +144,8 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			}
 			//lets also fix the order of the catagory values
 			var temp_array=[];
-			if(typeof(_data[i].catgry)!="undefined"){
-				for(var j=0; j<_data[i].catgry.length;j++){
-					temp_array.push(_data[i].catgry[j])
-				}
+			for(var j=0; j<_data[i].catgry.length;j++){
+				temp_array.push(_data[i].catgry[j])
 			}
 			temp_array.sort(compare);
 			_data[i].catgry=temp_array;	
@@ -184,30 +166,19 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		}
 	}
 	//called from details.js
-	$scope.updateDataType = function(_obj){
-		var data=$scope.data;
-		var changed_name=_obj.name
-		var changed_pos=0;
-		//update the type
-		for(var i = 0; i < data.length; i++){
-			var name=data[i].name;
-			if(name==changed_name){
-				changed_pos=i;
-			}
+	$scope.updateDataType = function(){
+		var _data=$scope.data;
+		for(var i = 0; i < _data.length; i++){
+			var name=_data[i].name;
 			for(var j=0;j<sharedVariableStore.getVariableStore().length;j++){
 				if(sharedVariableStore.getVariableStore()[j].name==name){
-					//update
-					data[i].type=sharedVariableStore.getVariableStore()[j].type;
+					//store the metadata with the object
+					_data[i].type=sharedVariableStore.getVariableStore()[j].type;
 					break;
 				}
 			}
+			
 		}
-		if(_obj.type=="col"){
-			//if type col move to begining of the list
-			data.move(changed_pos,0)
-		}else{
-			data.move(changed_pos,data.length-1)
-		}	
 		//
 		$scope.groupVariableMetadata();
 		$scope.combineHTML=$scope.getCombinedTable();
@@ -238,7 +209,6 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		//otherwise we can just calculate them based on the cols
 		var var_count=0;
 		var total_col_count=1
-		var total_col_var_count=0;
 		for(var i=0; i<_data.length;i++){
 			if(_data[i].type=="col"){
 				total_col_count*=_data[i].catgry.length;
@@ -257,10 +227,8 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		for(var i=0; i<_data.length;i++){
 			if(_data[i].type=="col"){
 				total_row_count+=1;
-				total_col_var_count+=1;
 			}
 		}
-
 		///
 		var no_rows=true;
 		var single_row=false;
@@ -281,16 +249,16 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			}
 			//break;
 		}
-		//fillout drop box by adding some extra cells to the count
+		//fillout drop box
 		if(single_row){
 			total_col_count+=3
 			total_row_count+=3
 		}else if(single_col){
-			total_col_count+=4
-			total_row_count+=4
+			total_col_count+=2
+			total_row_count+=2
 		}else if(!single_col && !single_row){
-			total_col_count+=4
-			total_row_count+=4
+			total_col_count+=2
+			total_row_count+=2
 		}
 		//doppable row
 		html+="<tr><td id='col_0' class='droppable' colspan='"+(total_col_count+total_row_var_count)+"'></td></tr>";
@@ -329,44 +297,19 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 						repeat_count*=_data[j].catgry.length;
 					}
 				}
-				
-
+				//--------
 				//loop through the results - repeating as neccessary
 				for(var k=0;k<repeat_count;k++){
 					for(var j=0; j<_data[i].catgry.length;j++){
 						var var_label=_data[i].catgry[j].labl['#text'];
 						html+="<td class='"+td_class+" td_center' colspan='"+(span_count)+"'";
-						if(single_col){
-							html+=" rowspan='"+1+"'"
-						}else if(!has_other_col){//set the row span of the last value to overlap the labels
+						if(!has_other_col){//set the row span of the last value to overlap the labels
 							html+=" rowspan='"+2+"'"
 						}
-						html+=">"+var_label+"</td>";
+						html+=">"+var_label+" (%)</td>";
 					}
 				}
-				//and the totals and N col
-				if(i==0){
-					var count=total_col_var_count
-					if(!no_rows){
-						count+=1
-					}
-					html+="<th class='td_value td_center td_last' rowspan='"+count+"'>Total</th>"
-					//
-					html+="<th class='td_value td_center' rowspan='"+count+"'>N</th>"
-				}
-
 				html+="</tr>"
-				//--------
-				if(single_col){
-					html+="<tr><th class='td_value td_center'>Code</th>"
-					for(var j=0; j<_data[i].catgry.length;j++){
-						var cat_val=_data[i].catgry[j].catvalu['#text']
-						html+="<td class='td_value td_center'>"+cat_val+"</td>"
-					}
-					//plus and empty cell since no totals for codes
-					html+="<td></td><td></td>"
-					html+="</tr>"
-				}
 			}
 		}
 		//---------------
@@ -440,8 +383,6 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			col_var_array[0]=[]
 		}
 		//---------
-		var col_pre_totals=[];
-		var col_response_totals=[];
 		for(var j=0; j<total_rows;j++){
 			html+="<tr>"
 			html+=getTableData(row_var_array,j,var_count);//return the rows omiting duplicates
@@ -453,35 +394,18 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 				html+="<td class='td_value td_center'>%</td>"
 			}
 			//------------
-			var row_pre_total=0;
-			var row_response_total=0;
 			for(var k=0; k<col_var_array.length;k++){
 				var bucket_id=getBucketID(col_var_array[k].concat(full_row_var_array[j]),_data,"catvalu")
 				//add the values
 				var bucket_val=getBucketValue(bucket_id)
-				
 				var bucket_per=0;
 				if(bucket_val){
 					bucket_per=Math.round(bucket_val/_tot_responses*100*10)/10
 				}
-				//make sure there's a slot for the col totals
-				if(typeof(col_pre_totals[k])=="undefined"){
-					col_pre_totals[k]=0;
-					col_response_totals[k]=0;
-				}
-				if(isNaN(bucket_val)){
-					bucket_val=0;
-				}
-				row_response_total+=bucket_val;
-				row_pre_total+=bucket_val/_tot_responses;
-				col_pre_totals[k]+=bucket_val/_tot_responses;
-				col_response_totals[k]+=bucket_val;
-
 				//
 				if(mode=="debug"){
 					html+="<td class='td_value td_center'>"+col_var_array[k].concat(full_row_var_array[j])+"</td>"
 				}else{
-					//change the rtext color depending on the percent for visiblility
 					var text_color="#000000";
 					if(bucket_per>50){
 						text_color="#ffffff";
@@ -492,65 +416,23 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 					}
 					html+=bucket_per;
 					html+="</td>";
-					
-
 				}
-			}
-			//add the percent totals
-			if(total_col_var_count!=0){
-				html+="<td class='td_value td_center td_last'>"+getPercent(row_pre_total)+"</td>"
-				html+="<td class='td_value td_center'>"+row_response_total+"</td>"
 			}
 			//-------
 			if(single_row){
-				html+="<td class='td_value td_center'>"+bucket_val+"</td>"
+					html+="<td class='td_value td_center'>"+bucket_val+"</td>"
+
 			}
 			html+="</tr>"
 			totals[0]=Number(totals[0])+Number(bucket_val)
 		}
-		if(single_col){
-			html+="<tr><th class='td_value td_center'>N</th>"
-			for(var j=0; j<_data[0].catgry.length;j++){
-				try{
-					var cat_val=_data[0].catgry[j].catstat['#text']
-				}catch(e){
-					cat_val="";
-				}
-				
-				html+="<td class='td_value td_center'>"+cat_val+"</td>"
-			}
-			//add the response totals
-			html+="<td class='td_value td_center'>"+row_response_total+"</td><td></td>"
-			html+="</tr>"
-		}else if(single_row){
+		if(single_row){
 			//add a row with the totals
 			html+="<tr class='tr_last'>"
-			html+="<th class='td_value'>Total</th>"
+			html+="<td class='"+td_class+"'>Total</td>"
 			html+="<td class='td_value'></td>"
 			html+="<td class='td_value'></td>"
 			html+="<td class='td_value'>"+totals[0]+"</td>"
-			html+="</tr>"
-		}else{
-			html+="<tr class='tr_last'>"
-			html+="<th colspan='"+total_row_var_count+"'>Total</th>"
-			for(var k=0;k<col_pre_totals.length;k++){
-				html+="<td class='td_value td_center'>"+getPercent(col_pre_totals[k])+"</td>"
-			}
-			if(total_col_var_count>0){
-				html+="<td class='td_value td_center td_last'>"+getPercent(1)+"</td><td></td>";
-			}
-			html+="</tr>"
-			//
-			html+="<tr >"
-			html+="<th colspan='"+total_row_var_count+"'>N</th>"
-			var all_responses=0;
-			for(var k=0;k<col_pre_totals.length;k++){
-				all_responses+=col_response_totals[k]
-				html+="<td class='td_value td_center'>"+col_response_totals[k]+"</td>"
-			}
-			if(total_col_var_count>0){
-				html+="<td class='td_last'></td><td class='td_value td_center'>"+all_responses+"</td>";
-			}
 			html+="</tr>"
 		}
 			
@@ -669,32 +551,18 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		      	$("#compare_table .draggable").draggable({
 		        	handle: '.sortHandle',
 		        	opacity: 0.7,
-		        	//containment: "#compare_table",
+		        	containment: "#compare_table",
 		        	start: function(event, ui){
 						$(event.target).css({'z-index': 1000});
 					},
-					 revert : function(event) {
-					 	var rect = $("#compare_table")[0].getBoundingClientRect();
-
-					 	if( window.mouse_y>=rect.top && window.mouse_y<=rect.bottom && window.mouse_x>=rect.left && window.mouse_x<=rect.right){
-					 		try{
+					 revert : function(event, ui) {
+					 	try{
 				            $(this).data("uiDraggable").originalPosition = {
 				                top : 0,
 				                left : 0
 				            };
 				            return !event;
 			       		}catch(e){}
-
-					 	}else{
-							for(var i =0;i<scope.sharedVariableStore.getVariableStore().length;i++){
-								var obj=scope.sharedVariableStore.getVariableStore()[i]
-			            		if(obj.name==$(this).attr('id')){
-					 				angular.element($('#details-page')).scope().viewVariable(obj)
-					 				scope.$apply()
-					 			}
-					 		}
-					 	}
-					 	
 			        },
 					stop: function(event, ui){
 						$(event.target).css({'z-index': 999});	
@@ -715,7 +583,6 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			        	var new_pos;
 			        	var new_type; 
 			        	var old_type;
-
 			            //get the postion for 
 			            if(dropped_id=="row_0"){
 			            	new_pos=0;
@@ -747,12 +614,12 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			            	//revert
 			            	$(ui.draggable).css({'top': 0, 'left' :0})
 			            }else{
-							data.move(curr_pos,new_pos)
-							scope.data=scope.groupVariableMetadata(data);//need to resort since cols draw before rows
-							scope.combineHTML= scope.getCombinedTable();
-							scope.updateVariableStoreType();//triggers interface type (row,col) update
-							scope.$apply()
-							}
+					data.move(curr_pos,new_pos)
+					scope.data=scope.groupVariableMetadata(data);//need to resort since cols draw before rows
+					scope.combineHTML= scope.getCombinedTable();
+					scope.updateVariableStoreType();//triggers interface type (row,col) update
+					scope.$apply()
+					}
 			        }
 			    });
 		        //
@@ -760,13 +627,6 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		}
 	};
 });
-var getPercent=function(_percent){
-	var _percent=Math.round(_percent*100*10)/10;
-	if(_percent % 1 == 0){
-			_percent=String(_percent)+".0";
-	}
-	return _percent
-}
 //http://stackoverflow.com/questions/7128675/from-green-to-red-color-depend-on-percentage
 var getColorForPercentage = function(colors,pct) {
     for (var i = 1; i < colors.length - 1; i++) {
@@ -799,4 +659,3 @@ Array.prototype.move = function (old_index, new_index) {
     this.splice(new_index, 0, this.splice(old_index, 1)[0]);
     return this; // for testing purposes
 };
-

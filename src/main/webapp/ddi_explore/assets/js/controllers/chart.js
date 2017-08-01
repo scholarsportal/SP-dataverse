@@ -26,10 +26,6 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 				//store all properties with the variableCompare object
 				var data = obj_full.catgry;
 				var sumstat = obj_full.sumstat;
-				if(!sumstat){
-					sumstat=obj_full.variable_data
-
-				}
 				var rows = [];
 				var table = [];
 				var summary = [];
@@ -40,7 +36,6 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 						for (var i = 0; i < sumstat.length; i++){ 
 							summary.push({c:[]});
 							if(!sumstat[i].wgtd && !isNaN(parseFloat(sumstat[i]["#text"]))) {
-								
 								summary[i].c.push({v: sumstat[i].type});
 								summary[i].c.push({v: parseFloat(sumstat[i]["#text"])});	
 								
@@ -48,34 +43,12 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 						
 						}
 					}
-					
-					if(summary.length==0){
-						//take the values from the prep file in json
-						for(j in sumstat){
-							if(!isNaN(parseFloat(sumstat[j]))){
-								summary.push({c:[]});
-								var real_name=j
-								if( real_name == "valid" ){
-									real_name ="vald"
-								}else if( real_name == "invalid" ){
-									real_name ="invd"
-								}else if( real_name == "median" ){
-									real_name ="medn"
-								}else if( real_name == "sd" ){
-									real_name ="stdev"
-								}
-								summary[summary.length-1].c.push({v: real_name});
-								summary[summary.length-1].c.push({v: parseFloat(sumstat[j])});	
-							}
-							
-						}
-					}
 					//sort the summary
 					var summary_order=["vald","invd","max","min","mean","medn","mode","stdev"];
 					var summary_ordered=[]
 					for (var i = 0; i < summary.length; i++){ 
 						//make sure the value is available
-						if(typeof(summary[i].c[0])!=="undefined" && $.inArray(summary[i].c[0].v,summary_order)>-1){
+						if(typeof(summary[i].c[0])!=="undefined"){
 							summary_ordered[$.inArray(summary[i].c[0].v,summary_order)]=summary[i]
 						}
 					}
@@ -101,7 +74,12 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 					if(typeof(_variableData)=="undefined" || typeof(_variableData.plotvalues)=="undefined"){
 						return	
 					}else{
-						data=sharedVariableStore.getVariableStore()[k].catgry;
+						//artificially create data obj - we likely have value and freq
+						var temp_data=[]
+						for (var i in _variableData.plotvalues){
+							temp_data.push({labl:{"#text":i}, catvalu:{"#text":i},freq:_variableData.plotvalues[i]})
+						}
+						data = temp_data
 					}
 					
 				}

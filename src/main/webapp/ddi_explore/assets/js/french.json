@@ -271,9 +271,7 @@ var fr = {
 		tab_delimited:'Onglet délimité',
 		rdata_format:'Format RData',
 		variable_metadata:'Métadonnées variable',
-		advanced_analysis:'Analyse avancée',
-		chart_view:'Vue Graphique',
-		table_view:'Vue sur la table'
+		advanced_analysis:'Analyse avancée'
 	},
     contact : {
         head : 'Contactez-nous',
@@ -292,6 +290,6 @@ var fr = {
 	error : {
 		sorry : 'Désolé, la page demandée n\'existe pas sur ce site.',
 		help : '<a href="/#/contact">Faites-nous savoir si vous avez besoin d\'aide</a>.',
-		no_data:''
+		no_data:'Pas de données'
 	}
 };

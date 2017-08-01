@@ -6386,7 +6386,7 @@ html {
     padding: 5px;
   }
   #details-page .variables-table {
-    overflow-x: hidden;
+    overflow-x: scroll;
   }
   #details-page .variables-table .row {
     margin-left: 0px;
@@ -6456,29 +6456,27 @@ html {
 	text-align:right;
 }
 #details-content{
+	position:absolute;
+	height:100%;
 	margin:0;
 	padding:0;
-	width:100%;  
+	width:100%;
+	overflow-y:visible;
 }
 #left-half {
-overflow:hidden;
-}
-#variables_table_container{
-
-   overflow-x:hidden;
-   overflow-y: scroll;
+	position:relative;
+	float:left;
+	height:100%;
+	width:50%;
+	overflow-y:auto;
+	overflow-x:hidden;
 }
 #right-half {
-  position: absolute;
-  left: 120%;
-  background-color: #ffffff;
-  height:100%;
-  display:none;
-}
-.tab_views{
-  overflow-x:auto;
-  overflow-y: auto;
-
+	position:relative;
+	float:left;
+	height:100%;
+	width:50%;
+	overflow-y:auto;
 }
 .tabs md-content {
 	background-color: transparent !important; }
@@ -6506,9 +6504,6 @@ overflow:hidden;
 }
 .tr_last > td{
 	border-top-width: 2px !important;
-}
-.td_last {
-  border-left-width: 2px !important;
 }
 .ui-state-hover{
 	background-color: rgba(49, 122, 185, 0.48);
