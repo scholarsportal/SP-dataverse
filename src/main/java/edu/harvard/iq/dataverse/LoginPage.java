@@ -194,9 +194,11 @@ public class LoginPage implements java.io.Serializable {
     			e.printStackTrace();
     		}
             
-            
             ///
-            redirectPage = "%2Fdataverse.xhtml%3Falias%3D"+alias;//works like a charm
+            if(!redirectPage.contains(".xhtml") && !redirectPage.contains("/dataverse/")){
+             redirectPage = "%2Fdataverse.xhtml%3Falias%3D"+alias;
+             logger.log(Level.FINE, "redirect to affiliate dataverse", redirectPage);
+            }
             if ("dataverse.xhtml".equals(redirectPage)) {
                 redirectPage = redirectPage + "&alias=" + dataverseService.findRootDataverse().getAlias();
             }
