@@ -7,7 +7,7 @@
 		<span class="formlabel btn-padding"><span class="badge ng-binding">{{filtered.length}}</span> {{lang.detailsPage.results}}</span>
 		<select id="download" ng-model="my_option" class="form-control btn-padding" ng-change="downloadData(my_option);reset()">
 			<option value="0" label="{{lang.detailsPage.download}}" class="placeholder" selected >{{lang.detailsPage.download}}</option>
-			<option value="5" label="{{lang.detailsPage.download_selected_variables}}" ng-disabled="has_no_selection">{{lang.detailsPage.download_selected}}</option>
+			<option value="5" label="{{lang.detailsPage.download_selected}}" ng-disabled="has_no_selection">{{lang.detailsPage.download_selected}}</option>
 			<option value="1" label="{{lang.detailsPage.orig_file_format}}">{{lang.detailsPage.orig_file_format}}</option>
 			<option value="2" label="{{lang.detailsPage.tab_delimited}}">{{lang.detailsPage.tab_delimited}}</option>
 			<option value="3" label="{{lang.detailsPage.rdata_format}}">{{lang.detailsPage.rdata_format}}</option>
