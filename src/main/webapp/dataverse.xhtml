@@ -685,7 +685,7 @@
 				Dataverse est une plateforme de données accessible au public, sécurisée et organisée. La plateforme est ouverte aux chercheurs et au public; ils peuvent déposer et partager des données de recherche ouvertement avec quiconque dans le monde.
 			</p>
 			<p>	
-				<b>Pour de plus amples renseignements sur la mise en œuvre de Dataverse dans votre établissement ou pour toute demande générale, veuillez nous contacter à <h:outputLink value="mailto:dataverse@scholarsportal.info" target="_blank">dataverse@scholarsportal.info</h:outputLink></b>	
+                            <b>Pour de plus amples renseignements sur la mise en œuvre de Dataverse dans votre établissement ou pour toute demande générale, veuillez nous contacter à <span class="e_mail"></span></b>	
 			</p>
 		</div>
 				</div>
@@ -822,7 +822,7 @@
 				Dataverse is a publically accessible, secure and curated data repository platform, open to researchers and the public to deposit and share research data openly with anyone in the world.
 			</p>
 			<p>
-				<b>For more information about Dataverse at your institution or for general inquiries, please contact us at <h:outputLink value="mailto:dataverse@scholarsportal.info" target="_blank">dataverse@scholarsportal.info</h:outputLink></b>
+				<b>For more information about Dataverse at your institution or for general inquiries, please contact us at  <span class="e_mail"></span></b>
 			</p>
 		</div>
 				</div>
@@ -1010,6 +1010,9 @@
                     $(document).ready(function () {
                         initPopover();
                         initCarousel();
+                        //set the email
+                        var e_mail='dataverse'+'@'+'scholarsportal.info';
+                        $(".e_mail").html('<a target="_blank" href="mailto:' + e_mail + '">' + e_mail + '</a>')
                     });
 
                     function initCarousel() {
