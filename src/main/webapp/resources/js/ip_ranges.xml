@@ -1,3 +1,4 @@
+
 <?xml version="1.0" encoding="UTF-8"?>
 <entitlements>
   <group name="ADMIN" alias="ocul" title="Admin">
@@ -7,7 +8,6 @@
       <pattern>142.150.192.116</pattern>
       <pattern>142.150.192.124</pattern>
       <pattern>142.150.192.144</pattern>
-      <pattern>142.150.192.152</pattern>
       <pattern>142.150.192.156</pattern>
       <pattern>142.150.192.194</pattern>
       <pattern>142.150.192.213</pattern>
@@ -37,20 +37,22 @@
     </patterns>
     <collections>
       <collection>OGDE</collection>
-      <collection>OCUL</collection>
-      <collection>DMTI</collection>
-      <collection>SSV</collection>
-      <collection>DLI</collection>
       <collection>IPY</collection>
-      <collection>Western</collection>
+      <collection>DLI</collection>
+      <collection>CityOfToronto</collection>
+      <collection>York</collection>
       <collection>OpenContent</collection>
+      <collection>CityOfMississauga</collection>
+      <collection>ESRI</collection>
+      <collection>SSV</collection>
+      <collection>Western</collection>
+      <collection>Brock</collection>
+      <collection>CityOfCambridge</collection>
+      <collection>DMTI</collection>
       <collection>NEW</collection>
       <collection>Guelph</collection>
-      <collection>York</collection>
-      <collection>ESRI</collection>
-      <collection>CityOfToronto</collection>
+      <collection>OCUL</collection>
       <collection>TRY</collection>
-      <collection>Brock</collection>
     </collections>
   </group>
   <group name="ALGOMA" alias="ALGOMA" title="Algoma University">
@@ -120,15 +122,16 @@
       <pattern>68.171.65.192-223</pattern>
     </patterns>
     <collections>
+      <collection>CityOfMississauga</collection>
       <collection>Western</collection>
-      <collection>ESRI</collection>
-      <collection>SSV</collection>
-      <collection>Guelph</collection>
-      <collection>OpenContent</collection>
-      <collection>OGDE</collection>
       <collection>OCUL</collection>
       <collection>DMTI</collection>
       <collection>NEW</collection>
+      <collection>OGDE</collection>
+      <collection>ESRI</collection>
+      <collection>OpenContent</collection>
+      <collection>Guelph</collection>
+      <collection>SSV</collection>
       <collection>DLI</collection>
     </collections>
   </group>
@@ -165,13 +168,12 @@
       <pattern>209.226.88.26</pattern>
     </patterns>
     <collections>
-      <collection>OpenContent</collection>
-      <collection>OGDE</collection>
-      <collection>DMTI</collection>
       <collection>DLI</collection>
-      <collection>ESRI</collection>
+      <collection>OGDE</collection>
       <collection>Western</collection>
+      <collection>OpenContent</collection>
       <collection>OCUL</collection>
+      <collection>ESRI</collection>
     </collections>
   </group>
   <group name="LAURIER" alias="oculwlu" title="Wilfrid Laurier University">
@@ -181,17 +183,19 @@
       <pattern>192.54.242.*</pattern>
       <pattern>205.189.16-31.*</pattern>
       <pattern>216.249.48-63.*</pattern>
-      <pattern>66.207.117.138</pattern>
+      <pattern>66.207.116.185-190</pattern>
       <pattern>66.207.117.152-159</pattern>
     </patterns>
     <collections>
-      <collection>OpenContent</collection>
-      <collection>OGDE</collection>
       <collection>DMTI</collection>
+      <collection>OGDE</collection>
       <collection>DLI</collection>
-      <collection>ESRI</collection>
+      <collection>CityOfCambridge</collection>
+      <collection>OpenContent</collection>
       <collection>Western</collection>
+      <collection>ESRI</collection>
       <collection>OCUL</collection>
+      <collection>CityOfMississauga</collection>
     </collections>
   </group>
   <group name="LEANNE" alias="leanne" title="Leanne for testing">
@@ -217,23 +221,27 @@
       <pattern>130.113.*.*</pattern>
     </patterns>
     <collections>
-      <collection>DLI</collection>
-      <collection>SSV</collection>
+      <collection>CityOfMississauga</collection>
       <collection>Western</collection>
-      <collection>OpenContent</collection>
-      <collection>OGDE</collection>
       <collection>OCUL</collection>
       <collection>DMTI</collection>
+      <collection>OGDE</collection>
       <collection>ESRI</collection>
+      <collection>OpenContent</collection>
+      <collection>SSV</collection>
+      <collection>DLI</collection>
     </collections>
   </group>
   <group name="NIPISSING" alias="oculnu" title="Nipissing University">
     <patterns>
       <pattern>*.nipissingu.ca</pattern>
+      <pattern>192.139.245.*</pattern>
       <pattern>192.197.167.*</pattern>
+      <pattern>198.96.76.*</pattern>
       <pattern>198.98.76-79.*</pattern>
       <pattern>204.187.16-31.*</pattern>
       <pattern>206.248.120-129.*</pattern>
+      <pattern>209.105.210.118</pattern>
     </patterns>
     <collections>
       <collection>OpenContent</collection>
@@ -330,18 +338,19 @@
       <pattern>141.117.*.*</pattern>
     </patterns>
     <collections>
-      <collection>OGDE</collection>
-      <collection>OCUL</collection>
-      <collection>DMTI</collection>
-      <collection>SSV</collection>
-      <collection>Ryerson</collection>
-      <collection>DLI</collection>
+      <collection>CityOfMississauga</collection>
       <collection>Western</collection>
-      <collection>OpenContent</collection>
-      <collection>NEW</collection>
-      <collection>ESRI</collection>
-      <collection>CityOfToronto</collection>
+      <collection>OCUL</collection>
       <collection>TRY</collection>
+      <collection>DMTI</collection>
+      <collection>NEW</collection>
+      <collection>CityOfToronto</collection>
+      <collection>OGDE</collection>
+      <collection>ESRI</collection>
+      <collection>OpenContent</collection>
+      <collection>SSV</collection>
+      <collection>DLI</collection>
+      <collection>Ryerson</collection>
     </collections>
   </group>
   <group name="TEST" alias="test" title="Used for testing">
@@ -393,18 +402,19 @@
       <pattern>99.202.104.66</pattern>
     </patterns>
     <collections>
-      <collection>OCUL</collection>
-      <collection>SSV</collection>
-      <collection>DMTI</collection>
-      <collection>DLI</collection>
       <collection>Western</collection>
-      <collection>OpenContent</collection>
-      <collection>NEW</collection>
-      <collection>ESRI</collection>
-      <collection>CityOfToronto</collection>
+      <collection>OCUL</collection>
       <collection>TRY</collection>
+      <collection>DMTI</collection>
+      <collection>NEW</collection>
+      <collection>CityOfToronto</collection>
       <collection>OGDE</collection>
+      <collection>ESRI</collection>
       <collection>UofT</collection>
+      <collection>OpenContent</collection>
+      <collection>CityOfMississauga</collection>
+      <collection>SSV</collection>
+      <collection>DLI</collection>
     </collections>
   </group>
   <group name="TRENT" alias="ocultrent" title="Trent University">
@@ -417,15 +427,16 @@
       <pattern>209.42.96-127.*</pattern>
     </patterns>
     <collections>
-      <collection>NEW</collection>
-      <collection>DMTI</collection>
-      <collection>OpenContent</collection>
-      <collection>OCUL</collection>
-      <collection>Trent</collection>
-      <collection>OGDE</collection>
-      <collection>DLI</collection>
-      <collection>ESRI</collection>
+      <collection>CityOfMississauga</collection>
       <collection>Western</collection>
+      <collection>OCUL</collection>
+      <collection>DMTI</collection>
+      <collection>NEW</collection>
+      <collection>OGDE</collection>
+      <collection>ESRI</collection>
+      <collection>OpenContent</collection>
+      <collection>Trent</collection>
+      <collection>DLI</collection>
     </collections>
   </group>
   <group name="UOIT" alias="oculuoit" title="University of Ontario Institute of Technology (UOIT)">
@@ -436,11 +447,13 @@
       <pattern>205.211.181.68</pattern>
     </patterns>
     <collections>
+      <collection>CityOfMississauga</collection>
+      <collection>Western</collection>
+      <collection>DLI</collection>
       <collection>OpenContent</collection>
       <collection>OCUL</collection>
-      <collection>DLI</collection>
+      <collection>OGDE</collection>
       <collection>ESRI</collection>
-      <collection>Western</collection>
     </collections>
   </group>
   <group name="WATERLOO" alias="oculwaterloo" title="University of Waterloo">
@@ -449,16 +462,18 @@
       <pattern>129.97.*.*</pattern>
     </patterns>
     <collections>
-      <collection>SSV</collection>
       <collection>DLI</collection>
-      <collection>Western</collection>
-      <collection>OpenContent</collection>
-      <collection>NEW</collection>
-      <collection>ESRI</collection>
       <collection>CityOfToronto</collection>
+      <collection>OpenContent</collection>
+      <collection>CityOfMississauga</collection>
+      <collection>ESRI</collection>
+      <collection>Western</collection>
+      <collection>SSV</collection>
+      <collection>CityOfCambridge</collection>
       <collection>DMTI</collection>
-      <collection>OCUL</collection>
+      <collection>NEW</collection>
       <collection>OGDE</collection>
+      <collection>OCUL</collection>
     </collections>
   </group>
   <group name="WESTERN" alias="uwo" title="The University of Western Ontario">
@@ -468,13 +483,14 @@
       <pattern>216.17.121.145</pattern>
     </patterns>
     <collections>
-      <collection>OpenContent</collection>
-      <collection>OCUL</collection>
-      <collection>OGDE</collection>
-      <collection>DMTI</collection>
-      <collection>DLI</collection>
-      <collection>ESRI</collection>
       <collection>Western</collection>
+      <collection>OCUL</collection>
+      <collection>DMTI</collection>
+      <collection>OGDE</collection>
+      <collection>ESRI</collection>
+      <collection>OpenContent</collection>
+      <collection>CityOfMississauga</collection>
+      <collection>DLI</collection>
     </collections>
   </group>
   <group name="WINDSOR" alias="oculwindsor" title="University of Windsor">
@@ -503,33 +519,19 @@
       <pattern>65.220.22.201</pattern>
     </patterns>
     <collections>
+      <collection>Western</collection>
+      <collection>OCUL</collection>
+      <collection>York</collection>
+      <collection>TRY</collection>
       <collection>DMTI</collection>
+      <collection>NEW</collection>
+      <collection>CityOfToronto</collection>
+      <collection>OGDE</collection>
+      <collection>ESRI</collection>
+      <collection>OpenContent</collection>
+      <collection>CityOfMississauga</collection>
       <collection>SSV</collection>
       <collection>DLI</collection>
-      <collection>Western</collection>
-      <collection>NEW</collection>
-      <collection>OpenContent</collection>
-      <collection>York</collection>
-      <collection>ESRI</collection>
-      <collection>CityOfToronto</collection>
-      <collection>TRY</collection>
-      <collection>OCUL</collection>
-      <collection>OGDE</collection>
-    </collections>
-  </group>
-  <group name="CALGARY" alias="oculcalgary" title="University of Calgary">
-    <patterns>
-      <pattern>136.159.*.*</pattern>
-      <pattern>78.100.106.154</pattern>
-    </patterns>
-    <collections>
-    </collections>
-  </group>
-  <group name="REGINA" alias="oculregina" title="University of Regina">
-    <patterns>
-      <pattern>142.0.0-16</pattern>
-    </patterns>
-    <collections>
     </collections>
   </group>
 </entitlements>
