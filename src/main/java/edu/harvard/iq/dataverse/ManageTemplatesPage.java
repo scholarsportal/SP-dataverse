@@ -21,7 +21,7 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-
+import edu.harvard.iq.dataverse.util.BundleUtil;
 /**
  *
  * @author skraffmiller
@@ -110,7 +110,7 @@ public class ManageTemplatesPage implements java.io.Serializable {
 
     public String cloneTemplate(Template templateIn) {
         Template newOne = templateIn.cloneNewTemplate(templateIn);
-        String name = "Copy of " + templateIn.getName();
+        String name = BundleUtil.getStringFromBundle("page.copy") +" " + templateIn.getName();
         newOne.setName(name);
         newOne.setUsageCount(new Long(0));
         newOne.setCreateTime(new Timestamp(new Date().getTime()));
