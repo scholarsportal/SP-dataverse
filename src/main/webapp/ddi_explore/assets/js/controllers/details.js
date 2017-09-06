@@ -29,6 +29,28 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
 	} else {
 		$scope.active = {abstract: true};
 	};
+	//
+	$(".nav-tabs").append("<span id='deselect_x' class='sortHandle glyphicon glyphicon-remove' style='cursor:pointer;'></span>");
+
+	$( "#deselect_x" ).click(function() {
+	
+	  var temp_array=$cookies.variableCompare.split(",");
+	
+	
+	 	 for (var i = 0; i < temp_array.length; i++){
+ 			for(var j=0;j<sharedVariableStore.getVariableStore().length;j++){
+ 				if(sharedVariableStore.getVariableStore()[j].vid==temp_array[i]){
+					//store the metadata with the object
+					sharedVariableStore.getVariableStore()[j].selected=false
+					break;
+				}
+			}		
+		}
+
+	  $scope.selectedVariable=""
+	  $cookies.variableCompare=""
+	});
+	//
 	var populateVariables = function() {
 		//get a piece of the citation for display
 		var citation_pieces=$scope.details.stdydscr.citation.biblcit["#text"].split(",")

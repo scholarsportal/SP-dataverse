@@ -6537,3 +6537,8 @@ overflow:hidden;
 select > .placeholder {
   display: none;
 }
+#deselect_x{
+  margin-top:15px;
+  margin-right:10px;
+  float:right;
+}
