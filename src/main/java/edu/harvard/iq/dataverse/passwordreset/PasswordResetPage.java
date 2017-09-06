@@ -20,6 +20,7 @@ import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
 import org.hibernate.validator.constraints.NotBlank;
+import edu.harvard.iq.dataverse.util.BundleUtil;
 
 @ViewScoped
 @Named("PasswordResetPage")
@@ -104,7 +105,7 @@ public class PasswordResetPage implements java.io.Serializable {
                  */
                 logger.log(Level.INFO, "Couldn''t find single account using {0}", emailAddress);
             }
-            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, ResourceBundle.getBundle("Bundle").getString("passwordReset.initiated"), ""));
+            FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, BundleUtil.getStringFromBundle("passwordReset.initiated"), ""));
         } catch (PasswordResetException ex) {
             /**
              * @todo do we really need a special exception for this??
