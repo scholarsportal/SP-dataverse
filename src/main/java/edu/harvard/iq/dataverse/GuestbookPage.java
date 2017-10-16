@@ -322,7 +322,7 @@ public class GuestbookPage implements java.io.Serializable {
             //logger.severe(ex.getMessage());
         }
         editMode = null;
-        String msg = (create)? "The guestbook has been created.": "The guestbook has been edited and saved.";
+        String msg = (create)? BundleUtil.getStringFromBundle("dataset.manageGuestbooks.message.createdSuccess"): BundleUtil.getStringFromBundle("dataset.manageGuestbooks.message.editsavedSuccess");
         JsfHelper.addFlashMessage(msg);
         return "/manage-guestbooks.xhtml?dataverseId=" + dataverse.getId() + "&faces-redirect=true";
     }
