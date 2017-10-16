@@ -615,26 +615,26 @@ public final class DatasetVersionDifference {
 
         if (addedFiles.size() > 0) {
             //retString = "Files (Added: " + addedFiles.size();
-            retString = BundleUtil.getStringFromBundle("dataset.version.file.added", Arrays.asList(addedFiles.size()));
+            retString = BundleUtil.getStringFromBundle("dataset.version.file.added", Arrays.asList(addedFiles.size()+""));
         }
 
         if (removedFiles.size() > 0) {
             if (retString.isEmpty()) {
                 //retString = "Files (Removed: " + removedFiles.size();
-            	retString = BundleUtil.getStringFromBundle("dataset.version.file.removed", Arrays.asList(removedFiles.size()));
+            	retString = BundleUtil.getStringFromBundle("dataset.version.file.removed", Arrays.asList(removedFiles.size()+""));
             } else {
                 //retString += "; Removed: " + removedFiles.size();
-            	retString += BundleUtil.getStringFromBundle("dataset.version.file.removed2", Arrays.asList(removedFiles.size()));
+            	retString += BundleUtil.getStringFromBundle("dataset.version.file.removed2", Arrays.asList(removedFiles.size()+""));
             }
         }
         
         if (replacedFiles.size() > 0) {
             if (retString.isEmpty()) {
                 //retString = "Files (Replaced: " + replacedFiles.size();
-                retString = BundleUtil.getStringFromBundle("dataset.version.file.replaced", Arrays.asList(replacedFiles.size()));
+                retString = BundleUtil.getStringFromBundle("dataset.version.file.replaced", Arrays.asList(replacedFiles.size()+""));
             } else {
                 //retString += "; Replaced: " + replacedFiles.size();
-                retString += BundleUtil.getStringFromBundle("dataset.version.file.replaced2", Arrays.asList(replacedFiles.size()));
+                retString += BundleUtil.getStringFromBundle("dataset.version.file.replaced2", Arrays.asList(replacedFiles.size()+""));
             }
         }
         
@@ -642,10 +642,10 @@ public final class DatasetVersionDifference {
         if (changedFileMetadata.size() > 0) {
             if (retString.isEmpty()) {
                 //retString = "Files (Changed File Metadata: " + changedFileMetadata.size() / 2;
-            	retString = BundleUtil.getStringFromBundle("dataset.version.file.changed", Arrays.asList(changedFileMetadata.size() / 2));
+            	retString = BundleUtil.getStringFromBundle("dataset.version.file.changed", Arrays.asList(changedFileMetadata.size() / 2+""));
             } else {
                 //retString += "; Changed File Metadata: " + changedFileMetadata.size() / 2;
-            	retString += BundleUtil.getStringFromBundle("dataset.version.file.changed2", Arrays.asList(changedFileMetadata.size() / 2));
+            	retString += BundleUtil.getStringFromBundle("dataset.version.file.changed2", Arrays.asList(changedFileMetadata.size() / 2+""));
             }
         }
 
