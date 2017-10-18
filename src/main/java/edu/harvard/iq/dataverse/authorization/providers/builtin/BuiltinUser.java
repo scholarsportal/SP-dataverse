@@ -43,9 +43,9 @@ public class BuiltinUser implements Serializable {
     private Long id;
 
 
-    @NotBlank(message = "Please enter a username.")
+    @NotBlank(message = "{user.enterUsername}")
     @Size(min=2, max=60, message ="Username must be between 2 and 60 characters.")
-    @ValidateUserName(message = "Found an illegal character(s). Valid characters are a-Z, 0-9, '_', '-', and '.'.")
+    @ValidateUserName(message = "{user.ilegalCharacters}")
     @Column(nullable = false, unique=true)  
     private String userName;
 

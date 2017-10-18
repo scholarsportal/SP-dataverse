@@ -94,7 +94,7 @@ public class Dataset extends DvObjectContainer {
     @Temporal(value = TemporalType.TIMESTAMP)
     private Date lastExportTime;
 
-    @NotBlank(message = "Please enter an identifier for your dataset.")
+    @NotBlank(message = "{dataset.identifier}")
     @Column(nullable = false)
     private String identifier;
     @OneToMany(mappedBy = "dataset", orphanRemoval = true, cascade = {CascadeType.REMOVE, CascadeType.MERGE, CascadeType.PERSIST})
