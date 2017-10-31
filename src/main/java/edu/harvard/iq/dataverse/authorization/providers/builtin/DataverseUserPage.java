@@ -373,11 +373,14 @@ public class DataverseUserPage implements java.io.Serializable {
                                                                    : "Your account information has been successfully updated.");
             if (!emailBeforeUpdate.equals(emailAfterUpdate)) {
                 String expTime = ConfirmEmailUtil.friendlyExpirationTime(systemConfig.getMinutesUntilConfirmEmailTokenExpires());
+                /*
                 msg.append(" Your email address has changed and must be re-verified. Please check your inbox at ")
                         .append(currentUser.getEmail())
                         .append(" and follow the link we've sent. \n\nAlso, please note that the link will only work for the next ")
                         .append(expTime)
                         .append(" before it has expired.");
+                */
+                List<String> args = Arrays.asList(currentUser.getEmail(),expTime);
                 // delete unexpired token, if it exists (clean slate)
                 confirmEmailService.deleteTokenForUser(currentUser);
                 try {
@@ -386,9 +389,12 @@ public class DataverseUserPage implements java.io.Serializable {
                     logger.log(Level.INFO, "Unable to send email confirmation link to user id {0}", savedUser.getId());
                 }
                 session.setUser(currentUser);
-                JsfHelper.addSuccessMessage(msg.toString());
+                //JsfHelper.addSuccessMessage(msg.toString());
+                JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("confirmEmail.changed", args));
+                
             } else {
-                JsfHelper.addFlashMessage(msg.toString());
+                //JsfHelper.addFlashMessage(msg.toString());
+            	JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("confirmEmail.changed", args));
             }
             return null;
         }

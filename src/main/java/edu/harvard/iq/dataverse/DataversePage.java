@@ -726,7 +726,7 @@ public class DataversePage implements java.io.Serializable {
     public String saveLinkedDataverse() {
 
         if (linkingDataverseId == null) {
-            JsfHelper.addSuccessMessage("You must select a linking dataverse.");
+            JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("dataverse.linking"));
             return "";
         }
 

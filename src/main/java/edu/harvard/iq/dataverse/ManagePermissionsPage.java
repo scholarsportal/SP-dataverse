@@ -20,6 +20,7 @@ import edu.harvard.iq.dataverse.engine.command.impl.UpdateDataverseDefaultContri
 import edu.harvard.iq.dataverse.util.JsfHelper;
 import static edu.harvard.iq.dataverse.util.JsfHelper.JH;
 import edu.harvard.iq.dataverse.util.StringUtil;
+
 import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -31,6 +32,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
 import javax.ejb.EJB;
 import javax.faces.application.FacesMessage;
 import javax.faces.event.ActionEvent;
@@ -39,7 +41,9 @@ import javax.inject.Inject;
 import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+
 import org.apache.commons.lang.StringEscapeUtils;
+
 import edu.harvard.iq.dataverse.util.BundleUtil;
 
 /**
@@ -467,7 +471,15 @@ public class ManagePermissionsPage implements java.io.Serializable {
 
             String privateUrlToken = null;
             commandEngine.submit(new AssignRoleCommand(ra, r, dvObject, dvRequestService.getDataverseRequest(), privateUrlToken));
-            JsfHelper.addSuccessMessage(r.getName() + " role assigned to " + ra.getDisplayInfo().getTitle() + " for " + StringEscapeUtils.escapeHtml(dvObject.getDisplayName()) + ".");
+            
+            List<String> args = Arrays.asList(
+            		r.getName(),
+            		ra.getDisplayInfo().getTitle(),
+            		StringEscapeUtils.escapeHtml(dvObject.getDisplayName())
+            		);
+            JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("permission.roleAssignedToFor", args));
+            
+            //JsfHelper.addSuccessMessage(r.getName() + " role assigned to " + ra.getDisplayInfo().getTitle() + " for " + StringEscapeUtils.escapeHtml(dvObject.getDisplayName()) + ".");
 
             // don't notify if role = file downloader and object is not released
             if (!(r.getAlias().equals(DataverseRole.FILE_DOWNLOADER) && !dvObject.isReleased()) ){

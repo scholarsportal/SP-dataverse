@@ -40,6 +40,7 @@ import javax.inject.Named;
 import javax.validation.ConstraintViolation;
 import org.primefaces.component.tabview.TabView;
 import org.primefaces.event.TabChangeEvent;
+import edu.harvard.iq.dataverse.util.BundleUtil;
 
 /**
  *
@@ -484,7 +485,7 @@ public class FilePage implements java.io.Serializable {
         }
 
 
-        JsfHelper.addSuccessMessage(JH.localize("file.message.editSuccess"));
+        JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("file.message.editSuccess"));
         setVersion("DRAFT");
         return "";
     }
