@@ -268,7 +268,7 @@ public class DataverseUserPage implements java.io.Serializable {
             ((UIInput) toValidate).setValid(false);
 
             FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, 
-                JH.localize("userPage.passwordError"), JH.localize("userPage.newPasswordBlankRetype"));
+                BundleUtil.getStringFromBundle("userPage.passwordError"), BundleUtil.getStringFromBundle("userPage.newPasswordBlankRetype"));
 
             context.addMessage(toValidate.getClientId(context), message);
             return;
@@ -285,8 +285,8 @@ public class DataverseUserPage implements java.io.Serializable {
         boolean passwordIsComplexEnough = password!= null && validator.validatePassword(password);
         if (!passwordIsComplexEnough) {
             ((UIInput) toValidate).setValid(false);
-            String messageDetail = java.text.MessageFormat.format(JH.localize("userPage.passwordNotComplex"), new Object[] {minPasswordLength});
-            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, JH.localize("userPage.passwordError"), messageDetail);
+            String messageDetail = java.text.MessageFormat.format(BundleUtil.getStringFromBundle("userPage.passwordNotComplex"), new Object[] {minPasswordLength});
+            FacesMessage message = new FacesMessage(FacesMessage.SEVERITY_ERROR, BundleUtil.getStringFromBundle("userPage.passwordError"), messageDetail);
             context.addMessage(toValidate.getClientId(context), message);
         }
     }
@@ -369,8 +369,8 @@ public class DataverseUserPage implements java.io.Serializable {
             String emailAfterUpdate = savedUser.getEmail();
             editMode = null;
 
-            StringBuilder msg = new StringBuilder( passwordChanged ? "Your account password has been successfully changed." 
-                                                                   : "Your account information has been successfully updated.");
+            StringBuilder msg = new StringBuilder( passwordChanged ? "userPage.passwordChanged" 
+                                                                   : "userPage.informationUpdated");
             if (!emailBeforeUpdate.equals(emailAfterUpdate)) {
                 String expTime = ConfirmEmailUtil.friendlyExpirationTime(systemConfig.getMinutesUntilConfirmEmailTokenExpires());
                 /*
@@ -393,8 +393,8 @@ public class DataverseUserPage implements java.io.Serializable {
                 JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("confirmEmail.changed", args));
                 
             } else {
-                //JsfHelper.addFlashMessage(msg.toString());
-            	JsfHelper.addSuccessMessage(BundleUtil.getStringFromBundle("confirmEmail.changed", args));
+                JsfHelper.addFlashMessage(BundleUtil.getStringFromBundle(msg.toString()));
+            	
             }
             return null;
         }
