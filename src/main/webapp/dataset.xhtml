@@ -13,7 +13,7 @@
     <h:head>
     </h:head>
     <h:body>
-    <f:view locale="#{dataverseLocale.locale.language}">
+     
         <ui:composition template="/dataverse_template.xhtml">
             <ui:param name="pageTitle" value="#{DatasetPage.editMode == 'CREATE' ? bundle['dataset.pageTitle'] : DatasetPage.workingVersion.title} - #{DatasetPage.dataset.owner.name}"/>
             <ui:param name="dataverse" value="#{DatasetPage.dataset.owner}"/>
@@ -1488,6 +1488,6 @@
                 </script>
             </ui:define>
         </ui:composition>
-        </f:view>
+        
     </h:body>
 </html>
