@@ -10,6 +10,7 @@
     </h:head>
 
     <h:body>
+    <f:view locale="#{dataverseLocale.locale.language}">
         <ui:composition template="/dataverse_template.xhtml">
             <ui:param name="thisPageTitle" value="#{bundle['dataverse.search.advancedSearch']} - #{AdvancedSearchPage.dataverse.name}"/>
             <ui:param name="pageTitle" value="#{thisPageTitle}"/>
@@ -196,5 +197,6 @@
                 </div>
             </ui:define>
         </ui:composition>
+        </f:view>
     </h:body>
 </html>

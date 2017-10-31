@@ -11,6 +11,7 @@
     </h:head>
 
     <h:body>
+    <f:view locale="#{dataverseLocale.locale.language}">
         <f:metadata>
             <f:viewParam name="redirectPage" value="#{LoginPage.redirectPage}"/>
             <f:viewAction action="#{LoginPage.init}"/>
@@ -210,5 +211,6 @@
                 </div>
             </ui:define>
         </ui:composition>
+        </f:view>
     </h:body>
 </html>

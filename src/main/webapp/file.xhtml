@@ -14,6 +14,7 @@
     </h:head>
 
     <h:body>
+    <f:view locale="#{dataverseLocale.locale.language}">
         <ui:composition template="/dataverse_template.xhtml">
             <ui:param name="pageTitle" value="#{FilePage.fileMetadata.dataFile.displayName} - #{FilePage.file.owner.owner.displayName}"/>
             <ui:param name="dataverse" value="#{FilePage.file.owner.owner}"/>
@@ -514,5 +515,6 @@
                 </h:form>
             </ui:define>
         </ui:composition>
+        </f:view>
     </h:body>
 </html>
