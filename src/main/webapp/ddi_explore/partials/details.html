@@ -11,7 +11,9 @@
 </div>
 	<div id="details-page" >
 			<div id="header">	
-			<h2>{{details.stdydscr.citation.titlstmt.titl['#text']}}  </h2><h4>{{details.filedscr.filetxt.filename['#text']}}</h4><h4>{{citation}}</h4>
+			<h3>{{details.stdydscr.citation.titlstmt.titl['#text']}}</h3>
+			<!--<h4>{{details.filedscr.filetxt.filename['#text']}}</h4>-->
+			<span id="citation"></span>
 			</div>			
 			<div id="details-content" >	
 				<div id="left-half">
@@ -19,10 +21,10 @@
 				</div>
 				<div id="right-half">
 					<tabs>
-					    <pane title="{{lang.detailsPage.chart_view}}">
+					    <pane label="{{lang.detailsPage.chart_view}}">
 					      <div class="tab_views" id="chart_view" ng-include="'templates/chart.html'"></div>
 					    </pane>
-					    <pane title="{{lang.detailsPage.table_view}}" style="padding: 0px;">
+					    <pane label="{{lang.detailsPage.table_view}}" style="padding: 0px;">
 					      <div class="tab_views" id="table_view" ng-include="'templates/combine.html'"></div>
 					    </pane>
 					</tabs>

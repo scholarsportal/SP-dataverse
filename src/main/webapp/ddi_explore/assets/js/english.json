@@ -275,7 +275,8 @@ var en = {
 		variable_metadata:'Variable Metadata',
 		advanced_analysis:'Advanced Analysis',
 		chart_view:'Chart View',
-		table_view:'Table View'
+		table_view:'Table View',
+		weight:'Weight'
 	},
     contact : {
         head : 'Contact',

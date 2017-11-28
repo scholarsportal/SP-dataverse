@@ -4,9 +4,9 @@
        <div id="controls">
 		<label class="search_wrapper"><div class="search_icon_wrapper"><span class="glyphicon glyphicon-search search_icon"></span></div><div ng-click="clearField()" class="search_icon_remove glyphicon glyphicon-remove"></div><div class="search_field_wrapper">
 		<input class="search_field" ng-model="search_text" ng-change="updateFilter(search_text)" ng-focus="selectFilter()"></div></label>
-		<span class="formlabel btn-padding"><span class="badge ng-binding">{{filtered.length}}</span> {{lang.detailsPage.results}}</span>
+		<span class="formlabel"><span class="badge ng-binding">{{filtered.length}}</span> {{lang.detailsPage.results}}</span>
 		<select id="download" ng-model="my_option" class="form-control btn-padding" ng-change="downloadData(my_option);reset()">
-			<option value="0" label="{{lang.detailsPage.download}}" class="placeholder" selected >{{lang.detailsPage.download}}</option>
+			<option value="0" class="placeholder" label="{{lang.detailsPage.download}}" selected >{{lang.detailsPage.download}}</option>
 			<option value="5" label="{{lang.detailsPage.download_selected}}" ng-disabled="has_no_selection">{{lang.detailsPage.download_selected}}</option>
 			<option value="1" label="{{lang.detailsPage.orig_file_format}}">{{lang.detailsPage.orig_file_format}}</option>
 			<option value="2" label="{{lang.detailsPage.tab_delimited}}">{{lang.detailsPage.tab_delimited}}</option>
@@ -14,7 +14,7 @@
 			<option value="4" label="{{lang.detailsPage.variable_metadata}}">{{lang.detailsPage.variable_metadata}}</option>
 		</select>
 		<!--<a class="btn btn-sm btn-primary btn-padding pull-right" href="javascript:void(0)" ng-click="goToTwoRavens()" >{{lang.detailsPage.advanced_analysis}} <span class="glyphicon glyphicon-new-window"></span></a>-->
-	
+		<button ng-show="has_weights" id="weight_but" ng-class="{active:(weight_on)}" ng-controller="weightCtrl" class="btn btn-default" title="{{lang.detailsPage.weight}}"><span class="sortHandle glyphicon glyphicon-scale"></span></button>
 		</div>
 		<div id="variables_table_container">
 		<table id="variables_table" class="table table-bordered table-hover table-condensed">
@@ -40,20 +40,22 @@
 				</tr>
 			</thead>
 			<tbody>
-				<tr ng-repeat="vl in filtered = (_variables | filter:filterResults) | startFrom:currentTablePage[_file_num]*tablePageSize | limitTo:tablePageSize " ng-class="{active:(vl.selected)}" ng-click="viewVariable(vl)">
-					<td width="7%">{{vl.id}}</td>
-					<td  width="10%">{{vl.name}}</td>
-					<td  width="33%">
+				<tr ng-repeat="vl in filtered = (_variables | filter:filterResults) | startFrom:currentTablePage[_file_num]*tablePageSize | limitTo:tablePageSize " ng-class="{active:(vl.selected),disabled: !vl.chartable}" ng-click="!vl.chartable||viewVariable(vl)">
+					<td width="7%">
 						<table width="100%">
 						<tr>
-							<td rowspan="2">{{vl.label}}</td>
+							
 							<td align="center" width="35px">
 							<div ng-class="{faded:(vl.type=='col')}" class="row_but stacked_icon" title="Add as Row" ng-click="viewVariable(vl,'row'); $event.stopPropagation();"><div class='glyphicon glyphicon-minus icon_overlap1'></div><div class='glyphicon glyphicon-minus icon_overlap2'></div></div>
-							<div ng-class="{faded:(vl.type=='row')}" class="col_but stacked_icon glyphicon glyphicon-pause" title="Add as Column" ng-click="viewVariable(vl,'col'); "></div>
+							<div ng-class="{faded:(vl.type=='row')}" class="col_but stacked_icon glyphicon glyphicon-pause" title="Add as Column" ng-click="viewVariable(vl,'col'); $event.stopPropagation();"></div>
 							</td>
-							
+							<td rowspan="2">{{vl.id}}</td>
 						</tr>
 						</table>
+					</td>
+					<td  width="10%">{{vl.name}}</td>
+					<td  width="33%">{{vl.label}}
+						
 					</td>
 <td>{{vl.fullData.catgry.length}}</td>
 							<td>{{vl.valid}}</td>

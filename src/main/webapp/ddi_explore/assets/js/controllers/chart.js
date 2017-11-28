@@ -4,16 +4,13 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 
 	$scope.$watch ('selectedVariable', function(){
 	$scope.variableCompare=[];//all the selected variables
-	var temp_array=[]
-	if($cookies.variableCompare){
-		var temp_array=$cookies.variableCompare.split(",");//because they are stored in an serialized array	
-	}
 
+	var temp_array=sharedVariableStore.getVariableCompare();
 	//create an array with the selection
 	for(var i=0;i<temp_array.length;i++){
 		//find the the variable in the survey
 		for(var j=0;j<sharedVariableStore.getVariableStore().length;j++){
-			if(sharedVariableStore.getVariableStore()[j].vid==temp_array[i]){
+			if(sharedVariableStore.getVariableStore()[j].vid==temp_array[i].id){
 				$scope.variableCompare.push(sharedVariableStore.getVariableStore()[j]);
 			}
 		}
@@ -140,7 +137,7 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 					}
 					//
 					if(!data[i].missing || data[i].catvalu) {
-						//table structure Values,Categories,N
+						//table structure Values,Categories,N - also NW (weighted variable if available)
 						//keep track of the items location
 						table[table_num].n=num
 						//
@@ -188,8 +185,6 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 						}
 					}
 				}
-				
-				
 				
 				//get a count of valid rows for proper charting
 				var valid_rows=0
@@ -265,8 +260,6 @@ angular.module('odesiApp').controller('chartCtrl', function($scope, $cookies,sha
 
 				//
 				obj.table = table;
-				//
-				
 			}
 		
 		var sort_states=["default","desc","asc"];

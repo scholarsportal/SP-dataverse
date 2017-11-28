@@ -273,7 +273,8 @@ var fr = {
 		variable_metadata:'Métadonnées variable',
 		advanced_analysis:'Analyse avancée',
 		chart_view:'Vue Graphique',
-		table_view:'Vue sur la table'
+		table_view:'Vue sur la table',
+		weight:'Pondération'
 	},
     contact : {
         head : 'Contactez-nous',

@@ -11,39 +11,53 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 	$scope.box_bg_colors = [
     { pct: 0.0, color: { r: 0xff, g: 0xff, b: 0xff } },
     { pct: 1.0, color: { r: 49, g: 122, b: 185 } } ];
+    $scope.box_bg_colors2 = [
+    { pct: 0.0, color: { r: 0xff, g: 0xff, b: 0xff } },
+    { pct: 1.0, color: { r: 197, g: 54, b: 54 } } ];
     //store the mouse position for use in testing drpping of variables
 	$(window).mousemove(function(e){
       window.mouse_x = e.pageX;
       window.mouse_y = e.pageY;
    	}); 
-		$(window).trigger('resize');
+	drawLegend();
 	$scope.$watch ('selectedVariable', function(){
-		
+		$scope.run_it();
+	//----------------------
+	});
+	$scope.run_it = function(){
 		$scope.variableCompare=[];//all the selected variables
-		var temp_array=[]
-		if($cookies.variableCompare){
-			var temp_array=$cookies.variableCompare.split(",");//because they are stored in an serialized array	
-		}
+		var temp_array=sharedVariableStore.getVariableCompare();
 		//
-		var content_width=$("#details-content").width()
 		if(temp_array.length==0){
 			unsplitInterface();
 			return;
 		}
 		if(!$scope.showing){
 			$('#right-half').show();
-			$(window).trigger('resize');
 			$scope.showing=true;
+			$(window).trigger('resize');
 		}
 		
 		$scope.loadingTabDetails=true;
 		//----------------------
 		//var url="temp_tab/tab.tab";//temp loading of tab file
-		var url=sharedVariableStore.getVariableStoreURL()+$cookies.variableCompare.split(",").reverse();
+		var temp_array=sharedVariableStore.getVariableCompare()
+		var temp_array2=[]
+		for(var i = 0; i < temp_array.length; i++){
+			temp_array2.push(temp_array[i].id);
+		};
+		var url=sharedVariableStore.getVariableStoreURL()+temp_array2.reverse().join(",");
 		$scope.pending_requests++;
+		//
+		if(sharedVariableStore.getWeightOn()){
+			//get the weights of the selected variables
+			for(var i =0;i<sharedVariableStore.getWeights().length;i++){
+				url+=","+sharedVariableStore.getWeights()[i].id
+			}
+			
+		}
 		//url should look like this "https://dataverse.harvard.edu/api/access/datafile/2326305?variables=v13184189,v13183932,v13184076",
 		$http({
-		
 			url:url,
 			method: "GET",
 			//params: {requestURL: detailsURL.uri}
@@ -53,8 +67,7 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 				prepData(data);
 			}
 		});
-	//----------------------
-	});
+	}
 	var prepData = function(data){
 		var old_data=$scope.data
 		if(!old_data){
@@ -62,6 +75,10 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		}
 		$scope.data=createTabObj(data);
 		$scope.buckets=createBuckets($scope.data);
+		//if there are weights - remove them from the data
+		if(sharedVariableStore.getWeightOn()){
+			$scope.data=$scope.data.slice(0,$scope.data.length-sharedVariableStore.getWeights().length)
+		}
 		$scope.bucket_order=[];
 		for(var i = 0; i < $scope.data.length; i++){
 			$scope.bucket_order.push($scope.data[i].name);
@@ -108,7 +125,7 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		var data = _data.split(/\r?\n/);
 			//loop over lines
 			for(var i = 0; i < data.length; i++){
-				var vals=data[i].split(/[	]+/);
+				var vals=data[i].split('\t');
 				//create containing objects
 				for(var j=0;j<vals.length;j++){
 					if(i==0){
@@ -126,20 +143,27 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 	//loop through the variables looking for unique enteries
 	var createBuckets = function(_data){
 		var buckets=[];
-		//loop through the first row and chack against others
+		//loop through the first row and check against others
 		var rows=_data[0].vals.length;
+		var weight_count=0
+		if(sharedVariableStore.getWeightOn()){
+				weight_count=sharedVariableStore.getWeights().length
+		}
 		for(var i = 0; i < rows; i++){
-
 			var combined_val="";
 			//combine with others and look for uniqueness
-			for (var j = 0;j< _data.length;j++){
+			var weight=1;
+			for (var j = 0;j< _data.length-weight_count;j++){
 				combined_val+="_"+_data[j].vals[i]
+				if(sharedVariableStore.getWeightOn()){
+				 weight=_data[_data.length-1].vals[i]
+				}
 			}
 			if(buckets.indexOf(combined_val)==-1){
 				buckets.push(combined_val)
-				buckets[combined_val]=1
+				buckets[combined_val]=1*weight
 			}else{
-				buckets[combined_val]=buckets[combined_val]+1;
+				buckets[combined_val]=buckets[combined_val]+(1*weight);
 			}
 			
 		}
@@ -203,13 +227,13 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			}
 		}
 		if(_obj.type=="col"){
-			//if type col move to begining of the list
+			//if type col move to beginning of the list
 			data.move(changed_pos,0)
 		}else{
 			data.move(changed_pos,data.length-1)
 		}	
 		//
-		$scope.groupVariableMetadata();
+		var _data= $scope.groupVariableMetadata();
 		$scope.combineHTML=$scope.getCombinedTable();
 	}
 	//stacks an array with columns then rows
@@ -439,7 +463,45 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		if(typeof(col_var_array[0])=="undefined"){
 			col_var_array[0]=[]
 		}
-		//---------
+		//calculate the standard deviation
+		//get the mean of the values as avg_bucket_val
+		var bucket_val_total=0;
+		var bucket_vals=[];
+		for(var j=0; j<total_rows;j++){
+			for(var k=0; k<col_var_array.length;k++){
+				var bucket_id=getBucketID(col_var_array[k].concat(full_row_var_array[j]),_data,"catvalu")
+				//add the values
+				var val=getBucketValue(bucket_id)
+				if(!isNaN(val)){
+					bucket_vals.push(val);
+				}else{
+					bucket_vals.push(0);
+				}
+			}
+		}
+		var bucket_val_total=0;
+		for (var j = 0; j < bucket_vals.length; j++) {
+		    bucket_val_total += bucket_vals[j];
+		}
+		//console.log("bucket_val_total ",bucket_val_total)
+		var avg_bucket_val=bucket_val_total/bucket_vals.length;
+		//Now get the total distance of all the points from that number
+		//console.log("avg_bucket_val",avg_bucket_val)
+		var bucket_vals_dist=[];
+		//get bucket_vals_dist to exp 2
+		//console.log("bucket_vals",bucket_vals)
+		for (var j = 0; j < bucket_vals.length; j++) {
+		   bucket_vals_dist.push(Math.pow(Math.abs(bucket_vals[j]-avg_bucket_val),2))
+		}
+		//console.log("bucket_vals_dist "+bucket_vals_dist);
+		var bucket_vals_dist_total=0;
+		//sum bucket_vals_dist
+		for (var j = 0; j < bucket_vals_dist.length; j++) {
+		   bucket_vals_dist_total+=bucket_vals_dist[j];
+		}
+		var standard_dev=Math.sqrt(bucket_vals_dist_total/bucket_vals_dist.length);
+		//console.log("standard_dev "+standard_dev)
+		//-------
 		var col_pre_totals=[];
 		var col_response_totals=[];
 		for(var j=0; j<total_rows;j++){
@@ -453,13 +515,14 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 				html+="<td class='td_value td_center'>%</td>"
 			}
 			//------------
+			
 			var row_pre_total=0;
 			var row_response_total=0;
 			for(var k=0; k<col_var_array.length;k++){
 				var bucket_id=getBucketID(col_var_array[k].concat(full_row_var_array[j]),_data,"catvalu")
+
 				//add the values
 				var bucket_val=getBucketValue(bucket_id)
-				
 				var bucket_per=0;
 				if(bucket_val){
 					bucket_per=Math.round(bucket_val/_tot_responses*100*10)/10
@@ -481,12 +544,22 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 				if(mode=="debug"){
 					html+="<td class='td_value td_center'>"+col_var_array[k].concat(full_row_var_array[j])+"</td>"
 				}else{
-					//change the rtext color depending on the percent for visiblility
+					
+					//color the cell based relative to the average
+					var z=(bucket_val-avg_bucket_val)/standard_dev;
+					var cell_color;
+					if(z>0){
+						cell_color=getColorForPercentage($scope.box_bg_colors2,z/2)
+					}else{
+						cell_color=getColorForPercentage($scope.box_bg_colors,z/2*-1)
+					}
+					//change the text color depending on the percent for cell color visiblility
 					var text_color="#000000";
-					if(bucket_per>50){
+					if(Math.abs(z)/2>.5){
 						text_color="#ffffff";
 					}
-					html+="<td class='td_value td_center' style='background-color:"+getColorForPercentage($scope.box_bg_colors,bucket_per/100)+"; color:"+text_color+"'>"
+					//
+					html+="<td class='td_value td_center' style='background-color:"+cell_color+"; color:"+text_color+"'>"
 					if(bucket_per % 1 == 0){
 						bucket_per=String(bucket_per)+".0";
 					}
@@ -499,11 +572,11 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			//add the percent totals
 			if(total_col_var_count!=0){
 				html+="<td class='td_value td_center td_last'>"+getPercent(row_pre_total)+"</td>"
-				html+="<td class='td_value td_center'>"+row_response_total+"</td>"
+				html+="<td class='td_value td_center'>"+Math.round(row_response_total*10)/10+"</td>"
 			}
 			//-------
 			if(single_row){
-				html+="<td class='td_value td_center'>"+bucket_val+"</td>"
+				html+="<td class='td_value td_center'>"+Math.round(bucket_val*10)/10+"</td>"
 			}
 			html+="</tr>"
 			totals[0]=Number(totals[0])+Number(bucket_val)
@@ -520,7 +593,7 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 				html+="<td class='td_value td_center'>"+cat_val+"</td>"
 			}
 			//add the response totals
-			html+="<td class='td_value td_center'>"+row_response_total+"</td><td></td>"
+			html+="<td class='td_value td_center'>"+Math.round(row_response_total*10)/10+"</td><td></td>"
 			html+="</tr>"
 		}else if(single_row){
 			//add a row with the totals
@@ -528,7 +601,7 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			html+="<th class='td_value'>Total</th>"
 			html+="<td class='td_value'></td>"
 			html+="<td class='td_value'></td>"
-			html+="<td class='td_value'>"+totals[0]+"</td>"
+			html+="<td class='td_value'>"+Math.round(totals[0]*10)/10+"</td>"
 			html+="</tr>"
 		}else{
 			html+="<tr class='tr_last'>"
@@ -546,10 +619,10 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			var all_responses=0;
 			for(var k=0;k<col_pre_totals.length;k++){
 				all_responses+=col_response_totals[k]
-				html+="<td class='td_value td_center'>"+col_response_totals[k]+"</td>"
+				html+="<td class='td_value td_center'>"+Math.round(col_response_totals[k]*10)/10+"</td>"
 			}
 			if(total_col_var_count>0){
-				html+="<td class='td_last'></td><td class='td_value td_center'>"+all_responses+"</td>";
+				html+="<td class='td_last'></td><td class='td_value td_center'>"+Math.round(all_responses*10)/10+"</td>";
 			}
 			html+="</tr>"
 		}
@@ -653,6 +726,34 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 			}
 		}
 	}
+//-----
+function drawLegend(){
+	var html="";
+	html+="<table>";
+	html+="<tr>"; 
+	html+="<td>Z-Score&nbsp;</td>";
+	html+="<td id='left_gradient' style='color:#fff; padding-left:5px;'>-2<</td>";
+	html+="<td><0<</td>";
+	html+="<td id='right_gradient' style='text-align:right; color:#fff; padding-right:5px;'><2</td>";
+	html+="</tr>";
+	html+="</table>";
+	$("#legend").html(html);
+	$("#left_gradient").css(getCSSGradient($scope.box_bg_colors[0].color,$scope.box_bg_colors[1].color,"right","left"));
+	$("#right_gradient").css(getCSSGradient($scope.box_bg_colors2[0].color,$scope.box_bg_colors2[1].color,"left","right"));
+}
+function getCSSGradient(_start_color,_end_color,dir1,dir2){
+	var start_color  = "rgb("+_start_color.r+", "+_start_color.g+", "+_start_color.b+")";
+	var end_color  = "rgb("+_end_color.r+", "+_end_color.g+", "+_end_color.b+")";
+	return {
+		width:150,
+		height:20,
+		background: start_color,
+		background: "-webkit-linear-gradient("+dir1+","+start_color+", "+start_color+", "+end_color+")",
+		background: "-o-linear-gradient("+dir2+","+start_color+", "+end_color+")",
+		background: "-moz-linear-gradient("+dir2+","+start_color+", "+end_color+")", 
+		background: "linear-gradient(to "+dir2+","+start_color+", "+end_color+")"
+	}
+}
 
 }).directive('dynamic', function ($compile) {
 	return {
@@ -669,7 +770,7 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 		      	$("#compare_table .draggable").draggable({
 		        	handle: '.sortHandle',
 		        	opacity: 0.7,
-		        	//containment: "#compare_table",
+		        	containment: "#compare_table",
 		        	start: function(event, ui){
 						$(event.target).css({'z-index': 1000});
 					},
@@ -689,7 +790,8 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 							for(var i =0;i<scope.sharedVariableStore.getVariableStore().length;i++){
 								var obj=scope.sharedVariableStore.getVariableStore()[i]
 			            		if(obj.name==$(this).attr('id')){
-					 				angular.element($('#details-page')).scope().viewVariable(obj)
+			            			//deselect the item, thus removing it from the table
+					 				//angular.element($('#details-page')).scope().viewVariable(obj)
 					 				scope.$apply()
 					 			}
 					 		}
@@ -734,7 +836,7 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 				            }
 			            }
 			            //
-				for(var i =0;i<data.length;i++){
+						for(var i =0;i<data.length;i++){
 			            	if(data[i].name==moved_id){
 								curr_pos=i;
 								//update the type
@@ -751,8 +853,14 @@ angular.module('odesiApp').controller('combineCtrl', function($scope, $cookies, 
 							scope.data=scope.groupVariableMetadata(data);//need to resort since cols draw before rows
 							scope.combineHTML= scope.getCombinedTable();
 							scope.updateVariableStoreType();//triggers interface type (row,col) update
+							
+							//update the state - noting it's in reverse
+							var temp_array=scope.sharedVariableStore.getVariableCompare().reverse();
+							temp_array[curr_pos].type=new_type;
+							temp_array.move(curr_pos,new_pos);
+							angular.element($('#details-page')).scope().updateURLParams(temp_array.reverse())
 							scope.$apply()
-							}
+						}
 			        }
 			    });
 		        //
@@ -799,4 +907,3 @@ Array.prototype.move = function (old_index, new_index) {
     this.splice(new_index, 0, this.splice(old_index, 1)[0]);
     return this; // for testing purposes
 };
-
