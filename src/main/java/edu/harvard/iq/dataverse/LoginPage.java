@@ -15,13 +15,17 @@ import edu.harvard.iq.dataverse.util.BundleUtil;
 import edu.harvard.iq.dataverse.util.JsfHelper;
 import static edu.harvard.iq.dataverse.util.JsfHelper.JH;
 import edu.harvard.iq.dataverse.util.SystemConfig;
+import java.io.BufferedReader;
+import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
+import java.net.URL;
 import java.net.URLDecoder;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Random;
+import java.util.ResourceBundle;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.ejb.EJB;
@@ -33,7 +37,7 @@ import javax.faces.validator.ValidatorException;
 import javax.faces.view.ViewScoped;
 import javax.inject.Inject;
 import javax.inject.Named;
-
+import org.json.*;
 /**
  *
  * @author xyang
@@ -95,6 +99,7 @@ public class LoginPage implements java.io.Serializable {
     @EJB
     SystemConfig systemConfig;
     
+    
     @Inject
     DataverseRequestServiceBean dvRequestService;
     
@@ -152,7 +157,7 @@ public class LoginPage implements java.io.Serializable {
         return false;
     }
 
-    public String login() {
+    public String login() throws Exception {
         
         AuthenticationRequest authReq = new AuthenticationRequest();
         List<FilledCredential> filledCredentialsList = getFilledCredentials();
@@ -162,7 +167,7 @@ public class LoginPage implements java.io.Serializable {
         }
         for ( FilledCredential fc : filledCredentialsList ) {
             if(fc.getValue()==null || fc.getValue().isEmpty()){
-                JH.addMessage(FacesMessage.SEVERITY_ERROR, "Please enter a "+fc.getCredential().getTitle());
+                JH.addMessage(FacesMessage.SEVERITY_ERROR, ResourceBundle.getBundle("Bundle").getString("login."+fc.getCredential().getTitle()));
             }
             authReq.putCredential(fc.getCredential().getTitle(), fc.getValue());
         }
@@ -171,7 +176,38 @@ public class LoginPage implements java.io.Serializable {
             AuthenticatedUser r = authSvc.getCreateAuthenticatedUser(credentialsAuthProviderId, authReq);
             logger.log(Level.FINE, "User authenticated: {0}", r.getEmail());
             session.setUser(r);
+            //allow the logged-in user to redirect to their institution
             
+            String affiliation= r.getAffiliation();
+            logger.log(Level.FINE, "affiliation: {0}", affiliation);
+            String alias="";
+            //
+             
+            String json_url= "http://localhost:8080/resources/js/affiliates.json";
+            logger.log(Level.FINE, "calling readUrl: {0}", json_url);
+            
+    		JSONObject json_obj;
+    		try {
+    			json_obj = new JSONObject(readUrl(json_url));
+    			//note the saved affiliation is the "title" of the affiliates.json file
+    			JSONArray json_array = json_obj.getJSONArray("affiliates");
+    			for(int i = 0; i < json_array.length(); i++){
+    				String title = json_array.getJSONObject(i).getString("title");
+    				if(title.equals(affiliation)){
+    					alias=json_array.getJSONObject(i).getString("home");
+    				}
+    			}
+    			
+    		} catch (JSONException e) {
+    			// TODO Auto-generated catch block
+    			e.printStackTrace();
+    		}
+            
+            ///
+            if(!redirectPage.contains(".xhtml") && !redirectPage.contains("/dataverse/")){
+             redirectPage = "%2Fdataverse.xhtml%3Falias%3D"+alias;
+             logger.log(Level.FINE, "redirect to affiliate dataverse", redirectPage);
+            }
             if ("dataverse.xhtml".equals(redirectPage)) {
                 redirectPage = redirectToRoot();
             }
@@ -214,11 +250,30 @@ public class LoginPage implements java.io.Serializable {
         }
         
     }
+
     
     private String redirectToRoot(){
         return "dataverse.xhtml?alias=" + dataverseService.findRootDataverse().getAlias();
     }
 
+    private static String readUrl(String urlString) throws Exception {
+        BufferedReader reader = null;
+        try {
+            URL url = new URL(urlString);
+            reader = new BufferedReader(new InputStreamReader(url.openStream()));
+            StringBuffer buffer = new StringBuffer();
+            int read;
+            char[] chars = new char[1024];
+            while ((read = reader.read(chars)) != -1)
+                buffer.append(chars, 0, read); 
+
+
+            return buffer.toString();
+        } finally {
+            if (reader != null)
+                reader.close();
+        }
+    }
     public String getCredentialsAuthProviderId() {
         return credentialsAuthProviderId;
     }

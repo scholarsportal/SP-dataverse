@@ -1,3 +1,7 @@
+
+deploy.sh
+/target/
+=======
 nb-configuration.xml
 target
 nbactions.xml
@@ -29,6 +33,7 @@ scripts/installer/dvinstall/
 oauth-credentials.md
 
 /src/main/webapp/oauth2/newAccount.html
+
 scripts/api/setup-all.sh*
 
 # ctags generated tag file
@@ -41,3 +46,4 @@ conf/docker-aio/dv/deps/
 conf/docker-aio/dv/install/dvinstall.zip
 # or copy of test data
 conf/docker-aio/testdata/
+

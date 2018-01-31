@@ -14,6 +14,7 @@
     </h:head>
 
     <h:body>
+    
         <ui:composition template="/dataverse_template.xhtml">
             <ui:param name="pageTitle" value="#{FilePage.fileMetadata.dataFile.displayName} - #{FilePage.file.owner.owner.displayName}"/>
             <ui:param name="dataverse" value="#{FilePage.file.owner.owner}"/>
@@ -109,7 +110,7 @@
                                         <ul class="dropdown-menu pull-right text-left" role="menu">
                                             <li>
                                                 <h:outputLink value="/editdatafiles.xhtml?selectedFileIds=#{FilePage.fileMetadata.dataFile.id}&#38;datasetId=#{FilePage.fileMetadata.datasetVersion.dataset.id}&#38;mode=SINGLE&#38;version=#{FilePage.version}">
-                                                    <h:outputText id="editFile-Multi-Link" value="Metadata"/>
+                                                    <h:outputText id="editFile-Multi-Link" value="#{bundle['file.metadata']}"/>
                                                 </h:outputLink>
                                             </li>
                                             <ui:fragment rendered="#{!settingsWrapper.publicInstall}">
@@ -561,5 +562,6 @@
                 </h:form>
             </ui:define>
         </ui:composition>
+        
     </h:body>
 </html>
