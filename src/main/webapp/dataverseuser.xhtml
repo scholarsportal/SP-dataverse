@@ -649,9 +649,9 @@
                                                                     }
                    						//get the title
                                                                 var title;
-                                                                $.each(institution_mapping.affiliates, function (i, item) {
-                                                                    if(institution_mapping.affiliates[i].name==affiliation){
-                                                                            title=institution_mapping.affiliates[i].title
+                                                                $.each(ip_range_checker.institution_mapping, function (i, item) {
+                                                                    if(ip_range_checker.institution_mapping[i][0]==affiliation){
+                                                                            title=ip_range_checker.institution_mapping[i][2]
                                                                     }
                                                                 });
 
@@ -680,8 +680,8 @@
                 					      }    
                                                             function valueInList(_val){
                                                                 var value_in_list=false;
-                                                                $.each(institution_mapping.affiliates, function (i, item) {
-                   					    	    if(institution_mapping.affiliates[i].title===_val){
+                                                                $.each(ip_range_checker.institution_mapping, function (i, item) {
+                   					    	    if(ip_range_checker.institution_mapping[i][2]===_val){
                                                                         value_in_list=true;
                                                                     }
                    					    	});
@@ -690,10 +690,10 @@
                    					    
                    					    function setUpAffiliateDropDown(){
                                                                
-                   					    	$.each(institution_mapping.affiliates, function (i, item) {
+                   					    	$.each(ip_range_checker.institution_mapping, function (i, item) {
                    					    	    $(select_elm).append($('<option>', { 
-                   					    	        value: institution_mapping.affiliates[i].title,
-                   					    	        text : institution_mapping.affiliates[i].title 
+                   					    	        value: ip_range_checker.institution_mapping[i][2],
+                   					    	        text : ip_range_checker.institution_mapping[i][2]
                    					    	    }));
                    					    	});
                    					    	 $(select_elm).append($('<option>', { 
