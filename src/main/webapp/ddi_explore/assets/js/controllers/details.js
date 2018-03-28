@@ -487,22 +487,19 @@ angular.module('odesiApp').controller('detailsCtrl', function($scope,$cookies, $
     }
     //
     if(file_id=="") {
-        //error - try using the
+        //error - try using the dfId without a detailsURL.siteUrl
         detailsURL.fileId = getParameterByName("dfId");
         file_id = detailsURL.fileId;
+		detailsURL.siteUrl = location.protocol+'//'+location.hostname;
         if (location.port != "") {
-			detailsURL.siteUrl = "";
-		}
-        console.log(detailsURL.siteUrl)
-
-
+            detailsURL.siteUrl+=":"+location.port
+        }
     }
 	//
     if(detailsURL.siteUrl!=null){
         base_url=detailsURL.siteUrl+"/api/access/datafile/";
         detailsURL.uri=base_url+file_id+"/metadata/ddi";
     }
-    console.log(detailsURL.uri);
     //
     if(detailsURL.selected){
         detailsURL.selected = URLON.parse(detailsURL.selected);
