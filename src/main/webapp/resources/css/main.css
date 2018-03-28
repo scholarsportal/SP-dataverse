@@ -32,6 +32,14 @@
 #bannerPanel{
 	 display:none;
 }
+#navbar-search-toggle {
+    display: none;
+}
+.custom-logo {
+    max-width: 175px;
+    margin-left: 10px;
+    margin-top: 10px;
+}
 .jumbotron {
     background-color: #95D7E1;
     padding-bottom: 0;
@@ -348,4 +356,6 @@ blockquote p {
 }
 .bottom_logo {
     float:left;
+}
+
 }

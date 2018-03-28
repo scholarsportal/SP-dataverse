@@ -52,7 +52,7 @@
 			   <div class="accordion-group">
 		            <div class="accordion-heading">
 		          
-		                <a class="accordion-toggle" ng-click="toggle('a');is_collapsed = !is_collapsed" data-toggle="collapse" data-target="#collapse_{{selectedVariable.id}}" >{{lang.detailsPage.summarystats}} <span class="glyphicon pull-right accordion-icon" ng-class="{'glyphicon-chevron-up': is_collapsed, 'glyphicon-chevron-down': !is_collapsed}" ></span></a>
+		                <a tabindex="0" class="accordion-toggle" ng-click="toggle('a');is_collapsed = !is_collapsed" data-toggle="collapse" data-target="#collapse_{{selectedVariable.id}}" >{{lang.detailsPage.summarystats}} <span class="glyphicon pull-right accordion-icon" ng-class="{'glyphicon-chevron-up': is_collapsed, 'glyphicon-chevron-down': !is_collapsed}" ></span></a>
 						
 		            </div>
 		            <div class="accordion-body" class="collapse" id="collapse_{{selectedVariable.id}}">

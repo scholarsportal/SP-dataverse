@@ -2,18 +2,16 @@
 angular.module('odesiApp').controller('mainCtrl', function($scope, $http, $route, $location, $cookies, $timeout, $anchorScroll, anchorSmoothScroll, getEntitlement){
 		//main controller
 		//determine language based on session cookie
-	
-		
-		
+
+
+
 		var lang = getParameterByName("locale")
 		if(lang == 'fr' && !$cookies.language) {
 			$cookies.language = 'fr';
 			location.reload();
 
 		}
-		
-		
-		
+
 		$scope.lang = (!$cookies.language || $cookies.language === 'en') ? en : fr;
 		$scope.htmllang = $cookies.language;
 		$scope.baseUrl = $location.host() + ":" + $location.port();
@@ -35,7 +33,7 @@ angular.module('odesiApp').controller('mainCtrl', function($scope, $http, $route
 			location.reload();
 		}
 
-		
+
 		
 });
 function getParameterByName(name, url) {
