@@ -41,8 +41,8 @@ public class GetAffiliation  extends HttpServlet{
 
         String jpql = "Select affiliation.affiliation_id, home, title, array_to_string(array_agg(pattern), ',')\n" +
                 "FROM affiliation\n" +
-                "inner join affiliation_pattern on affiliation_pattern.affiliation_id = affiliation.affiliation_id\n" +
-                "GROUP BY affiliation.affiliation_id" ;
+                "left join affiliation_pattern on affiliation_pattern.affiliation_id = affiliation.affiliation_id\n" +
+                "GROUP BY affiliation.affiliation_id ORDER BY home" ;
 
         Query query = em.createNativeQuery(jpql);
         return query.getResultList();

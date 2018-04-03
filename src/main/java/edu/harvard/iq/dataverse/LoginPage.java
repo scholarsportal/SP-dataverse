@@ -183,18 +183,21 @@ public class LoginPage implements java.io.Serializable {
             String alias="";
             //
              
-            String json_url= "http://localhost:8080/resources/js/affiliates.json";
+            String json_url= "http://localhost:8080/GetAffiliation";
             logger.log(Level.FINE, "calling readUrl: {0}", json_url);
-            
+
     		JSONObject json_obj;
     		try {
-    			json_obj = new JSONObject(readUrl(json_url));
+    			json_obj = new JSONObject("{ \"affiliates\":"+readUrl(json_url)+"}");
+
     			//note the saved affiliation is the "title" of the affiliates.json file
     			JSONArray json_array = json_obj.getJSONArray("affiliates");
+
     			for(int i = 0; i < json_array.length(); i++){
-    				String title = json_array.getJSONObject(i).getString("title");
+                    String[] array = json_array.getJSONArray(i).toString().split(",");
+    				String title = array[2].replace("\"", "");
     				if(title.equals(affiliation)){
-    					alias=json_array.getJSONObject(i).getString("home");
+    					alias=array[1].replace("\"", "");
     				}
     			}
     			
@@ -202,23 +205,24 @@ public class LoginPage implements java.io.Serializable {
     			// TODO Auto-generated catch block
     			e.printStackTrace();
     		}
-            
-            ///
-            if(!redirectPage.contains(".xhtml") && !redirectPage.contains("/dataverse/")){
-             redirectPage = "%2Fdataverse.xhtml%3Falias%3D"+alias;
-             logger.log(Level.FINE, "redirect to affiliate dataverse", redirectPage);
+            System.out.println(affiliation+" Redirect to "+alias+" "+redirectPage);
+    		//redirect to the alias if there is one and the user came from the homepage
+            if(!alias.equals("") && redirectPage.contains("dataverse.xhtml")){
+                redirectPage = "%2Fdataverse.xhtml%3Falias%3D"+alias;
+                logger.log(Level.FINE, "redirect to affiliate dataverse", redirectPage);
+
             }
+
             if ("dataverse.xhtml".equals(redirectPage)) {
                 redirectPage = redirectToRoot();
             }
-            
-            try {            
+
+            try {
                 redirectPage = URLDecoder.decode(redirectPage, "UTF-8");
             } catch (UnsupportedEncodingException ex) {
                 Logger.getLogger(LoginPage.class.getName()).log(Level.SEVERE, null, ex);
                 redirectPage = redirectToRoot();
             }
-
             logger.log(Level.FINE, "Sending user to = {0}", redirectPage);
             return redirectPage + (!redirectPage.contains("?") ? "?" : "&") + "faces-redirect=true";
 
