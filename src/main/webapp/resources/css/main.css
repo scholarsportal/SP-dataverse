@@ -314,7 +314,7 @@ blockquote p {
   padding-bottom: 80px;
 }
 .home_container .bttm {
-  border-top: 1px solid #ddd;
+  border-bottom: 1px solid #ddd;
 }
 .home_container h3 {
   font-size: 34px;
