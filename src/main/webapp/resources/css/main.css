@@ -36,7 +36,7 @@
     display: none;
 }
 .custom-logo {
-    max-width: 175px;
+    max-width: 225px;
     margin-left: 10px;
     margin-top: 10px;
 }
@@ -62,7 +62,7 @@
 	.navbar-right {
 	     float: none!important;
 	}
-	.header_image{
+	.custom-logo{
 	 width:175px;
 	 margin-left: 10px;
 	}
