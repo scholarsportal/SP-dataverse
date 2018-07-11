@@ -4,7 +4,7 @@
 	title	Title	Full title by which the Dataset is known.	Enter title...	text	0		TRUE	FALSE	FALSE	FALSE	TRUE	TRUE		citation	Titre	Titre complet sous lequel l'ensemble de données est connu.
 	subtitle	Subtitle	A secondary title used to amplify or state certain limitations on the main title.		text	1		FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		citation	Sous-titre	Un titre secondaire utilisé pour amplifier ou énoncer certaines limites du titre principal.
 	alternativeTitle	Alternative Title	A title by which the work is commonly referred, or an abbreviation of the title.		text	2		FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		citation	Autre titre	Un titre sous lequel le travail est communément appelé ou une abréviation du titre.
-	alternativeURL	Alternative URL	A URL where the dataset can be viewed, such as a personal or project website.  	Enter full URL, starting with http://	url	3		FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		citation	Autre URL	Une adresse URL où l'ensemble de données peut être consulté, tel un site web personnel ou de projet.  
+	alternativeURL	Alternative URL	A URL where the dataset can be viewed, such as a personal or project website.  	Enter full URL, starting with http://	url	3	<a href="#VALUE" target="_blank">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		citation	Autre URL	Une adresse URL où l'ensemble de données peut être consulté, tel un site web personnel ou de projet.  
 	otherId	Other ID	Another unique identifier that identifies this Dataset (e.g., producer's or another repository's number).		none	4	:	FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		citation	Autre identifiant	Un autre identifiant unique qui identifie cet ensemble de données (p. ex. le numéro du producteur ou d'un autre dépôt).
 	otherIdAgency	Agency	Name of agency which generated this identifier.		text	5	#VALUE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	otherId	citation	Organisme	Nom de l'organisme qui a généré cet identifiant
 	otherIdValue	Identifier	Other identifier that corresponds to this Dataset.		text	6	#VALUE	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	otherId	citation	Identifiant	Autre identifiant qui correspond à cet ensemble de données.
@@ -24,23 +24,23 @@
 	keyword	Keyword	Key terms that describe important aspects of the Dataset.		none	20		FALSE	FALSE	TRUE	FALSE	TRUE	FALSE		citation	Mot-clé	Les mots-clés qui décrivent les aspects importants de l'ensemble de données.
 	keywordValue	Term	Key terms that describe important aspects of the Dataset. Can be used for building keyword indexes and for classification and retrieval purposes. A controlled vocabulary can be employed. The vocab attribute is provided for specification of the controlled vocabulary in use, such as LCSH, MeSH, or others. The vocabURI attribute specifies the location for the full controlled vocabulary.		text	21	#VALUE	TRUE	FALSE	FALSE	TRUE	TRUE	FALSE	keyword	citation	Terme	Les termes-clés qui décrivent les aspects importants de l'ensemble de données. Ils peuvent servir à créer des index de mots-clés et être utilisés aux fins de classification et de récupération. Un vocabulaire contrôlé peut être utilisé. L'attribut « vocab » permet de préciser le type de vocabulaire contrôlé utilisé, p. ex., LCSH, MeSH ou autres. L'attribut « vocabURI » précise l'emplacement du vocabulaire contrôlé complet.
 	keywordVocabulary	Vocabulary	For the specification of the keyword controlled vocabulary in use, such as LCSH, MeSH, or others.		text	22	(#VALUE)	FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	keyword	citation	Vocabulaire	Pour préciser le type de vocabulaire contrôlé par mot-clé utilisé, p. ex., LCSH, MeSH ou autres. 
-	keywordVocabularyURI	Vocabulary URL	Keyword vocabulary URL points to the web presence that describes the keyword vocabulary, if appropriate. Enter an absolute URL where the keyword vocabulary web site is found, such as http://www.my.org.	Enter full URL, starting with http://	url	23	<a href="#VALUE">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	keyword	citation	Adresse URL du vocabulaire	Le cas échéant, adresse URL où est décrit le vocabulaire de mots-clés utilisé. Indiquer une adresse URL absolue, par exemple http://www.my.org.
+	keywordVocabularyURI	Vocabulary URL	Keyword vocabulary URL points to the web presence that describes the keyword vocabulary, if appropriate. Enter an absolute URL where the keyword vocabulary web site is found, such as http://www.my.org.	Enter full URL, starting with http://	url	23	<a href="#VALUE" target="_blank">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	TRUE	FALSE	keyword	citation	Adresse URL du vocabulaire	Le cas échéant, adresse URL où est décrit le vocabulaire de mots-clés utilisé. Indiquer une adresse URL absolue, par exemple http://www.my.org.
 	topicClassification	Topic Classification	The classification field indicates the broad important topic(s) and subjects that the data cover. Library of Congress subject terms may be used here.  		none	24		FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		citation	Classification des sujets	Le champ classification indique les sujets et thèmes généraux importants couverts par les données. La classification de la Library of Congress peut être utilisée.
 	topicClassValue	Term	Topic or Subject term that is relevant to this Dataset.		text	25	#VALUE	TRUE	FALSE	FALSE	TRUE	FALSE	FALSE	topicClassification	citation	Terme	Terme décrivant un thème ou un sujet couvert par cet ensemble de données.
 	topicClassVocab	Vocabulary	Provided for specification of the controlled vocabulary in use, e.g., LCSH, MeSH, etc.		text	26	(#VALUE)	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	topicClassification	citation	Vocabulaire	Pour préciser le type de vocabulaire contrôlé utilisé, p. ex., LCSH, MeSH ou autres. 
-	topicClassVocabURI	Vocabulary URL	Specifies the URL location for the full controlled vocabulary.	Enter full URL, starting with http://	url	27	<a href="#VALUE">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	topicClassification	citation	Adresse URL du vocabulaire	Précise l'adresse URL de la liste complète du vocabulaire contrôlé.
+	topicClassVocabURI	Vocabulary URL	Specifies the URL location for the full controlled vocabulary.	Enter full URL, starting with http://	url	27	<a href="#VALUE" target="_blank">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	topicClassification	citation	Adresse URL du vocabulaire	Précise l'adresse URL de la liste complète du vocabulaire contrôlé.
 	publication	Related Publication	Publications that use the data from this Dataset.		none	28		FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		citation	Publication connexe	Les publications qui utilisent les données provenant de cet ensemble de données.
 	publicationCitation	Citation	The full bibliographic citation for this related publication.		textbox	29	#VALUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	publication	citation	Référence	La référence bibliographique complète de cette publication connexe.
 	publicationIDType	ID Type	The type of digital identifier used for this publication (e.g., Digital Object Identifier (DOI)).		text	30	#VALUE: 	TRUE	TRUE	FALSE	FALSE	FALSE	FALSE	publication	citation	Type d'identifiant	Le type d'identifiant numérique utilisé pour cette publication (p. ex. identificateur d'objet numérique (DOI)).
 	publicationIDNumber	ID Number	The identifier for the selected ID type.		text	31	#VALUE	TRUE	FALSE	FALSE	FALSE	FALSE	FALSE	publication	citation	Numéro d'identification	L'identifiant du type d'identification sélectionné.
-	publicationURL	URL	Link to the publication web page (e.g., journal article page, archive record page, or other).	Enter full URL, starting with http://	url	32	<a href="#VALUE">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	publication	citation	Adresse URL	Lien vers la page Web de la publication (p. ex. page de l'article paru dans une revue, notice du dépôt ou autre).
+	publicationURL	URL	Link to the publication web page (e.g., journal article page, archive record page, or other).	Enter full URL, starting with http://	url	32	<a href="#VALUE" target="_blank">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	publication	citation	Adresse URL	Lien vers la page Web de la publication (p. ex. page de l'article paru dans une revue, notice du dépôt ou autre).
 	notesText	Notes	Additional important information about the Dataset.		textbox	33		FALSE	FALSE	FALSE	FALSE	TRUE	FALSE		citation	Remarques	Autres renseignements importants sur l'ensemble de données.
 	language	Language	Language of the Dataset		text	34		TRUE	TRUE	TRUE	TRUE	FALSE	FALSE		citation	Langue	Langue de l'ensemble de données
 	producer	Producer	Person or organization with the financial or administrative responsibility over this Dataset		none	35		FALSE	FALSE	TRUE	FALSE	FALSE	FALSE		citation	Producteur	Personne ou organisation qui détient la responsabilité financière ou administrative de cet ensemble de données.
 	producerName	Name	Producer name	FamilyName, GivenName or Organization	text	36	#VALUE	TRUE	FALSE	FALSE	TRUE	FALSE	FALSE	producer	citation	Nom	Nom du producteur
 	producerAffiliation	Affiliation	The organization with which the producer is affiliated.		text	37	(#VALUE)	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	producer	citation	Affiliation	L'organisation avec laquelle le producteur est affilié.
 	producerAbbreviation	Abbreviation	The abbreviation by which the producer is commonly known. (ex. IQSS, ICPSR)		text	38	(#VALUE)	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	producer	citation	Abréviation	L'abréviation sous laquelle le producteur est communément connu (p. ex. IQSS, ICPSR).
-	producerURL	URL	Producer URL points to the producer's web presence, if appropriate. Enter an absolute URL where the producer's web site is found, such as http://www.my.org.  	Enter full URL, starting with http://	url	39	<a href="#VALUE">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	producer	citation	Adresse URL	L'adresse URL du producteur indique la présence sur le Web du producteur, le cas échéant. Indiquer une adresse URL absolue où le site Web du producteur se trouve, par exemple http://www.my.org.
+	producerURL	URL	Producer URL points to the producer's web presence, if appropriate. Enter an absolute URL where the producer's web site is found, such as http://www.my.org.  	Enter full URL, starting with http://	url	39	<a href="#VALUE" target="_blank">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	producer	citation	Adresse URL	L'adresse URL du producteur indique la présence sur le Web du producteur, le cas échéant. Indiquer une adresse URL absolue où le site Web du producteur se trouve, par exemple http://www.my.org.
 	producerLogoURL	Logo URL	URL for the producer's logo, which points to this  producer's web-accessible logo image. Enter an absolute URL where the producer's logo image is found, such as http://www.my.org/images/logo.gif.	Enter full URL for image, starting with http://	url	40	<img src="#VALUE" alt="#NAME" class="metadata-logo"/><br/>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	producer	citation	Adresse URL du logo	Adresse URL du logo du producteur qui pointe vers le logo accessible sur le Web. Indiquer une adresse URL absolue où l'image se trouve, par exemple http://www.my.org/images/logo.gif.
 	productionDate	Production Date	Date when the data collection or other materials were produced (not distributed, published or archived).	YYYY-MM-DD	date	41		TRUE	FALSE	FALSE	TRUE	FALSE	FALSE		citation	Date de production	Date à laquelle la collecte de données ou d'autres documents ont été produits (non distribués, publiés ou archivés).
 	productionPlace	Production Place	The location where the data collection and any other related materials were produced.		text	42		FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		citation	Endroit de production	L'emplacement où la collecte de données et autres documents connexes ont été produits.
@@ -54,7 +54,7 @@
 	distributorName	Name	Distributor name	FamilyName, GivenName or Organization	text	50	#VALUE	TRUE	FALSE	FALSE	TRUE	FALSE	FALSE	distributor	citation	Nom	Nom du diffuseur
 	distributorAffiliation	Affiliation	The organization with which the distributor contact is affiliated.		text	51	(#VALUE)	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	distributor	citation	Affiliation	L'organisation avec laquelle la personne-ressource du diffuseur est affiliée.
 	distributorAbbreviation	Abbreviation	The abbreviation by which this distributor is commonly known (e.g., IQSS, ICPSR).		text	52	(#VALUE)	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	distributor	citation	Abréviation	L'abréviation sous laquelle le diffuseur est communément connu (p. ex. IQSS, ICPSR).
-	distributorURL	URL	Distributor URL points to the distributor's web presence, if appropriate. Enter an absolute URL where the distributor's web site is found, such as http://www.my.org.	Enter full URL, starting with http://	url	53	<a href="#VALUE">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	distributor	citation	Adresse URL  	L'adresse URL du diffuseur indique la présence sur le Web du diffuseur, le cas échéant. Indiquer une adresse URL absolue où le site Web du diffuseur se trouve, par exemple http://www.my.org.
+	distributorURL	URL	Distributor URL points to the distributor's web presence, if appropriate. Enter an absolute URL where the distributor's web site is found, such as http://www.my.org.	Enter full URL, starting with http://	url	53	<a href="#VALUE" target="_blank">#VALUE</a>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	distributor	citation	Adresse URL  	L'adresse URL du diffuseur indique la présence sur le Web du diffuseur, le cas échéant. Indiquer une adresse URL absolue où le site Web du diffuseur se trouve, par exemple http://www.my.org.
 	distributorLogoURL	Logo URL	URL of the distributor's logo, which points to this  distributor's web-accessible logo image. Enter an absolute URL where the distributor's logo image is found, such as http://www.my.org/images/logo.gif.	Enter full URL for image, starting with http://	url	54	<img src="#VALUE" alt="#NAME" class="metadata-logo"/><br/>	FALSE	FALSE	FALSE	FALSE	FALSE	FALSE	distributor	citation	Adresse URL du logo	Adresse URL du logo du diffuseur qui pointe vers l'image Web accessible de ce logo. Indiquer une adresse URL absolue où l'image se trouve, par exemple http://www.my.org/images/logo.gif. 
 	distributionDate	Distribution Date	Date that the work was made available for distribution/presentation.	YYYY-MM-DD	date	55		TRUE	FALSE	FALSE	TRUE	FALSE	FALSE		citation	Date de disponibilité	Date à laquelle les travaux ont été rendus disponibles aux fins de diffusion/présentation.
 	depositor	Depositor	The person (Family Name, Given Name) or the name of the organization that deposited this Dataset to the repository.		text	56		FALSE	FALSE	FALSE	FALSE	FALSE	FALSE		citation	Déposant	La personne (nom, prénom) ou le nom de l'organisation qui a déposé cet ensemble de données dans le dépôt.
@@ -237,83 +237,84 @@
 	language	Māori		103													Maori
 	language	Marathi (Marāṭhī)		104													Marathi (Marāṭhī)
 	language	Marshallese		105													Marshallais
-	language	Mongolian		106													Mongol
-	language	Nauru		107													Nauru
-	language	Navajo, Navaho		108													Navaho
-	language	Northern Ndebele		109													Ndébélé du Nord
-	language	Nepali		110													Népalais
-	language	Ndonga		111													Ndonga
-	language	Norwegian Bokmål		112													Bokmal
-	language	Norwegian Nynorsk		113													Néonorvégien
-	language	Norwegian		114													Norvégien
-	language	Nuosu		115													Nuosu
-	language	Southern Ndebele		116													Ndébélé du Sud
-	language	Occitan		117													Occitan
-	language	Ojibwe, Ojibwa		118													Ojibwé, ojibwa
-	language	Old Church Slavonic,Church Slavonic,Old Bulgarian		119													Slavon liturgique, slavon d'église, vieux bulgare
-	language	Oromo		120													Oromo
-	language	Oriya		121													Oriya
-	language	Ossetian, Ossetic		122													Ossète
-	language	Panjabi, Punjabi		123													Pendjabi
-	language	Pāli		124													Pali
-	language	Persian (Farsi)		125													Persan (dari)
-	language	Polish		126													Polonais
-	language	Pashto, Pushto		127													Pachto
-	language	Portuguese		128													Portugais
-	language	Quechua		129													Quechua
-	language	Romansh		130													Romanche
-	language	Kirundi		131													Kiroundi
-	language	Romanian		132													Roumain
-	language	Russian		133													Russe
-	language	Sanskrit (Saṁskṛta)		134													Sanskrit (Saṁskṛta)
-	language	Sardinian		135													Sarde
-	language	Sindhi		136													Sindhi
-	language	Northern Sami		137													Lapon du Nord
-	language	Samoan		138													Samoan
-	language	Sango		139													Sango
-	language	Serbian		140													Serbe
-	language	Scottish Gaelic, Gaelic		141													Gaélique d'Écosse, gaélique
-	language	Shona		142													Shona
-	language	Sinhala, Sinhalese		143													Singhalais, cinghalais
-	language	Slovak		144													Slovaque
-	language	Slovene		145													Slovène
-	language	Somali		146													Somali
-	language	Southern Sotho		147													Sotho du Sud
-	language	Spanish, Castilian		148													Espagnol, castillan
-	language	Sundanese		149													Soundanais
-	language	Swahili		150													Swahili
-	language	Swati		151													Swati
-	language	Swedish		152													Suédois
-	language	Tamil		153													Tamoul 
-	language	Telugu		154													Télougou
-	language	Tajik		155													Tadjik
-	language	Thai		156													Thaï
-	language	Tigrinya		157													Tigrigna
-	language	Tibetan Standard, Tibetan, Central		158													Tibétain standard, tibétain central
-	language	Turkmen		159													Türkmène
-	language	Tagalog		160													Tagalog
-	language	Tswana		161													Bechouana
-	language	Tonga (Tonga Islands)		162													Tonga (Tonga)
-	language	Turkish		163													Turc
-	language	Tsonga		164													Tsonga
-	language	Tatar		165													Tatar
-	language	Twi		166													Akuapem-twi
-	language	Tahitian		167													Tahitien
-	language	Uyghur, Uighur		168													Ouïghour, uygur
-	language	Ukrainian		169													Ukrainien
-	language	Urdu		170													Urdu
-	language	Uzbek		171													Ouzbek
-	language	Venda		172													Venda
-	language	Vietnamese		173													Vietnamien
-	language	Volapük		174													Volapük
-	language	Walloon		175													Walloon
-	language	Welsh		176													Gallois
-	language	Wolof		177													Yolof 
-	language	Western Frisian		178													Frison de l'Ouest
-	language	Xhosa		179													Xhosa
-	language	Yiddish		180													Yiddish
-	language	Yoruba		181													Yoruba
-	language	Zhuang, Chuang		182													Zhuang, chuang
-	language	Zulu		183													Zoulou
-	language	Not applicable		184													Sans objet
+	language 	Mixtepec Mixtec		106
+	language	Mongolian		107													Mongol
+	language	Nauru		108													Nauru
+	language	Navajo, Navaho		109													Navaho
+	language	Northern Ndebele		110													Ndébélé du Nord
+	language	Nepali		111													Népalais
+	language	Ndonga		112													Ndonga
+	language	Norwegian Bokmål		113													Bokmal
+	language	Norwegian Nynorsk		114													Néonorvégien
+	language	Norwegian		115													Norvégien
+	language	Nuosu		116												Nuosu
+	language	Southern Ndebele		117													Ndébélé du Sud
+	language	Occitan		118													Occitan
+	language	Ojibwe, Ojibwa		119													Ojibwé, ojibwa
+	language	Old Church Slavonic,Church Slavonic,Old Bulgarian		120													Slavon liturgique, slavon d'église, vieux bulgare
+	language	Oromo		121													Oromo
+	language	Oriya		122													Oriya
+	language	Ossetian, Ossetic		123													Ossète
+	language	Panjabi, Punjabi		124													Pendjabi
+	language	Pāli		125													Pali
+	language	Persian (Farsi)		126													Persan (dari)
+	language	Polish		127													Polonais
+	language	Pashto, Pushto		128													Pachto
+	language	Portuguese		129													Portugais
+	language	Quechua		130													Quechua
+	language	Romansh		131													Romanche
+	language	Kirundi		132													Kiroundi
+	language	Romanian		133													Roumain
+	language	Russian		134													Russe
+	language	Sanskrit (Saṁskṛta)		135													Sanskrit (Saṁskṛta)
+	language	Sardinian		136													Sarde
+	language	Sindhi		137													Sindhi
+	language	Northern Sami		138													Lapon du Nord
+	language	Samoan		139													Samoan
+	language	Sango		140													Sango
+	language	Serbian		141													Serbe
+	language	Scottish Gaelic, Gaelic		142													Gaélique d'Écosse, gaélique
+	language	Shona		143													Shona
+	language	Sinhala, Sinhalese		144													Singhalais, cinghalais
+	language	Slovak		145													Slovaque
+	language	Slovene		146													Slovène
+	language	Somali		147													Somali
+	language	Southern Sotho		148													Sotho du Sud
+	language	Spanish, Castilian		149													Espagnol, castillan
+	language	Sundanese		150													Soundanais
+	language	Swahili		151													Swahili
+	language	Swati		152													Swati
+	language	Swedish		153													Suédois
+	language	Tamil		154													Tamoul 
+	language	Telugu		155													Télougou
+	language	Tajik		156													Tadjik
+	language	Thai		157													Thaï
+	language	Tigrinya		158													Tigrigna
+	language	Tibetan Standard, Tibetan, Central		159													Tibétain standard, tibétain central
+	language	Turkmen		160													Türkmène
+	language	Tagalog		161													Tagalog
+	language	Tswana		162													Bechouana
+	language	Tonga (Tonga Islands)		163													Tonga (Tonga)
+	language	Turkish		164													Turc
+	language	Tsonga		165													Tsonga
+	language	Tatar		166													Tatar
+	language	Twi		167													Akuapem-twi
+	language	Tahitian		168													Tahitien
+	language	Uyghur, Uighur		169													Ouïghour, uygur
+	language	Ukrainian		170													Ukrainien
+	language	Urdu		171													Urdu
+	language	Uzbek		172													Ouzbek
+	language	Venda		173													Venda
+	language	Vietnamese		174													Vietnamien
+	language	Volapük		175													Volapük
+	language	Walloon		176													Walloon
+	language	Welsh		177													Gallois
+	language	Wolof		178													Yolof 
+	language	Western Frisian		179													Frison de l'Ouest
+	language	Xhosa		180													Xhosa
+	language	Yiddish		181													Yiddish
+	language	Yoruba		182													Yoruba
+	language	Zhuang, Chuang		183													Zhuang, chuang
+	language	Zulu		184													Zoulou
+	language	Not applicable		185													Sans objet
 
